@@ -33,7 +33,7 @@ class SplashView extends StatelessWidget {
                       begin: Alignment.bottomLeft,
                       end: Alignment.topLeft,
                       colors: [
-                    AppColors.redColor,
+                    AppColors.mainTheme,
                     const Color.fromARGB(255, 218, 127, 127)
                   ])),
               child: Column(

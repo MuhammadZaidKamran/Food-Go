@@ -21,33 +21,33 @@ class FoodItems extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: Column(
                   children: [
-                    viewModel.selectedImage == null
-                        ? InkWell(
-                            onTap: () {
-                              viewModel.getImage();
-                            },
-                            child: Container(
-                              height: 120,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all()),
-                              child: const Center(
-                                child: Icon(Icons.add),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            height: 120,
-                            width: 120,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all()),
-                            child: Image.file(viewModel.selectedImage!)),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text("Add Picture"),
+                    // viewModel.selectedImage == null
+                    //     ? InkWell(
+                    //         onTap: () {
+                    //           viewModel.getImage();
+                    //         },
+                    //         child: Container(
+                    //           height: 120,
+                    //           width: 120,
+                    //           decoration: BoxDecoration(
+                    //               borderRadius: BorderRadius.circular(15),
+                    //               border: Border.all()),
+                    //           child: const Center(
+                    //             child: Icon(Icons.add),
+                    //           ),
+                    //         ),
+                    //       )
+                    //     : Container(
+                    //         height: 120,
+                    //         width: 120,
+                    //         decoration: BoxDecoration(
+                    //             borderRadius: BorderRadius.circular(15),
+                    //             border: Border.all()),
+                    //         child: Image.file(viewModel.selectedImage!)),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                    // const Text("Add Picture"),
                     const SizedBox(
                       height: 30,
                     ),
@@ -55,12 +55,20 @@ class FoodItems extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
+                    textField("Item Name 2", 1, viewModel.itemName_2Controller),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     textField("Item Price", 1, viewModel.itemPriceController),
                     const SizedBox(
                       height: 20,
                     ),
-                    textField(
-                        "Item Quantity", 1, viewModel.itemQuantityController),
+                    // textField(
+                    //     "Item Quantity", 1, viewModel.itemQuantityController),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                    textField("Item Rating", 1, viewModel.itemRatingController),
                     const SizedBox(
                       height: 20,
                     ),
@@ -82,7 +90,30 @@ class FoodItems extends StatelessWidget {
                               backgroundColor:
                                   const WidgetStatePropertyAll(Colors.red)),
                           onPressed: () {
-                            viewModel.addItems();
+                            if (viewModel.itemNameController.text != "" &&
+                                    viewModel.itemName_2Controller.text != "" &&
+                                    viewModel.itemPriceController.text != "" &&
+                                    viewModel.itemRatingController.text != "" &&
+                                    viewModel.itemDescriptionController.text !=
+                                        ""
+                                //viewModel.selectedImage!.path != ""
+                                ) {
+                              viewModel.addItems();
+                              Future.delayed(const Duration(seconds: 1), () {
+                                viewModel.itemNameController.clear();
+                                viewModel.itemName_2Controller.clear();
+                                viewModel.itemPriceController.clear();
+                                // viewModel.itemQuantityController.clear();
+                                viewModel.itemRatingController.clear();
+                                viewModel.itemDescriptionController.clear();
+                              });
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text("Please fill the Forms."),
+                                backgroundColor: Colors.red,
+                              ));
+                            }
                           },
                           child: const Text(
                             "Add Product",

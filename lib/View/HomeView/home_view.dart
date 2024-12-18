@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_go/View/HomeView/AllItems/all_items.dart';
 import 'package:food_go/ViewModel/HomeViewModel/home_view_model.dart';
+import 'package:food_go/utils/Global/global.dart';
+import 'package:food_go/utils/Widgets/MySearchBar/my_search_bar.dart';
+import 'package:food_go/utils/Widgets/MyTabbar/my_tab_bar.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeView extends StatelessWidget {
@@ -10,7 +14,82 @@ class HomeView extends StatelessWidget {
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => HomeViewModel(),
         builder: (context, viewModel, child) {
-          return const Scaffold();
+          return Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 5,
+              automaticallyImplyLeading: false,
+            ),
+            body: DefaultTabController(
+              length: 2,
+              child: Padding(
+                padding: myPadding(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Foodgo",
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                    const Text("Order your favourite food!"),
+                    height(MediaQuery.of(context).size.height * 0.05),
+                    MySearchBar(label: "Search", onTap: () {}),
+                    height(MediaQuery.of(context).size.height * 0.03),
+                    const MyTabBar(tabOne: "All", tabTwo: "Combos"),
+                    height(MediaQuery.of(context).size.height * 0.02),
+                    Expanded(
+                      child: TabBarView(children: [
+                        const AllItems(),
+                        Container(),
+                      ]),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
         });
   }
 }
+
+
+                    // SizedBox(
+                    //     height: MediaQuery.of(context).size.height * 0.05,
+                    //     width: MediaQuery.of(context).size.width,
+                    //     child: ListView.separated(
+                    //         shrinkWrap: true,
+                    //         scrollDirection: Axis.horizontal,
+                    //         itemBuilder: (context, index) {
+                    //           return GestureDetector(
+                    //             onTap: () {
+                    //               viewModel.myIndex = index;
+                    //               viewModel.rebuildUi();
+                    //             },
+                    //             child: Container(
+                    //               width: MediaQuery.of(context).size.width * 0.42,
+                    //               decoration: BoxDecoration(
+                    //                 borderRadius: BorderRadius.circular(10),
+                    //                 color: viewModel.myIndex == index
+                    //                     ? AppColors.mainTheme
+                    //                     : AppColors.containerBackgroundColor,
+                    //               ),
+                    //               padding: const EdgeInsets.symmetric(
+                    //                   horizontal: 5, vertical: 3),
+                    //               child: Center(
+                    //                   child: Text(
+                    //                 viewModel.options[index].toString(),
+                    //                 style: TextStyle(
+                    //                     color: viewModel.myIndex == index
+                    //                         ? AppColors.whiteColor
+                    //                         : AppColors.blackColor,
+                    //                     fontSize: 15,
+                    //                     fontWeight: FontWeight.w700),
+                    //               )),
+                    //             ),
+                    //           );
+                    //         },
+                    //         separatorBuilder: (context, index) {
+                    //           return width(
+                    //               MediaQuery.of(context).size.width * 0.05);
+                    //         },
+                    //         itemCount: viewModel.options.length)),
