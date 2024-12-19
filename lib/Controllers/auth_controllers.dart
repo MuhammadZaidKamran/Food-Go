@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_go/utils/Colors/colors.dart';
 
 class AuthControllers {
   final authentication = FirebaseAuth.instance;
@@ -39,7 +40,13 @@ class AuthControllers {
         ));
       }
     } catch (e) {
-      debugPrint(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.toString(),
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 
@@ -51,31 +58,55 @@ class AuthControllers {
       await authentication
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Login Successfully")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Login Successfully"),
+          backgroundColor: Colors.green,
+        ));
       });
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-            "No user found for that email.",
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.red,
-        ));
-        debugPrint("No user found for that email.");
-      } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-            "Wrong password provided for that user.",
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.red,
-        ));
-        debugPrint("Wrong password provided for that user.");
-      }
+      // if (e.code == 'user-not-found') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.code,
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+      ));
+      // debugPrint("No user found for that email.");
+      // }
     } catch (e) {
-      debugPrint(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.toString(),
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+      ));
+    }
+  }
+
+  Future forgotPassword({required String email, required context}) async {
+    try {
+      await authentication.sendPasswordResetEmail(email: email).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "Password Reset Email Sent",
+            style: TextStyle(color: AppColors.whiteColor),
+          ),
+          backgroundColor: Colors.green,
+        ));
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e.toString(),
+              style: TextStyle(color: AppColors.whiteColor),
+            ),
+            backgroundColor: Colors.red,
+          ),
+          snackBarAnimationStyle:
+              AnimationStyle(duration: const Duration(seconds: 1)));
     }
   }
 }

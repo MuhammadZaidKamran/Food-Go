@@ -15,6 +15,8 @@ class MyTextField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.prefixIconColor,
+    this.maxLines,
+    this.maxLength,
   });
   final TextEditingController controller;
   final String label;
@@ -24,12 +26,16 @@ class MyTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final Color? prefixIconColor;
+  final int? maxLines;
+  final int? maxLength;
   bool? readOnly = false;
   bool? obscureText = false;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: maxLength,
+      maxLines: maxLines ?? 1,
       onChanged: onChanged,
       validator: validator,
       keyboardType: keyboardType ?? TextInputType.text,

@@ -5,6 +5,7 @@ import 'package:stacked/stacked.dart';
 class LoginViewModel extends BaseViewModel {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
   final formKey = GlobalKey<FormState>();
 
   final authController = AuthControllers();

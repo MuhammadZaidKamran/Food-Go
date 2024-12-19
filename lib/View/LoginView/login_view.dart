@@ -3,6 +3,7 @@ import 'package:food_go/View/ForgotPassword/forgot_password_view.dart';
 import 'package:food_go/View/SignupView/signup_view.dart';
 import 'package:food_go/ViewModel/LoginViewModel/login_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
+import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
 import 'package:food_go/utils/Widgets/MyTextField/my_text_field.dart';
 import 'package:stacked/stacked.dart';
 
@@ -126,37 +127,27 @@ class LoginView extends StatelessWidget {
                             const SizedBox(
                               height: 25,
                             ),
-                            SizedBox(
-                              height: 50,
-                              width: MediaQuery.of(context).size.width,
-                              child: MaterialButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  color: AppColors.darkMainTheme,
-                                  elevation: 5,
-                                  onPressed: () {
-                                    if (viewModel.formKey.currentState!
-                                        .validate()) {
-                                      viewModel.authController.login(
+                            MyButton(
+                              onTap: () {
+                                if (viewModel.formKey.currentState!
+                                    .validate()) {
+                                  viewModel.isLoading = true;
+                                  viewModel.rebuildUi();
+                                  viewModel.authController
+                                      .login(
                                           email: viewModel.emailController.text,
                                           password:
                                               viewModel.passwordController.text,
-                                          context: context);
-                                    }
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             const BottomNavBarView()));
-                                  },
-                                  child: const Text(
-                                    "Login",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            ),
+                                          context: context)
+                                      .then((value) {
+                                    viewModel.isLoading = false;
+                                    viewModel.rebuildUi();
+                                  });
+                                }
+                              },
+                              label: "Login",
+                              isLoading: viewModel.isLoading,
+                            )
                           ],
                         ),
                       ),

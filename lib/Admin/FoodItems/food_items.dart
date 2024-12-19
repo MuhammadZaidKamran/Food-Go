@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_go/Admin/FoodItems/food_item_model.dart';
-import 'package:food_go/utils/Widgets/TextFieldWidget/textfield_widget.dart';
+import 'package:food_go/utils/Widgets/MyTextField/my_text_field.dart';
 import 'package:stacked/stacked.dart';
 
 class FoodItems extends StatelessWidget {
@@ -51,15 +51,24 @@ class FoodItems extends StatelessWidget {
                     const SizedBox(
                       height: 30,
                     ),
-                    textField("Item Name", 1, viewModel.itemNameController),
+                    MyTextField(
+                        label: "Item Name",
+                        maxLines: 1,
+                        controller: viewModel.itemNameController),
                     const SizedBox(
                       height: 20,
                     ),
-                    textField("Item Name 2", 1, viewModel.itemName_2Controller),
+                    MyTextField(
+                        label: "Item Name 2",
+                        maxLines: 1,
+                        controller: viewModel.itemName_2Controller),
                     const SizedBox(
                       height: 20,
                     ),
-                    textField("Item Price", 1, viewModel.itemPriceController),
+                    MyTextField(
+                        label: "Item Price",
+                        maxLines: 1,
+                        controller: viewModel.itemPriceController),
                     const SizedBox(
                       height: 20,
                     ),
@@ -68,12 +77,17 @@ class FoodItems extends StatelessWidget {
                     // const SizedBox(
                     //   height: 20,
                     // ),
-                    textField("Item Rating", 1, viewModel.itemRatingController),
+                    MyTextField(
+                        label: "Item Rating",
+                        maxLines: 1,
+                        controller: viewModel.itemRatingController),
                     const SizedBox(
                       height: 20,
                     ),
-                    textField("Item Description", 7,
-                        viewModel.itemDescriptionController),
+                    MyTextField(
+                        label: "Item Description",
+                        maxLines: 7,
+                        controller: viewModel.itemDescriptionController),
                     const SizedBox(
                       height: 30,
                     ),
