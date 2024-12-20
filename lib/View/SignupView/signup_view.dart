@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_go/ViewModel/SignupViewModel/signup_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
+import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
 import 'package:food_go/utils/Widgets/MyTextField/my_text_field.dart';
 import 'package:stacked/stacked.dart';
 
@@ -166,38 +167,32 @@ class SignupView extends StatelessWidget {
                             const SizedBox(
                               height: 30,
                             ),
-                            SizedBox(
-                              height: 50,
-                              width: MediaQuery.of(context).size.width,
-                              child: MaterialButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  color: AppColors.darkMainTheme,
-                                  elevation: 5,
-                                  onPressed: () {
-                                    if (viewModel.formKey.currentState!
-                                        .validate()) {
-                                      viewModel.authController.signUp(
-                                          email:
-                                              viewModel.emailController_1.text,
-                                          password: viewModel
-                                              .passwordController_1.text,
-                                          context: context);
-                                    }
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             const BottomNavBarView()));
-                                  },
-                                  child: const Text(
-                                    "SignUp",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            ),
+                            MyButton(
+                                onTap: () {
+                                  if (viewModel.formKey.currentState!
+                                      .validate()) {
+                                    viewModel.isLoading = true;
+                                    viewModel.rebuildUi();
+                                    viewModel.authController
+                                        .signUp(
+                                            userName: viewModel
+                                                .userController_1.text
+                                                .trim(),
+                                            email: viewModel
+                                                .emailController_1.text
+                                                .trim(),
+                                            password: viewModel
+                                                .passwordController_1.text
+                                                .trim(),
+                                            context: context)
+                                        .then((value) {
+                                      viewModel.isLoading = false;
+                                      viewModel.rebuildUi();
+                                    });
+                                  }
+                                },
+                                isLoading: viewModel.isLoading,
+                                label: "Sign Up"),
                             const SizedBox(
                               height: 15,
                             ),

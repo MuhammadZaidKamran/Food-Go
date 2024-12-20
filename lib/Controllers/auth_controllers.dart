@@ -1,25 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_go/View/BottomNavBarView/bottom_nav_bar_view.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 
 class AuthControllers {
   final authentication = FirebaseAuth.instance;
 
   Future signUp(
-      {required String email,
+      {required String userName,
+      required String email,
       required String password,
       required context}) async {
     try {
       await authentication
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-            "Account Created Successfully",
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.green,
-        ));
+          .then((value) async {
+        ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle:
+                AnimationStyle(duration: const Duration(seconds: 1)),
+            const SnackBar(
+              content: Text(
+                "Account Created Successfully",
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.green,
+            ));
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(value.user!.uid)
+            .set({
+          "userID": value.user!.uid,
+          "userName": userName,
+          "email": value.user!.email,
+          "favoriteItems": [],
+          "cartItems": [],
+        });
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const BottomNavBarView()));
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

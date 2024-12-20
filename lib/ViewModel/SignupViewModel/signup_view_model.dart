@@ -7,6 +7,6 @@ class SignupViewModel extends BaseViewModel {
   TextEditingController emailController_1 = TextEditingController();
   TextEditingController passwordController_1 = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
+  bool isLoading = false;
   final authController = AuthControllers();
 }

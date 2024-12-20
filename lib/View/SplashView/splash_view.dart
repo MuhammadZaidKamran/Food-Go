@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:food_go/View/HomeView/home_view.dart';
+import 'package:food_go/View/SplashView/wrapper_view.dart';
 import 'package:food_go/ViewModel/SplashViewModel/splash_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 //import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +17,7 @@ class SplashView extends StatelessWidget {
         onViewModelReady: (viewModel) {
           Timer(const Duration(seconds: 3), () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeView()));
+                MaterialPageRoute(builder: (context) => const WrapperView()));
           });
         },
         viewModelBuilder: () => SplashViewModel(),
