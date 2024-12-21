@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, duplicate_ignore
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
@@ -15,22 +16,19 @@ class AllItemsViewModel extends BaseViewModel {
     required String itemRating,
     required String itemName_2,
     required String itemDescription,
-    required int itemQuantity,
     required bool isFavorite,
     required BuildContext context,
   }) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("favoriteItems")
-          .doc(itemId)
-          .set({
+      await FirebaseFirestore.instance.collection("favoriteItems").add({
+        "userID": FirebaseAuth.instance.currentUser!.uid,
+        "itemID": itemId,
         "image": image,
         "itemName": itemName,
         "itemPrice": itemPrice,
         "itemRating": itemRating,
         "itemName_2": itemName_2,
         "itemDescription": itemDescription,
-        "itemQuantity": itemQuantity,
         "isFavorite": isFavorite
       });
       // ignore: duplicate_ignore
@@ -53,35 +51,53 @@ class AllItemsViewModel extends BaseViewModel {
     }
   }
 
-  Future updateFavorites({
-    required String image,
-    required String itemName,
-    required String itemPrice,
-    required String itemRating,
-    required String itemName_2,
-    required String itemDescription,
-    required int itemQuantity,
-    required bool isFavorite,
+  Future updateUser({
     required BuildContext context,
   }) async {
     try {
       await FirebaseFirestore.instance
-          .collection("all items")
-          .doc(itemId)
-          .update({
-        "image": image,
-        "itemName": itemName,
-        "itemPrice": itemPrice,
-        "itemRating": itemRating,
-        "itemName_2": itemName_2,
-        "itemDescription": itemDescription,
-        "itemQuantity": itemQuantity,
-        "isFavorite": isFavorite
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        "email": userDetails!.email,
+        "cartItems": [],
+        "userID": userDetails!.uid,
+        "favoriteItems": favoriteItems,
       });
     } catch (e) {
       debugPrint(e.toString());
     }
   }
+
+  // Future updateFavorites({
+  //   required String image,
+  //   required String itemName,
+  //   required String itemPrice,
+  //   required String itemRating,
+  //   required String itemName_2,
+  //   required String itemDescription,
+  //   required int itemQuantity,
+  //   required bool isFavorite,
+  //   required BuildContext context,
+  // }) async {
+  //   try {
+  //     await FirebaseFirestore.instance
+  //         .collection("all items")
+  //         .doc(itemId)
+  //         .update({
+  //       "image": image,
+  //       "itemName": itemName,
+  //       "itemPrice": itemPrice,
+  //       "itemRating": itemRating,
+  //       "itemName_2": itemName_2,
+  //       "itemDescription": itemDescription,
+  //       "itemQuantity": itemQuantity,
+  //       "isFavorite": isFavorite
+  //     });
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
 
   Future removeFavorites({required BuildContext context}) async {
     try {

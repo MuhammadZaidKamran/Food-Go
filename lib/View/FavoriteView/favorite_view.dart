@@ -63,20 +63,23 @@ class FavoriteView extends StatelessWidget {
                                   InkWell(
                                     onTap: () async {
                                       viewModel.itemId = item.id;
+                                      favoriteItems.removeAt(index);
                                       await viewModel.removeFavorite(
                                           context: context);
-                                      await viewModel.updateFavorites(
-                                          image: item["image"],
-                                          itemName: item["itemName"],
-                                          itemPrice: item["itemPrice"],
-                                          itemRating: item["itemRating"],
-                                          itemName_2: item["itemName_2"],
-                                          itemDescription:
-                                              item["itemDescription"],
-                                          itemQuantity: item["itemQuantity"],
-                                          isFavorite: false,
+                                      await viewModel.updateUser(
                                           // ignore: use_build_context_synchronously
                                           context: context);
+                                      // await viewModel.updateFavorites(
+                                      //     image: item["image"],
+                                      //     itemName: item["itemName"],
+                                      //     itemPrice: item["itemPrice"],
+                                      //     itemRating: item["itemRating"],
+                                      //     itemName_2: item["itemName_2"],
+                                      //     itemDescription:
+                                      //         item["itemDescription"],
+                                      //     isFavorite: false,
+                                      //     // ignore: use_build_context_synchronously
+                                      //     context: context);
                                       viewModel.rebuildUi();
                                     },
                                     child: Icon(

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 myPadding() {
@@ -26,6 +27,8 @@ width(double width) {
 
 bool isFavorite = false;
 
+List favoriteItems = [];
+
 //int quantity = 0;
 
 final List<String> images = [
@@ -40,3 +43,5 @@ List favoriteImage = [];
 
 final List<bool> bools = [false, false, false, false];
 final List<int> quantity = [0, 0, 0, 0];
+
+final userDetails = FirebaseAuth.instance.currentUser;

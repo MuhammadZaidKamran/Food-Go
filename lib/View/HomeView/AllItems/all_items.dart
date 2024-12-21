@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/View/HomeView/AllItems/all_items_view_model.dart';
 import 'package:food_go/View/HomeView/home_view_detail.dart';
@@ -106,20 +107,32 @@ class _AllItemsState extends State<AllItems> {
                                           viewModel.itemId = item.id;
                                           // favoriteImage = "";
                                           // bools[index] = !bools[index];
-                                          if (await item["isFavorite"] ==
-                                              false) {
-                                            await viewModel.updateFavorites(
-                                                image: item["image"],
-                                                itemName: item["itemName"],
-                                                itemPrice: item["itemPrice"],
-                                                itemRating: item["itemRating"],
-                                                itemName_2: item["itemName_2"],
-                                                itemDescription:
-                                                    item["itemDescription"],
-                                                itemQuantity:
-                                                    item["itemQuantity"],
-                                                isFavorite: true,
-                                                context: context);
+                                          if (bools[index] == false) {
+                                            // await viewModel.updateFavorites(
+                                            //     image: item["image"],
+                                            //     itemName: item["itemName"],
+                                            //     itemPrice: item["itemPrice"],
+                                            //     itemRating: item["itemRating"],
+                                            //     itemName_2: item["itemName_2"],
+                                            //     itemDescription:
+                                            //         item["itemDescription"],
+                                            //     itemQuantity:
+                                            //         item["itemQuantity"],
+                                            //     isFavorite: true,
+                                            //     context: context);
+                                            favoriteItems.add({
+                                              "userID": FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                              "itemID": item.id,
+                                              "image": item["image"],
+                                              "itemName": item["itemName"],
+                                              "itemPrice": item["itemPrice"],
+                                              "itemRating": item["itemRating"],
+                                              "itemName_2": item["itemName_2"],
+                                              "itemDescription":
+                                                  item["itemDescription"],
+                                              "isFavorite": true,
+                                            });
                                             await viewModel.addToFavorites(
                                                 image: item["image"],
                                                 itemName: item["itemName"],
@@ -128,28 +141,38 @@ class _AllItemsState extends State<AllItems> {
                                                 itemName_2: item["itemName_2"],
                                                 itemDescription:
                                                     item["itemDescription"],
-                                                itemQuantity:
-                                                    item["itemQuantity"],
                                                 isFavorite: true,
                                                 context: context);
-                                            favoriteImage.add(images[index]);
-                                          } else if (await item["isFavorite"] ==
-                                              true) {
-                                            await viewModel.updateFavorites(
-                                                image: item["image"],
-                                                itemName: item["itemName"],
-                                                itemPrice: item["itemPrice"],
-                                                itemRating: item["itemRating"],
-                                                itemName_2: item["itemName_2"],
-                                                itemDescription:
-                                                    item["itemDescription"],
-                                                itemQuantity:
-                                                    item["itemQuantity"],
-                                                isFavorite: false,
+                                            await viewModel.updateUser(
+                                                // image: item["image"],
+                                                // itemName: item["itemName"],
+                                                // itemPrice: item["itemPrice"],
+                                                // itemRating: item["itemRating"],
+                                                // itemName_2: item["itemName_2"],
+                                                // itemDescription:
+                                                //     item["itemDescription"],
+                                                // isFavorite: true,
                                                 context: context);
+                                            // favoriteImage.add(images[index]);
+                                          } else if (bools[index] == true) {
+                                            // await viewModel.updateFavorites(
+                                            //     image: item["image"],
+                                            //     itemName: item["itemName"],
+                                            //     itemPrice: item["itemPrice"],
+                                            //     itemRating: item["itemRating"],
+                                            //     itemName_2: item["itemName_2"],
+                                            //     itemDescription:
+                                            //         item["itemDescription"],
+                                            //     itemQuantity:
+                                            //         item["itemQuantity"],
+                                            //     isFavorite: false,
+                                            //     context: context);
+                                            favoriteItems.removeAt(index);
                                             await viewModel.removeFavorites(
                                                 context: context);
-                                            favoriteImage.remove(images[index]);
+                                            await viewModel.updateUser(
+                                                context: context);
+                                            // favoriteImage.remove(images[index]);
                                           }
                                           // if (await item["isFavorite"] ==
                                           //     true) {
@@ -172,7 +195,7 @@ class _AllItemsState extends State<AllItems> {
                                           // }
                                           viewModel.rebuildUi();
                                         },
-                                        child: item["isFavorite"]
+                                        child: bools[index]
                                             ? const Icon(
                                                 Icons.favorite,
                                                 color: Colors.red,
