@@ -11,6 +11,9 @@ class FavoriteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
+        onViewModelReady: (viewModel) {
+          //viewModel.updateUser(context: context);
+        },
         viewModelBuilder: () => FavoriteViewModel(),
         builder: (context, viewModel, child) {
           return Scaffold(
@@ -63,7 +66,8 @@ class FavoriteView extends StatelessWidget {
                                   InkWell(
                                     onTap: () async {
                                       viewModel.itemId = item.id;
-                                      favoriteItems.removeAt(index);
+                                      favoriteItems.removeWhere(
+                                          (e) => e["itemID"] == item["itemID"]);
                                       await viewModel.removeFavorite(
                                           context: context);
                                       await viewModel.updateUser(

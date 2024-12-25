@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 myPadding() {
   return const EdgeInsets.symmetric(vertical: 50, horizontal: 15);
 }
+
+final box = GetStorage();
 
 height(double height) {
   return SizedBox(
@@ -28,6 +31,7 @@ width(double width) {
 bool isFavorite = false;
 
 List favoriteItems = [];
+String favoriteItemID = "";
 
 //int quantity = 0;
 

@@ -108,6 +108,9 @@ class _AllItemsState extends State<AllItems> {
                                           // favoriteImage = "";
                                           // bools[index] = !bools[index];
                                           if (bools[index] == false) {
+                                            bools[index] = true;
+                                            box.write(
+                                                "isFavorite", bools[index]);
                                             // await viewModel.updateFavorites(
                                             //     image: item["image"],
                                             //     itemName: item["itemName"],
@@ -155,6 +158,9 @@ class _AllItemsState extends State<AllItems> {
                                                 context: context);
                                             // favoriteImage.add(images[index]);
                                           } else if (bools[index] == true) {
+                                            bools[index] = false;
+                                            box.write(
+                                                "isFavorite", bools[index]);
                                             // await viewModel.updateFavorites(
                                             //     image: item["image"],
                                             //     itemName: item["itemName"],
@@ -167,7 +173,8 @@ class _AllItemsState extends State<AllItems> {
                                             //         item["itemQuantity"],
                                             //     isFavorite: false,
                                             //     context: context);
-                                            favoriteItems.removeAt(index);
+                                            favoriteItems.removeWhere(
+                                                (e) => e["itemID"] == item.id);
                                             await viewModel.removeFavorites(
                                                 context: context);
                                             await viewModel.updateUser(

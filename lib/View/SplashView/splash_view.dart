@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:food_go/View/SplashView/wrapper_view.dart';
 import 'package:food_go/ViewModel/SplashViewModel/splash_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
+import 'package:food_go/utils/Global/global.dart';
 //import 'package:google_fonts/google_fonts.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked/stacked.dart';
@@ -15,9 +16,13 @@ class SplashView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
         onViewModelReady: (viewModel) {
-          Timer(const Duration(seconds: 3), () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const WrapperView()));
+          Future.delayed(const Duration(seconds: 3), () {
+            // print(viewModel.storage.toString());
+            if (viewModel.storage != null) {
+              box.read("isFavorite");
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const WrapperView()));
+            }
           });
         },
         viewModelBuilder: () => SplashViewModel(),

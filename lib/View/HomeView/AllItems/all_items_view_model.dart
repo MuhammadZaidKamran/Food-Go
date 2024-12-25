@@ -20,7 +20,10 @@ class AllItemsViewModel extends BaseViewModel {
     required BuildContext context,
   }) async {
     try {
-      await FirebaseFirestore.instance.collection("favoriteItems").add({
+      await FirebaseFirestore.instance
+          .collection("favoriteItems")
+          .doc(itemId)
+          .set({
         "userID": FirebaseAuth.instance.currentUser!.uid,
         "itemID": itemId,
         "image": image,
@@ -46,6 +49,8 @@ class AllItemsViewModel extends BaseViewModel {
               const Text("Add to Favorites Successfully"),
             ],
           )));
+      // favoriteItemID =
+      // FirebaseFirestore.instance.collection("favoriteItems").snapshots().map((e)=> e.docs.first.id).toString();
     } catch (e) {
       debugPrint(e.toString());
     }
