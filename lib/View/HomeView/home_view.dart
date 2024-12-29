@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_go/View/HomeView/AllItems/all_items.dart';
 import 'package:food_go/ViewModel/HomeViewModel/home_view_model.dart';
 import 'package:food_go/utils/Global/global.dart';
-import 'package:food_go/utils/Widgets/MySearchBar/my_search_bar.dart';
 import 'package:food_go/utils/Widgets/MyTabbar/my_tab_bar.dart';
 import 'package:stacked/stacked.dart';
 
@@ -32,8 +31,8 @@ class HomeView extends StatelessWidget {
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     const Text("Order your favourite food!"),
-                    height(MediaQuery.of(context).size.height * 0.05),
-                    MySearchBar(label: "Search", onTap: () {}),
+                    // height(MediaQuery.of(context).size.height * 0.05),
+                    // MySearchBar(label: "Search", onTap: () {}),
                     height(MediaQuery.of(context).size.height * 0.03),
                     const MyTabBar(tabOne: "All", tabTwo: "Combos"),
                     height(MediaQuery.of(context).size.height * 0.02),

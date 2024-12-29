@@ -57,7 +57,7 @@ class FoodItemModel extends BaseViewModel {
           'itemQuantity': 0,
           'itemRating': itemRatingController.text,
           'itemDescription': itemDescriptionController.text,
-          'isFavorite': isFavorite,
+          'isFavorite': isFavoriteList,
         })
         // ignore: avoid_print
         .then((value) => print("$value Added"))

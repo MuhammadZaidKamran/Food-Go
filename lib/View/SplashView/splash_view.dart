@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/View/SplashView/wrapper_view.dart';
 import 'package:food_go/ViewModel/SplashViewModel/splash_view_model.dart';
@@ -18,11 +19,12 @@ class SplashView extends StatelessWidget {
         onViewModelReady: (viewModel) {
           Future.delayed(const Duration(seconds: 3), () {
             // print(viewModel.storage.toString());
-            if (viewModel.storage != null) {
-              box.read("isFavorite");
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const WrapperView()));
-            }
+            // if (viewModel.storage != null) {
+            userID = FirebaseAuth.instance.currentUser!.uid;
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const WrapperView()));
+            // }
           });
         },
         viewModelBuilder: () => SplashViewModel(),

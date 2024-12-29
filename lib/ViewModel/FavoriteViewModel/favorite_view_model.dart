@@ -8,6 +8,8 @@ import 'package:food_go/utils/Global/global.dart';
 import 'package:stacked/stacked.dart';
 
 class FavoriteViewModel extends BaseViewModel {
+  CollectionReference userFavorites =
+      FirebaseFirestore.instance.collection("users");
   String itemId = "";
   Future removeFavorite({required BuildContext context}) async {
     try {

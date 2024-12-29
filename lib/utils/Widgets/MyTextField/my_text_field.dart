@@ -17,6 +17,10 @@ class MyTextField extends StatelessWidget {
     this.prefixIconColor,
     this.maxLines,
     this.maxLength,
+    this.fillColor,
+    this.hintStyle,
+    this.borderRadius,
+    this.leading,
   });
   final TextEditingController controller;
   final String label;
@@ -28,6 +32,10 @@ class MyTextField extends StatelessWidget {
   final Color? prefixIconColor;
   final int? maxLines;
   final int? maxLength;
+  final Color? fillColor;
+  final TextStyle? hintStyle;
+  final BorderRadius? borderRadius;
+  final Widget? leading;
   bool? readOnly = false;
   bool? obscureText = false;
 
@@ -49,18 +57,18 @@ class MyTextField extends StatelessWidget {
           prefixIcon: prefixIcon,
           prefixIconColor: prefixIconColor,
           filled: true,
-          fillColor: const Color.fromARGB(36, 0, 0, 0),
+          fillColor: fillColor ?? const Color.fromARGB(36, 0, 0, 0),
           hintText: label,
-          hintStyle: TextStyle(color: AppColors.darkMainTheme),
+          hintStyle: hintStyle ?? TextStyle(color: AppColors.darkMainTheme),
           border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: borderRadius ?? BorderRadius.circular(20)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: borderRadius ?? BorderRadius.circular(20)),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(20))),
+              borderRadius: borderRadius ?? BorderRadius.circular(20))),
     );
   }
 }

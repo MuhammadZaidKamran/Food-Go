@@ -14,14 +14,15 @@ class BottomNavBarView extends StatelessWidget {
         builder: (context, viewModel, child) {
           return Scaffold(
             body: Center(
-              child: viewModel.widgetList[viewModel.myIndex],
+              child: viewModel.widgetList[viewModel.index],
             ),
             bottomNavigationBar: CurvedNavigationBar(
+                height: 65,
                 color: AppColors.mainTheme,
                 backgroundColor: AppColors.whiteColor,
-                index: viewModel.myIndex,
+                index: viewModel.index,
                 onTap: (value) {
-                  viewModel.myIndex = value;
+                  viewModel.index = value;
                   viewModel.rebuildUi();
                 },
                 items: [

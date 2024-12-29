@@ -6,6 +6,7 @@ import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
 import 'package:food_go/utils/Widgets/PlusMinusContainer/plus_minus_container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 
 // ignore: must_be_immutable
@@ -15,16 +16,27 @@ class HomeViewDetail extends StatelessWidget {
       required this.id,
       required this.image,
       required this.isFavorite,
-      required this.quantity});
+      required this.quantity,
+      required this.index});
   final String id;
   final String image;
-  bool isFavorite;
-  int quantity;
+  List<bool> isFavorite;
+  List<int> quantity;
+  int index;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => HomeViewDetailModel(),
+        onViewModelReady: (viewModel) async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          for (var i = 0; i < quantity.length; i++) {
+            quantity[i] = prefs.getInt("quantity_$i") ?? 0;
+          }
+          for (var i = 0; i < isFavorite.length; i++) {
+            isFavorite[i] = prefs.getBool("isFavorite_$i")!;
+          }
+        },
         builder: (context, viewModel, child) {
           return Scaffold(
             body: Padding(
@@ -38,6 +50,7 @@ class HomeViewDetail extends StatelessWidget {
                         isFavorite,
                         quantity,
                         id,
+                        index,
                       ]);
                     },
                     child: Image.asset(
@@ -119,57 +132,57 @@ class HomeViewDetail extends StatelessWidget {
                                           itemQuantity--;
                                           // quantity--;
                                           viewModel.itemId = data.id;
-                                          await viewModel.updateAddItems(
-                                              data.get("image"),
-                                              data.get("itemName".toString()),
-                                              data.get("itemPrice".toString()),
-                                              data.get("itemRating".toString()),
-                                              data.get("itemName_2".toString()),
-                                              data.get(
-                                                  "itemDescription".toString()),
-                                              itemQuantity,
-                                              context);
-                                          await viewModel.updateAddToCart(
-                                              data.get("image"),
-                                              data.get("itemName".toString()),
-                                              data.get("itemPrice".toString()),
-                                              data.get("itemRating".toString()),
-                                              data.get("itemName_2".toString()),
-                                              data.get(
-                                                  "itemDescription".toString()),
-                                              itemQuantity,
-                                              context);
-                                          viewModel.rebuildUi();
+                                          //   await viewModel.updateAddItems(
+                                          //       data.get("image"),
+                                          //       data.get("itemName".toString()),
+                                          //       data.get("itemPrice".toString()),
+                                          //       data.get("itemRating".toString()),
+                                          //       data.get("itemName_2".toString()),
+                                          //       data.get(
+                                          //           "itemDescription".toString()),
+                                          //       itemQuantity,
+                                          //       context);
+                                          //   await viewModel.updateAddToCart(
+                                          //       data.get("image"),
+                                          //       data.get("itemName".toString()),
+                                          //       data.get("itemPrice".toString()),
+                                          //       data.get("itemRating".toString()),
+                                          //       data.get("itemName_2".toString()),
+                                          //       data.get(
+                                          //           "itemDescription".toString()),
+                                          //       //itemQuantity,
+                                          //       context);
+                                          //   viewModel.rebuildUi();
                                         }
                                       },
-                                      text: data.get("itemQuantity").toString(),
+                                      text: quantity[index].toString(),
                                       onTapPlus: () async {
-                                        int itemQuantity =
-                                            data.get("itemQuantity");
-                                        itemQuantity++;
-                                        // quantity++;
-                                        viewModel.itemId = data.id;
-                                        await viewModel.updateAddItems(
-                                            data.get("image"),
-                                            data.get("itemName".toString()),
-                                            data.get("itemPrice".toString()),
-                                            data.get("itemRating".toString()),
-                                            data.get("itemName_2".toString()),
-                                            data.get(
-                                                "itemDescription".toString()),
-                                            itemQuantity,
-                                            context);
-                                        await viewModel.updateAddToCart(
-                                            data.get("image"),
-                                            data.get("itemName".toString()),
-                                            data.get("itemPrice".toString()),
-                                            data.get("itemRating".toString()),
-                                            data.get("itemName_2".toString()),
-                                            data.get(
-                                                "itemDescription".toString()),
-                                            itemQuantity,
-                                            context);
-                                        viewModel.rebuildUi();
+                                        // int itemQuantity =
+                                        //     data.get("itemQuantity");
+                                        // itemQuantity++;
+                                        // // quantity++;
+                                        // viewModel.itemId = data.id;
+                                        // await viewModel.updateAddItems(
+                                        //     data.get("image"),
+                                        //     data.get("itemName".toString()),
+                                        //     data.get("itemPrice".toString()),
+                                        //     data.get("itemRating".toString()),
+                                        //     data.get("itemName_2".toString()),
+                                        //     data.get(
+                                        //         "itemDescription".toString()),
+                                        //     itemQuantity,
+                                        //     context);
+                                        // await viewModel.updateAddToCart(
+                                        //     data.get("image"),
+                                        //     data.get("itemName".toString()),
+                                        //     data.get("itemPrice".toString()),
+                                        //     data.get("itemRating".toString()),
+                                        //     data.get("itemName_2".toString()),
+                                        //     data.get(
+                                        //         "itemDescription".toString()),
+                                        //     itemQuantity,
+                                        //     context);
+                                        // viewModel.rebuildUi();
                                       },
                                     ),
                                     height(MediaQuery.of(context).size.height *
@@ -180,69 +193,106 @@ class HomeViewDetail extends StatelessWidget {
                                           onTap: () async {
                                             // isFavorite = !isFavorite;
                                             viewModel.itemId = data.id;
-                                            if (data.get("isFavorite") ==
-                                                false) {
-                                              await viewModel.updateFavorites(
-                                                  image: data.get("image"),
-                                                  itemName:
-                                                      data.get("itemName"),
-                                                  itemPrice:
-                                                      data.get("itemPrice"),
-                                                  itemRating:
-                                                      data.get("itemRating"),
-                                                  itemName_2:
-                                                      data.get("itemName_2"),
-                                                  itemDescription: data
-                                                      .get("itemDescription"),
-                                                  itemQuantity:
-                                                      data.get("itemQuantity"),
-                                                  isFavorite: true,
-                                                  context: context);
+                                            if (isFavorite[index] == false) {
+                                              isFavorite[index] = true;
+                                              SharedPreferences prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              prefs.setBool(
+                                                  "isFavorite_$index", true);
+                                              isFavorite[index] = prefs.getBool(
+                                                  "isFavorite_$index")!;
+                                              favoriteItems.add({
+                                                "userID": userDetails!.uid,
+                                                "index": index,
+                                                "itemID": data.id,
+                                                "image": image,
+                                                "itemName":
+                                                    data.get("itemName"),
+                                                "itemPrice":
+                                                    data.get("itemPrice"),
+                                                "itemRating":
+                                                    data.get("itemRating"),
+                                                "itemName_2":
+                                                    data.get("itemName_2"),
+                                                "itemDescription":
+                                                    data.get("itemDescription"),
+                                              });
+                                              await viewModel.updateUser();
+                                              //   await viewModel.updateFavorites(
+                                              //       image: data.get("image"),
+                                              //       itemName:
+                                              //           data.get("itemName"),
+                                              //       itemPrice:
+                                              //           data.get("itemPrice"),
+                                              //       itemRating:
+                                              //           data.get("itemRating"),
+                                              //       itemName_2:
+                                              //           data.get("itemName_2"),
+                                              //       itemDescription: data
+                                              //           .get("itemDescription"),
+                                              //       itemQuantity:
+                                              //           data.get("itemQuantity"),
+                                              //       isFavorite: true,
+                                              //       context: context);
 
-                                              await viewModel.addToFavorites(
-                                                  image: data.get("image"),
-                                                  itemName: data.get(
-                                                      "itemName".toString()),
-                                                  itemPrice: data.get(
-                                                      "itemPrice".toString()),
-                                                  itemRating: data.get(
-                                                      "itemRating".toString()),
-                                                  itemName_2: data.get(
-                                                      "itemName_2".toString()),
-                                                  itemDescription: data.get(
-                                                      "itemDescription"
-                                                          .toString()),
-                                                  itemQuantity:
-                                                      data.get("itemQuantity"),
-                                                  isFavorite: true,
-                                                  context: context);
-                                              favoriteImage.add(image);
-                                            } else if (data.get("isFavorite") ==
+                                              //   await viewModel.addToFavorites(
+                                              //       image: data.get("image"),
+                                              //       itemName: data.get(
+                                              //           "itemName".toString()),
+                                              //       itemPrice: data.get(
+                                              //           "itemPrice".toString()),
+                                              //       itemRating: data.get(
+                                              //           "itemRating".toString()),
+                                              //       itemName_2: data.get(
+                                              //           "itemName_2".toString()),
+                                              //       itemDescription: data.get(
+                                              //           "itemDescription"
+                                              //               .toString()),
+                                              //       itemQuantity:
+                                              //           data.get("itemQuantity"),
+                                              //       isFavorite: true,
+                                              //       context: context);
+                                              //   favoriteImage.add(image);
+                                              // } else if (data.get("isFavorite") ==
+                                              //     true) {
+                                              //   await viewModel.updateFavorites(
+                                              //       image: data.get("image"),
+                                              //       itemName:
+                                              //           data.get("itemName"),
+                                              //       itemPrice:
+                                              //           data.get("itemPrice"),
+                                              //       itemRating:
+                                              //           data.get("itemRating"),
+                                              //       itemName_2:
+                                              //           data.get("itemName_2"),
+                                              //       itemDescription: data
+                                              //           .get("itemDescription"),
+                                              //       itemQuantity:
+                                              //           data.get("itemQuantity"),
+                                              //       isFavorite: false,
+                                              //       context: context);
+
+                                              //   await viewModel.removeFavorites(
+                                              //       context: context);
+                                              //   favoriteImage.remove(image);
+                                            } else if (isFavorite[index] ==
                                                 true) {
-                                              await viewModel.updateFavorites(
-                                                  image: data.get("image"),
-                                                  itemName:
-                                                      data.get("itemName"),
-                                                  itemPrice:
-                                                      data.get("itemPrice"),
-                                                  itemRating:
-                                                      data.get("itemRating"),
-                                                  itemName_2:
-                                                      data.get("itemName_2"),
-                                                  itemDescription: data
-                                                      .get("itemDescription"),
-                                                  itemQuantity:
-                                                      data.get("itemQuantity"),
-                                                  isFavorite: false,
-                                                  context: context);
-
-                                              await viewModel.removeFavorites(
-                                                  context: context);
-                                              favoriteImage.remove(image);
+                                              isFavorite[index] = false;
+                                              SharedPreferences prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              prefs.setBool(
+                                                  "isFavorite_$index", false);
+                                              isFavorite[index] = prefs.getBool(
+                                                  "isFavorite_$index")!;
+                                              favoriteItems.removeWhere((e) =>
+                                                  e["itemID"] == data.id);
+                                              await viewModel.updateUser();
                                             }
                                             viewModel.rebuildUi();
                                           },
-                                          child: data.get("isFavorite")
+                                          child: isFavorite[index]
                                               ? Icon(
                                                   Icons.favorite,
                                                   color: Colors.red,
@@ -258,36 +308,62 @@ class HomeViewDetail extends StatelessWidget {
                                         MyButton(
                                           label: "Add to cart",
                                           onTap: () async {
-                                            int itemQuantity =
-                                                data.get("itemQuantity");
-                                            if (itemQuantity == 0) {
-                                              itemQuantity++;
+                                            // int itemQuantity =
+                                            //     data.get("itemQuantity");
+                                            if (quantity[index] == 0) {
+                                              // itemQuantity++;
+                                              SharedPreferences prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
+
+                                              quantity[index]++;
+                                              prefs.setInt("quantity_$index",
+                                                  quantity[index]);
+                                              prefs.getInt("quantity_$index");
                                               viewModel.itemId = data.id;
+                                              cartItems.add({
+                                                "userID": userDetails!.uid,
+                                                "index": index,
+                                                "itemID": data.id,
+                                                "image": image,
+                                                "itemName":
+                                                    data.get("itemName"),
+                                                "itemPrice":
+                                                    data.get("itemPrice"),
+                                                "itemRating":
+                                                    data.get("itemRating"),
+                                                "itemName_2":
+                                                    data.get("itemName_2"),
+                                                "itemDescription":
+                                                    data.get("itemDescription"),
+                                                "itemQuantity": quantity,
+                                              });
+                                              await viewModel.updateUser();
                                               // await FirebaseFirestore.instance.
-                                              await viewModel.updateAddItems(
-                                                  data.get("image"),
-                                                  data.get("itemName"),
-                                                  data.get("itemPrice"),
-                                                  data.get("itemRating"),
-                                                  data.get("itemName_2"),
-                                                  data.get("itemDescription"),
-                                                  itemQuantity,
-                                                  context);
-                                              await viewModel.addToCart(
-                                                  data.get("image"),
-                                                  data.get(
-                                                      "itemName".toString()),
-                                                  data.get(
-                                                      "itemPrice".toString()),
-                                                  data.get(
-                                                      "itemRating".toString()),
-                                                  data.get(
-                                                      "itemName_2".toString()),
-                                                  data.get("itemDescription"
-                                                      .toString()),
-                                                  itemQuantity,
-                                                  context);
-                                              cartImage = image;
+                                              // await viewModel.updateAddItems(
+                                              //     data.get("image"),
+                                              //     data.get("itemName"),
+                                              //     data.get("itemPrice"),
+                                              //     data.get("itemRating"),
+                                              //     data.get("itemName_2"),
+                                              //     data.get("itemDescription"),
+                                              //     itemQuantity,
+                                              //     context);
+                                              // await viewModel.addToCart(
+                                              //     data.get("image"),
+                                              //     data.get(
+                                              //         "itemName".toString()),
+                                              //     data.get(
+                                              //         "itemPrice".toString()),
+                                              //     data.get(
+                                              //         "itemRating".toString()),
+                                              //     data.get(
+                                              //         "itemName_2".toString()),
+                                              //     data.get("itemDescription"
+                                              //         .toString()),
+                                              //     itemQuantity,
+                                              //     context);
+                                              // cartImage = image;
                                               // data.get("itemQuantity") == "1";
                                               viewModel.rebuildUi();
                                             } else {

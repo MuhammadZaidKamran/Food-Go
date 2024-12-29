@@ -9,7 +9,32 @@ import 'package:stacked/stacked.dart';
 
 class AllItemsViewModel extends BaseViewModel {
   String itemId = "";
+  final searchController = TextEditingController();
+  List displayItems = [];
+
+  searchValue(value) {
+    FirebaseFirestore.instance
+        .collection('all items')
+        .snapshots()
+        .listen((snapshot) {
+      displayItems = snapshot.docs
+          .where(
+              (doc) => doc["itemName"].toString().toLowerCase().contains(value))
+          .toList();
+      notifyListeners();
+    });
+  }
+
+  //  Future<SharedPreferences> prefs =  SharedPreferences.getInstance();
+  // void favoriteFunction() async {
+  // SharedPreferences prefs =
+  //     SharedPreferences.getInstance() as SharedPreferences;
+  //   isFavorite = prefs.getBool("isFavorite");
+  //   rebuildUi();
+  // }
+
   Future addToFavorites({
+    required int index,
     required String image,
     required String itemName,
     required String itemPrice,
@@ -25,6 +50,7 @@ class AllItemsViewModel extends BaseViewModel {
           .doc(itemId)
           .set({
         "userID": FirebaseAuth.instance.currentUser!.uid,
+        "index": index,
         "itemID": itemId,
         "image": image,
         "itemName": itemName,
@@ -65,7 +91,7 @@ class AllItemsViewModel extends BaseViewModel {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({
         "email": userDetails!.email,
-        "cartItems": [],
+        "cartItems": cartItems,
         "userID": userDetails!.uid,
         "favoriteItems": favoriteItems,
       });
