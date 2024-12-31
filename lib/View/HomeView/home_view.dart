@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/View/HomeView/AllItems/all_items.dart';
 import 'package:food_go/ViewModel/HomeViewModel/home_view_model.dart';
@@ -11,6 +13,46 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
+        onViewModelReady: (viewModel) {
+          FirebaseFirestore.instance
+              .collection("users")
+              .snapshots()
+              .listen((snapshot) {
+            // setState(() {
+            favoriteItems = snapshot.docs
+                .where((doc) =>
+                    doc["userID"] == FirebaseAuth.instance.currentUser!.uid)
+                .map((doc) => doc["favoriteItems"])
+                .expand((item) => item) // Flatten the list of lists
+                .toList();
+            cartItems = snapshot.docs
+                .where((doc) =>
+                    doc["userID"] == FirebaseAuth.instance.currentUser!.uid)
+                .map((doc) => doc["cartItems"])
+                .expand((item) => item) // Flatten the list of lists
+                .toList();
+            // });
+            viewModel.rebuildUi();
+            viewModel.notifyListeners();
+          });
+          // FirebaseFirestore.instance
+          //     .collection("users")
+          //     .snapshots()
+          //     .listen((snapshot) {
+          //   favoriteItems = snapshot.docs
+          //       .where((doc) =>
+          //           doc["userID"] == FirebaseAuth.instance.currentUser!.uid)
+          //       .map((doc) => doc["favoriteItems"])
+          //       .toList();
+          //   cartItems = snapshot.docs
+          //       .where((doc) =>
+          //           doc["userID"] == FirebaseAuth.instance.currentUser!.uid)
+          //       .map((doc) => doc["cartItems"])
+          //       .toList();
+          //   viewModel.rebuildUi();
+          //   viewModel.notifyListeners();
+          // });
+        },
         viewModelBuilder: () => HomeViewModel(),
         builder: (context, viewModel, child) {
           return Scaffold(

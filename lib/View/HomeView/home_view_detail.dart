@@ -126,12 +126,28 @@ class HomeViewDetail extends StatelessWidget {
                                         0.04),
                                     PlusMinusContainer(
                                       onTapMinus: () async {
-                                        int itemQuantity =
-                                            data.get("itemQuantity");
-                                        if (itemQuantity > 0) {
-                                          itemQuantity--;
+                                        // int itemQuantity =
+                                        //     data.get("itemQuantity");
+                                        if (quantity[index] > 0) {
+                                          quantity[index]--;
+                                          SharedPreferences prefs =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          prefs.setInt("quantity_$index",
+                                              quantity[index]);
+                                          prefs.getInt("quantity_$index");
+                                          cartItems
+                                              .where(
+                                                  (e) => e["itemID"] == data.id)
+                                              .forEach((element) {
+                                            element["itemQuantity"] =
+                                                quantity[index];
+                                          });
+                                          await viewModel.updateUser();
+                                          viewModel.rebuildUi();
+                                          //itemQuantity--;
                                           // quantity--;
-                                          viewModel.itemId = data.id;
+                                          //viewModel.itemId = data.id;
                                           //   await viewModel.updateAddItems(
                                           //       data.get("image"),
                                           //       data.get("itemName".toString()),
@@ -157,6 +173,27 @@ class HomeViewDetail extends StatelessWidget {
                                       },
                                       text: quantity[index].toString(),
                                       onTapPlus: () async {
+                                        quantity[index]++;
+                                        // cartItems[index]["itemQuantity"] =
+                                        //     quantity[index];
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        prefs.setInt(
+                                            "quantity_$index", quantity[index]);
+                                        prefs.getInt("quantity_$index");
+                                        cartItems
+                                            .where(
+                                                (e) => e["itemID"] == data.id)
+                                            .forEach((element) {
+                                          element["itemQuantity"] =
+                                              quantity[index];
+                                        });
+                                        await viewModel.updateUser();
+                                        viewModel.rebuildUi();
+                                        // cartItems
+                                        // .where
+                                        // ((e) => e["itemQuantity"]++);
                                         // int itemQuantity =
                                         //     data.get("itemQuantity");
                                         // itemQuantity++;
@@ -336,7 +373,7 @@ class HomeViewDetail extends StatelessWidget {
                                                     data.get("itemName_2"),
                                                 "itemDescription":
                                                     data.get("itemDescription"),
-                                                "itemQuantity": quantity,
+                                                "itemQuantity": quantity[index],
                                               });
                                               await viewModel.updateUser();
                                               // await FirebaseFirestore.instance.
