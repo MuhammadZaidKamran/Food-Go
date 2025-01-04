@@ -35,23 +35,6 @@ class HomeView extends StatelessWidget {
             viewModel.rebuildUi();
             viewModel.notifyListeners();
           });
-          // FirebaseFirestore.instance
-          //     .collection("users")
-          //     .snapshots()
-          //     .listen((snapshot) {
-          //   favoriteItems = snapshot.docs
-          //       .where((doc) =>
-          //           doc["userID"] == FirebaseAuth.instance.currentUser!.uid)
-          //       .map((doc) => doc["favoriteItems"])
-          //       .toList();
-          //   cartItems = snapshot.docs
-          //       .where((doc) =>
-          //           doc["userID"] == FirebaseAuth.instance.currentUser!.uid)
-          //       .map((doc) => doc["cartItems"])
-          //       .toList();
-          //   viewModel.rebuildUi();
-          //   viewModel.notifyListeners();
-          // });
         },
         viewModelBuilder: () => HomeViewModel(),
         builder: (context, viewModel, child) {
@@ -73,8 +56,6 @@ class HomeView extends StatelessWidget {
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     const Text("Order your favourite food!"),
-                    // height(MediaQuery.of(context).size.height * 0.05),
-                    // MySearchBar(label: "Search", onTap: () {}),
                     height(MediaQuery.of(context).size.height * 0.03),
                     const MyTabBar(tabOne: "All", tabTwo: "Combos"),
                     height(MediaQuery.of(context).size.height * 0.02),

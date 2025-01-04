@@ -1,11 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
 import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/View/BottomNavBarView/bottom_nav_bar_view.dart';
 import 'package:food_go/View/LoginView/login_view.dart';
-import 'package:food_go/View/SplashView/wrapper_view.dart';
 import 'package:food_go/ViewModel/SplashViewModel/splash_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
@@ -26,51 +24,16 @@ class SplashView extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const LoginView()));
             } else if (viewModel.user != null) {
               userID = FirebaseAuth.instance.currentUser!.uid;
-              viewModel.updateUserItems(context).then((value) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const BottomNavBarView()));
-              });
-              // FirebaseFirestore.instance
-              //     .collection("users")
-              //     .snapshots()
-              //     .listen((snapshot) {
-              //   favoriteItems = snapshot.docs
-              //       .where((doc) =>
-              //           doc["userID"] == FirebaseAuth.instance.currentUser!.uid)
-              //       .map((doc) => doc["favoriteItems"])
-              //       .toList();
-              //   cartItems = snapshot.docs
-              //       .where((doc) =>
-              //           doc["userID"] == FirebaseAuth.instance.currentUser!.uid)
-              //       .map((doc) => doc["cartItems"])
-              //       .toList();
-              //   viewModel.notifyListeners();
-              // }).onData((value) {
-              //   // try {
-              //   // .then((value) {
-              //   Navigator.pushReplacement(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) => const BottomNavBarView()));
-              //   // });
-              //   // } catch (e) {
-              //   //   debugPrint(e.toString());
-              //   // }
-              // });
-              // await viewModel.updateUserItems(context);
-              // await viewModel.updateUser(context);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BottomNavBarView()));
             }
-            // Navigator.pushReplacement(context,
-            //     MaterialPageRoute(builder: (context) => const WrapperView()));
-            // }
           });
         },
         viewModelBuilder: () => SplashViewModel(),
         builder: (context, viewModel, child) {
           return Scaffold(
-            //backgroundColor: AppColors.redColor,
             body: Container(
               padding: EdgeInsets.zero,
               height: MediaQuery.of(context).size.height,
