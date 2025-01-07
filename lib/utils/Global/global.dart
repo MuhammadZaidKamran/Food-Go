@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 myPadding() {
-  return const EdgeInsets.symmetric(vertical: 50, horizontal: 15);
+  return const EdgeInsets.symmetric(vertical: 25, horizontal: 15);
 }
 
 height(double height) {
@@ -12,6 +12,7 @@ height(double height) {
 }
 
 String? userID;
+int myValue = 0;
 
 double getHeight(BuildContext context, double getHeight) {
   return MediaQuery.of(context).size.height * getHeight;

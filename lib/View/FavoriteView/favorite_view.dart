@@ -75,7 +75,7 @@ class FavoriteView extends StatelessWidget {
                                             await SharedPreferences
                                                 .getInstance();
 
-                                        viewModel.itemId = item["itemID"];
+                                        // viewModel.itemId = item["itemID"];
                                         prefs.setBool(
                                             "isFavorite_${item["index"]}",
                                             false);

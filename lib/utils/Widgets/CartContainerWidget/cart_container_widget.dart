@@ -35,7 +35,7 @@ class _CartContainerWidgetState extends State<CartContainerWidget> {
         elevation: 5,
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: AppColors.whiteColor,
             borderRadius: BorderRadius.circular(12),
@@ -63,7 +63,7 @@ class _CartContainerWidgetState extends State<CartContainerWidget> {
                         children: [
                           Text(
                             widget.itemName,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           InkWell(
@@ -91,7 +91,7 @@ class _CartContainerWidgetState extends State<CartContainerWidget> {
                           width(getWidth(context, 0.01)),
                           Text(
                             widget.itemQuantity,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500),
                           ),
                           width(getWidth(context, 0.01)),
@@ -102,10 +102,10 @@ class _CartContainerWidgetState extends State<CartContainerWidget> {
                               scale: 5.5,
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             "Rs.${widget.itemPrice}",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500),
                           ),
                         ],

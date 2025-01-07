@@ -3,6 +3,7 @@ import 'package:food_go/ViewModel/CartViewModel/cart_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/CartContainerWidget/cart_container_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 
 class CartView extends StatelessWidget {
@@ -11,6 +12,12 @@ class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
+        onViewModelReady: (viewModel) async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          for (int i = 0; i < quantity.length; i++) {
+            quantity[i] = prefs.getInt("quantity_$i") ?? 0;
+          }
+        },
         viewModelBuilder: () => CartViewModel(),
         builder: (context, viewModel, child) {
           return Scaffold(
@@ -33,9 +40,62 @@ class CartView extends StatelessWidget {
                             itemName: item["itemName"],
                             itemQuantity: "${item["itemQuantity"]}",
                             itemPrice: item["itemPrice"],
-                            onTapMinus: () {},
-                            onTapPlus: () {},
-                            onTapDelete: () {},
+                            onTapMinus: () async {
+                              if (quantity[item["index"]] > 0) {
+                                quantity[item["index"]]--;
+                                if (quantity[item["index"]] == 0) {
+                                  cartItems.removeWhere(
+                                      (e) => e["itemID"] == item["itemID"]);
+                                }
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setInt("quantity_${item["index"]}",
+                                    quantity[item["index"]]);
+                                prefs.getInt("quantity_${item["index"]}");
+                                cartItems
+                                    .where((e) => e["itemID"] == item["itemID"])
+                                    .forEach((element) {
+                                  element["itemQuantity"] =
+                                      quantity[item["index"]];
+                                });
+                                await viewModel.updateUser();
+                                viewModel.rebuildUi();
+                              }
+                            },
+                            onTapPlus: () async {
+                              quantity[item["index"]]++;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setInt("quantity_${item["index"]}",
+                                  quantity[item["index"]]);
+                              prefs.getInt("quantity_${item["index"]}");
+                              cartItems
+                                  .where((e) => e["itemID"] == item["itemID"])
+                                  .forEach((element) {
+                                element["itemQuantity"] =
+                                    quantity[item["index"]];
+                              });
+                              await viewModel.updateUser();
+                              viewModel.rebuildUi();
+                            },
+                            onTapDelete: () async {
+                              cartItems.removeWhere(
+                                  (e) => e["itemID"] == item["itemID"]);
+                              quantity[item["index"]] = 0;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setInt("quantity_${item["index"]}",
+                                  quantity[item["index"]]);
+                              prefs.getInt("quantity_${item["index"]}");
+                              cartItems
+                                  .where((e) => e["itemID"] == item["itemID"])
+                                  .forEach((element) {
+                                element["itemQuantity"] =
+                                    quantity[item["index"]];
+                              });
+                              await viewModel.updateUser();
+                              viewModel.rebuildUi();
+                            },
                           );
                         } else {
                           return Center(

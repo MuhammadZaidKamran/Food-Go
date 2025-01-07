@@ -123,104 +123,198 @@ class HomeViewDetail extends StatelessWidget {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     height(MediaQuery.of(context).size.height *
-                                        0.04),
-                                    PlusMinusContainer(
-                                      onTapMinus: () async {
-                                        // int itemQuantity =
-                                        //     data.get("itemQuantity");
-                                        if (quantity[index] > 0) {
-                                          quantity[index]--;
-                                          SharedPreferences prefs =
-                                              await SharedPreferences
-                                                  .getInstance();
-                                          prefs.setInt("quantity_$index",
-                                              quantity[index]);
-                                          prefs.getInt("quantity_$index");
-                                          cartItems
-                                              .where(
-                                                  (e) => e["itemID"] == data.id)
-                                              .forEach((element) {
-                                            element["itemQuantity"] =
-                                                quantity[index];
-                                          });
-                                          await viewModel.updateUser();
-                                          viewModel.rebuildUi();
-                                          //itemQuantity--;
-                                          // quantity--;
-                                          //viewModel.itemId = data.id;
-                                          //   await viewModel.updateAddItems(
-                                          //       data.get("image"),
-                                          //       data.get("itemName".toString()),
-                                          //       data.get("itemPrice".toString()),
-                                          //       data.get("itemRating".toString()),
-                                          //       data.get("itemName_2".toString()),
-                                          //       data.get(
-                                          //           "itemDescription".toString()),
-                                          //       itemQuantity,
-                                          //       context);
-                                          //   await viewModel.updateAddToCart(
-                                          //       data.get("image"),
-                                          //       data.get("itemName".toString()),
-                                          //       data.get("itemPrice".toString()),
-                                          //       data.get("itemRating".toString()),
-                                          //       data.get("itemName_2".toString()),
-                                          //       data.get(
-                                          //           "itemDescription".toString()),
-                                          //       //itemQuantity,
-                                          //       context);
-                                          //   viewModel.rebuildUi();
-                                        }
-                                      },
-                                      text: quantity[index].toString(),
-                                      onTapPlus: () async {
-                                        quantity[index]++;
-                                        // cartItems[index]["itemQuantity"] =
-                                        //     quantity[index];
-                                        SharedPreferences prefs =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        prefs.setInt(
-                                            "quantity_$index", quantity[index]);
-                                        prefs.getInt("quantity_$index");
-                                        cartItems
-                                            .where(
-                                                (e) => e["itemID"] == data.id)
-                                            .forEach((element) {
-                                          element["itemQuantity"] =
-                                              quantity[index];
-                                        });
-                                        await viewModel.updateUser();
-                                        viewModel.rebuildUi();
-                                        // cartItems
-                                        // .where
-                                        // ((e) => e["itemQuantity"]++);
-                                        // int itemQuantity =
-                                        //     data.get("itemQuantity");
-                                        // itemQuantity++;
-                                        // // quantity++;
-                                        // viewModel.itemId = data.id;
-                                        // await viewModel.updateAddItems(
-                                        //     data.get("image"),
-                                        //     data.get("itemName".toString()),
-                                        //     data.get("itemPrice".toString()),
-                                        //     data.get("itemRating".toString()),
-                                        //     data.get("itemName_2".toString()),
-                                        //     data.get(
-                                        //         "itemDescription".toString()),
-                                        //     itemQuantity,
-                                        //     context);
-                                        // await viewModel.updateAddToCart(
-                                        //     data.get("image"),
-                                        //     data.get("itemName".toString()),
-                                        //     data.get("itemPrice".toString()),
-                                        //     data.get("itemRating".toString()),
-                                        //     data.get("itemName_2".toString()),
-                                        //     data.get(
-                                        //         "itemDescription".toString()),
-                                        //     itemQuantity,
-                                        //     context);
-                                        // viewModel.rebuildUi();
-                                      },
+                                        0.03),
+                                    // PlusMinusContainer(
+                                    //   onTapMinus: () async {
+                                    //     // int itemQuantity =
+                                    //     //     data.get("itemQuantity");
+                                    //     if (quantity[index] > 0) {
+                                    //       quantity[index]--;
+                                    //       SharedPreferences prefs =
+                                    //           await SharedPreferences
+                                    //               .getInstance();
+                                    //       prefs.setInt("quantity_$index",
+                                    //           quantity[index]);
+                                    //       prefs.getInt("quantity_$index");
+                                    //       cartItems
+                                    //           .where(
+                                    //               (e) => e["itemID"] == data.id)
+                                    //           .forEach((element) {
+                                    //         element["itemQuantity"] =
+                                    //             quantity[index];
+                                    //       });
+                                    //       await viewModel.updateUser();
+                                    //       viewModel.rebuildUi();
+                                    //       //itemQuantity--;
+                                    //       // quantity--;
+                                    //       //viewModel.itemId = data.id;
+                                    //       //   await viewModel.updateAddItems(
+                                    //       //       data.get("image"),
+                                    //       //       data.get("itemName".toString()),
+                                    //       //       data.get("itemPrice".toString()),
+                                    //       //       data.get("itemRating".toString()),
+                                    //       //       data.get("itemName_2".toString()),
+                                    //       //       data.get(
+                                    //       //           "itemDescription".toString()),
+                                    //       //       itemQuantity,
+                                    //       //       context);
+                                    //       //   await viewModel.updateAddToCart(
+                                    //       //       data.get("image"),
+                                    //       //       data.get("itemName".toString()),
+                                    //       //       data.get("itemPrice".toString()),
+                                    //       //       data.get("itemRating".toString()),
+                                    //       //       data.get("itemName_2".toString()),
+                                    //       //       data.get(
+                                    //       //           "itemDescription".toString()),
+                                    //       //       //itemQuantity,
+                                    //       //       context);
+                                    //       //   viewModel.rebuildUi();
+                                    //     }
+                                    //   },
+                                    //   text: quantity[index].toString(),
+                                    //   onTapPlus: () async {
+                                    //     quantity[index]++;
+                                    //     // cartItems[index]["itemQuantity"] =
+                                    //     //     quantity[index];
+                                    //     SharedPreferences prefs =
+                                    //         await SharedPreferences
+                                    //             .getInstance();
+                                    //     prefs.setInt(
+                                    //         "quantity_$index", quantity[index]);
+                                    //     prefs.getInt("quantity_$index");
+                                    //     cartItems
+                                    //         .where(
+                                    //             (e) => e["itemID"] == data.id)
+                                    //         .forEach((element) {
+                                    //       element["itemQuantity"] =
+                                    //           quantity[index];
+                                    //     });
+                                    //     await viewModel.updateUser();
+                                    //     viewModel.rebuildUi();
+                                    //     // cartItems
+                                    //     // .where
+                                    //     // ((e) => e["itemQuantity"]++);
+                                    //     // int itemQuantity =
+                                    //     //     data.get("itemQuantity");
+                                    //     // itemQuantity++;
+                                    //     // // quantity++;
+                                    //     // viewModel.itemId = data.id;
+                                    //     // await viewModel.updateAddItems(
+                                    //     //     data.get("image"),
+                                    //     //     data.get("itemName".toString()),
+                                    //     //     data.get("itemPrice".toString()),
+                                    //     //     data.get("itemRating".toString()),
+                                    //     //     data.get("itemName_2".toString()),
+                                    //     //     data.get(
+                                    //     //         "itemDescription".toString()),
+                                    //     //     itemQuantity,
+                                    //     //     context);
+                                    //     // await viewModel.updateAddToCart(
+                                    //     //     data.get("image"),
+                                    //     //     data.get("itemName".toString()),
+                                    //     //     data.get("itemPrice".toString()),
+                                    //     //     data.get("itemRating".toString()),
+                                    //     //     data.get("itemName_2".toString()),
+                                    //     //     data.get(
+                                    //     //         "itemDescription".toString()),
+                                    //     //     itemQuantity,
+                                    //     //     context);
+                                    //     // viewModel.rebuildUi();
+                                    //   },
+                                    // ),
+                                    Text(
+                                      "Cold Drinks",
+                                      style: TextStyle(
+                                          color: AppColors.blackColor,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    height(getHeight(context, 0.02)),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      width: getWidth(context, 1),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                              color: AppColors.borderColor),
+                                          color: AppColors.whiteColor),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text.rich(
+                                                TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                        text: "7Up",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400)),
+                                                    TextSpan(
+                                                      text: " ",
+                                                    ),
+                                                    TextSpan(
+                                                        text: "(250 ml)",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w300)),
+                                                  ],
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Radio(
+                                                value: myValue,
+                                                groupValue: 0,
+                                                onChanged: (value) {
+                                                  myValue = value!;
+                                                  viewModel.rebuildUi();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          height(getHeight(context, 0.01)),
+                                          Row(
+                                            children: [
+                                              Text.rich(
+                                                TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                        text: "Pepsi",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400)),
+                                                    TextSpan(
+                                                      text: " ",
+                                                    ),
+                                                    TextSpan(
+                                                        text: "(250 ml)",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w300)),
+                                                  ],
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Radio(
+                                                value: myValue,
+                                                groupValue: 1,
+                                                onChanged: (value) {
+                                                  myValue = value!;
+                                                  viewModel.rebuildUi();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     height(MediaQuery.of(context).size.height *
                                         0.03),
