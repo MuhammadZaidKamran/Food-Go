@@ -16,7 +16,7 @@ class ProfileView extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
-              title: Text("Profile"),
+              title: const Text("Profile"),
               centerTitle: true,
             ),
             body: Padding(
@@ -24,7 +24,7 @@ class ProfileView extends StatelessWidget {
               child: Center(
                 child: Column(
                   children: [
-                    ClipOval(
+                    const ClipOval(
                       child: Icon(
                         Icons.account_circle,
                         size: 100,

@@ -17,14 +17,14 @@ class EditProfileView extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              title: Text("Edit Profile"),
+              title: const Text("Edit Profile"),
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
               child: Center(
                 child: Column(
                   children: [
-                    ClipOval(
+                    const ClipOval(
                       child: Icon(
                         Icons.account_circle,
                         size: 100,

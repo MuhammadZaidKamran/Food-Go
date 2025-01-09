@@ -56,7 +56,7 @@ class MyDrawer extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            EditProfileView()));
+                                            const EditProfileView()));
                               },
                               child: Icon(
                                 Icons.edit_outlined,

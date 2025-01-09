@@ -50,3 +50,5 @@ var isFavoriteList = [false, false, false, false];
 List<int> quantity = [0, 0, 0, 0];
 
 final userDetails = FirebaseAuth.instance.currentUser;
+
+List<bool> isAdded = [false, false, false, false];

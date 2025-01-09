@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_go/View/EditProfileView/edit_profile_view.dart';
 import 'package:food_go/View/HomeView/AllItems/all_items.dart';
 import 'package:food_go/ViewModel/HomeViewModel/home_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
-import 'package:food_go/utils/Widgets/DrawerListTile/drawer_list_tile.dart';
 import 'package:food_go/utils/Widgets/MyDrawer/my_drawer.dart';
 import 'package:food_go/utils/Widgets/MyTabbar/my_tab_bar.dart';
 import 'package:stacked/stacked.dart';
@@ -44,7 +42,7 @@ class HomeView extends StatelessWidget {
         builder: (context, viewModel, child) {
           return Scaffold(
             key: viewModel.scaffoldKey,
-            drawer: MyDrawer(),
+            drawer: const MyDrawer(),
             appBar: AppBar(
               toolbarHeight: 25,
               automaticallyImplyLeading: false,

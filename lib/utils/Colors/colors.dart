@@ -9,4 +9,5 @@ class AppColors {
   static Color blackColor = Colors.black;
   static Color borderColor = const Color.fromARGB(223, 128, 128, 128);
   static Color yellowColor = const Color(0XFFFF9633);
+  static Color greenColor = Colors.green;
 }

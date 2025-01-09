@@ -5,7 +5,6 @@ import 'package:food_go/ViewModel/HomeViewModel/home_view_detail.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
-import 'package:food_go/utils/Widgets/PlusMinusContainer/plus_minus_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 
@@ -34,7 +33,10 @@ class HomeViewDetail extends StatelessWidget {
             quantity[i] = prefs.getInt("quantity_$i") ?? 0;
           }
           for (var i = 0; i < isFavorite.length; i++) {
-            isFavorite[i] = prefs.getBool("isFavorite_$i")!;
+            isFavorite[i] = prefs.getBool("isFavorite_$i") ?? false;
+          }
+          for (var i = 0; i < isAdded.length; i++) {
+            isAdded[i] = prefs.getBool("isAdded_$i") ?? false;
           }
         },
         builder: (context, viewModel, child) {
@@ -231,7 +233,7 @@ class HomeViewDetail extends StatelessWidget {
                                     ),
                                     height(getHeight(context, 0.02)),
                                     Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 10),
                                       width: getWidth(context, 1),
                                       decoration: BoxDecoration(
@@ -244,7 +246,7 @@ class HomeViewDetail extends StatelessWidget {
                                         children: [
                                           Row(
                                             children: [
-                                              Text.rich(
+                                              const Text.rich(
                                                 TextSpan(
                                                   children: [
                                                     TextSpan(
@@ -266,10 +268,14 @@ class HomeViewDetail extends StatelessWidget {
                                                   ],
                                                 ),
                                               ),
-                                              Spacer(),
+                                              const Spacer(),
                                               Radio(
-                                                value: myValue,
-                                                groupValue: 0,
+                                                fillColor:
+                                                    WidgetStatePropertyAll(
+                                                        AppColors
+                                                            .darkMainTheme),
+                                                value: 0,
+                                                groupValue: myValue,
                                                 onChanged: (value) {
                                                   myValue = value!;
                                                   viewModel.rebuildUi();
@@ -280,7 +286,7 @@ class HomeViewDetail extends StatelessWidget {
                                           height(getHeight(context, 0.01)),
                                           Row(
                                             children: [
-                                              Text.rich(
+                                              const Text.rich(
                                                 TextSpan(
                                                   children: [
                                                     TextSpan(
@@ -302,10 +308,14 @@ class HomeViewDetail extends StatelessWidget {
                                                   ],
                                                 ),
                                               ),
-                                              Spacer(),
+                                              const Spacer(),
                                               Radio(
-                                                value: myValue,
-                                                groupValue: 1,
+                                                fillColor:
+                                                    WidgetStatePropertyAll(
+                                                        AppColors
+                                                            .darkMainTheme),
+                                                value: 1,
+                                                groupValue: myValue,
                                                 onChanged: (value) {
                                                   myValue = value!;
                                                   viewModel.rebuildUi();
@@ -436,80 +446,140 @@ class HomeViewDetail extends StatelessWidget {
                                                 ),
                                         ),
                                         const Spacer(),
-                                        MyButton(
-                                          label: "Add to cart",
-                                          onTap: () async {
-                                            // int itemQuantity =
-                                            //     data.get("itemQuantity");
-                                            if (quantity[index] == 0) {
-                                              // itemQuantity++;
-                                              SharedPreferences prefs =
-                                                  await SharedPreferences
-                                                      .getInstance();
-
-                                              quantity[index]++;
-                                              prefs.setInt("quantity_$index",
-                                                  quantity[index]);
-                                              prefs.getInt("quantity_$index");
-                                              viewModel.itemId = data.id;
-                                              cartItems.add({
-                                                "userID": userDetails!.uid,
-                                                "index": index,
-                                                "itemID": data.id,
-                                                "image": image,
-                                                "itemName":
-                                                    data.get("itemName"),
-                                                "itemPrice":
-                                                    data.get("itemPrice"),
-                                                "itemRating":
-                                                    data.get("itemRating"),
-                                                "itemName_2":
-                                                    data.get("itemName_2"),
-                                                "itemDescription":
-                                                    data.get("itemDescription"),
-                                                "itemQuantity": quantity[index],
-                                              });
-                                              await viewModel.updateUser();
-                                              // await FirebaseFirestore.instance.
-                                              // await viewModel.updateAddItems(
-                                              //     data.get("image"),
-                                              //     data.get("itemName"),
-                                              //     data.get("itemPrice"),
-                                              //     data.get("itemRating"),
-                                              //     data.get("itemName_2"),
-                                              //     data.get("itemDescription"),
-                                              //     itemQuantity,
-                                              //     context);
-                                              // await viewModel.addToCart(
-                                              //     data.get("image"),
-                                              //     data.get(
-                                              //         "itemName".toString()),
-                                              //     data.get(
-                                              //         "itemPrice".toString()),
-                                              //     data.get(
-                                              //         "itemRating".toString()),
-                                              //     data.get(
-                                              //         "itemName_2".toString()),
-                                              //     data.get("itemDescription"
-                                              //         .toString()),
-                                              //     itemQuantity,
-                                              //     context);
-                                              // cartImage = image;
-                                              // data.get("itemQuantity") == "1";
-                                              viewModel.rebuildUi();
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      content: Row(
-                                                        children: [
-                                                          Text("Already added"),
-                                                        ],
-                                                      )));
-                                            }
-                                          },
-                                          width: getWidth(context, 0.8),
+                                        AnimatedContainer(
+                                          duration: const Duration(seconds: 2),
+                                          child: isAdded[index]
+                                              ? Container(
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.greenColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                  height: 50,
+                                                  width: getWidth(context, 0.8),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.check,
+                                                          color: AppColors
+                                                              .whiteColor,
+                                                          size: 30,
+                                                        ),
+                                                        Text(
+                                                          "Added",
+                                                          style: TextStyle(
+                                                            color: AppColors
+                                                                .whiteColor,
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              : MyButton(
+                                                  label: "Add to cart",
+                                                  onTap: () async {
+                                                    // int itemQuantity =
+                                                    //     data.get("itemQuantity");
+                                                    if (quantity[index] == 0) {
+                                                      // itemQuantity++;
+                                                      SharedPreferences prefs =
+                                                          await SharedPreferences
+                                                              .getInstance();
+                                                      quantity[index]++;
+                                                      prefs.setInt(
+                                                          "quantity_$index",
+                                                          quantity[index]);
+                                                      prefs.getInt(
+                                                          "quantity_$index");
+                                                      viewModel.itemId =
+                                                          data.id;
+                                                      cartItems.add({
+                                                        "userID":
+                                                            userDetails!.uid,
+                                                        "index": index,
+                                                        "itemID": data.id,
+                                                        "isAdded": true,
+                                                        "image": image,
+                                                        "itemName": data
+                                                            .get("itemName"),
+                                                        "itemPrice": data
+                                                            .get("itemPrice"),
+                                                        "itemRating": data
+                                                            .get("itemRating"),
+                                                        "itemName_2": data
+                                                            .get("itemName_2"),
+                                                        "itemDescription":
+                                                            data.get(
+                                                                "itemDescription"),
+                                                        "itemQuantity":
+                                                            quantity[index],
+                                                      });
+                                                      await viewModel
+                                                          .updateUser()
+                                                          .then((value) {
+                                                        isAdded[index] = true;
+                                                        prefs.setBool(
+                                                            "isAdded_$index",
+                                                            isAdded[index]);
+                                                        prefs.getBool(
+                                                            "isAdded_$index");
+                                                      });
+                                                      // await FirebaseFirestore.instance.
+                                                      // await viewModel.updateAddItems(
+                                                      //     data.get("image"),
+                                                      //     data.get("itemName"),
+                                                      //     data.get("itemPrice"),
+                                                      //     data.get("itemRating"),
+                                                      //     data.get("itemName_2"),
+                                                      //     data.get("itemDescription"),
+                                                      //     itemQuantity,
+                                                      //     context);
+                                                      // await viewModel.addToCart(
+                                                      //     data.get("image"),
+                                                      //     data.get(
+                                                      //         "itemName".toString()),
+                                                      //     data.get(
+                                                      //         "itemPrice".toString()),
+                                                      //     data.get(
+                                                      //         "itemRating".toString()),
+                                                      //     data.get(
+                                                      //         "itemName_2".toString()),
+                                                      //     data.get("itemDescription"
+                                                      //         .toString()),
+                                                      //     itemQuantity,
+                                                      //     context);
+                                                      // cartImage = image;
+                                                      // data.get("itemQuantity") == "1";
+                                                      viewModel.rebuildUi();
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  content: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                          "Already added"),
+                                                                    ],
+                                                                  )));
+                                                    }
+                                                  },
+                                                  width: getWidth(context, 0.8),
+                                                ),
                                         )
                                       ],
                                     ),
