@@ -23,7 +23,7 @@ class LoginView extends StatelessWidget {
                   Stack(children: [
                     Container(
                       padding: const EdgeInsets.only(top: 20),
-                      height: MediaQuery.of(context).size.height * 0.39,
+                      height: MediaQuery.of(context).size.height * 0.36,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           borderRadius: const BorderRadius.only(
@@ -40,7 +40,7 @@ class LoginView extends StatelessWidget {
                         children: [
                           Image.asset(
                             "assets/images/burger-icon.webp",
-                            scale: 3.5,
+                            scale: 5,
                           ),
                           const SizedBox(
                             height: 5,
@@ -49,7 +49,7 @@ class LoginView extends StatelessWidget {
                             "LOGIN",
                             style: TextStyle(
                                 letterSpacing: 1,
-                                fontSize: 35,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           )
@@ -59,9 +59,9 @@ class LoginView extends StatelessWidget {
                     Center(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 35),
+                            horizontal: 20, vertical: 25),
                         margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.34),
+                            top: MediaQuery.of(context).size.height * 0.3),
                         //height: 350,
                         width: MediaQuery.of(context).size.width * 0.92,
                         decoration: BoxDecoration(
@@ -91,10 +91,11 @@ class LoginView extends StatelessWidget {
                               },
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             MyTextField(
                                 label: "Password",
+                                obscureText: true,
                                 prefixIcon: const Icon(Icons.key),
                                 prefixIconColor: AppColors.darkMainTheme,
                                 controller: viewModel.passwordController,
@@ -125,7 +126,7 @@ class LoginView extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(
-                              height: 25,
+                              height: 15,
                             ),
                             MyButton(
                               onTap: () {

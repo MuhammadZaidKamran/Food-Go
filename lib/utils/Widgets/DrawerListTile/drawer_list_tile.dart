@@ -18,13 +18,13 @@ class DrawerListTile extends StatelessWidget {
       child: ListTile(
         leading: Icon(
           icon,
-          size: 30,
+          size: 25,
           color: AppColors.whiteColor,
         ),
         title: Text(
           title,
           style: TextStyle(
-              fontSize: 20,
+              fontSize: 17,
               fontWeight: FontWeight.w500,
               color: AppColors.whiteColor),
         ),

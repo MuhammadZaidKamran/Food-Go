@@ -225,7 +225,7 @@ class HomeViewDetail extends StatelessWidget {
                                     //   },
                                     // ),
                                     Text(
-                                      "Cold Drinks",
+                                      "Extras",
                                       style: TextStyle(
                                           color: AppColors.blackColor,
                                           fontSize: 24,
@@ -246,78 +246,50 @@ class HomeViewDetail extends StatelessWidget {
                                         children: [
                                           Row(
                                             children: [
-                                              const Text.rich(
-                                                TextSpan(
-                                                  children: [
-                                                    TextSpan(
-                                                        text: "7Up",
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400)),
-                                                    TextSpan(
-                                                      text: " ",
-                                                    ),
-                                                    TextSpan(
-                                                        text: "(250 ml)",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300)),
-                                                  ],
-                                                ),
+                                              const Text(
+                                                "Cheese",
+                                                style: TextStyle(fontSize: 16),
                                               ),
                                               const Spacer(),
-                                              Radio(
-                                                fillColor:
-                                                    WidgetStatePropertyAll(
-                                                        AppColors
-                                                            .darkMainTheme),
-                                                value: 0,
-                                                groupValue: myValue,
+                                              Checkbox(
+                                                activeColor:
+                                                    AppColors.mainTheme,
+                                                value: viewModel.isCheeseAdded,
                                                 onChanged: (value) {
-                                                  myValue = value!;
+                                                  bool isCheeseAddedValue =
+                                                      data.get("isCheeseAdded");
+                                                  viewModel.isCheeseAdded =
+                                                      value!;
+                                                  isCheeseAddedValue =
+                                                      viewModel.isCheeseAdded;
                                                   viewModel.rebuildUi();
                                                 },
-                                              ),
+                                              )
                                             ],
                                           ),
                                           height(getHeight(context, 0.01)),
                                           Row(
                                             children: [
-                                              const Text.rich(
-                                                TextSpan(
-                                                  children: [
-                                                    TextSpan(
-                                                        text: "Pepsi",
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400)),
-                                                    TextSpan(
-                                                      text: " ",
-                                                    ),
-                                                    TextSpan(
-                                                        text: "(250 ml)",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300)),
-                                                  ],
+                                              const Text(
+                                                "Garlic Bread",
+                                                style: TextStyle(
+                                                  fontSize: 16,
                                                 ),
                                               ),
                                               const Spacer(),
-                                              Radio(
-                                                fillColor:
-                                                    WidgetStatePropertyAll(
-                                                        AppColors
-                                                            .darkMainTheme),
-                                                value: 1,
-                                                groupValue: myValue,
+                                              Checkbox(
+                                                activeColor:
+                                                    AppColors.mainTheme,
+                                                value: viewModel.isGarlicAdded,
                                                 onChanged: (value) {
-                                                  myValue = value!;
+                                                  bool isGarlicAddedValue =
+                                                      data.get(
+                                                    "isGarlicAdded",
+                                                  );
+                                                  viewModel.isGarlicAdded =
+                                                      value!;
+                                                  isGarlicAddedValue =
+                                                      viewModel.isGarlicAdded;
                                                   viewModel.rebuildUi();
                                                 },
                                               ),
@@ -510,6 +482,8 @@ class HomeViewDetail extends StatelessWidget {
                                                         "index": index,
                                                         "itemID": data.id,
                                                         "isAdded": true,
+                                                        "isCheeseAdded": viewModel.isCheeseAdded ? "Cheese Slice" : "None",
+                                                        "isGarlicAdded": viewModel.isGarlicAdded ? "Garlic Bread" : "None",
                                                         "image": image,
                                                         "itemName": data
                                                             .get("itemName"),

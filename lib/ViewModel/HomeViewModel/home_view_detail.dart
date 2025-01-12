@@ -10,6 +10,8 @@ class HomeViewDetailModel extends BaseViewModel {
   CollectionReference allItems =
       FirebaseFirestore.instance.collection('all items');
   String itemId = '';
+  bool isCheeseAdded = false;
+  bool isGarlicAdded = false;
 
   Future updateUser() async {
     try {

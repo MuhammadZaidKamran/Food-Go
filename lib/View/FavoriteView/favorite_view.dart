@@ -29,7 +29,7 @@ class FavoriteView extends StatelessWidget {
               title: const Text("Favorites"),
             ),
             body: FutureBuilder(
-                future: viewModel.userFavorites.doc(userID).get(),
+                future: viewModel.userFavorites.doc(userDetails!.uid).get(),
                 builder: (context, snapshot) {
                   return ListView.separated(
                       physics: const BouncingScrollPhysics(),
@@ -139,10 +139,8 @@ class FavoriteView extends StatelessWidget {
                             ),
                           );
                         } else {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.mainTheme,
-                            ),
+                          return const Center(
+                            child: Text("No Items Found"),
                           );
                         }
                       });

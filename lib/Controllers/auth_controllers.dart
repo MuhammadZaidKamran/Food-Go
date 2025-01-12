@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/View/BottomNavBarView/bottom_nav_bar_view.dart';
 import 'package:food_go/utils/Colors/colors.dart';
+import 'package:food_go/utils/Global/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthControllers {
   final authentication = FirebaseAuth.instance;
@@ -11,6 +13,8 @@ class AuthControllers {
       {required String userName,
       required String email,
       required String password,
+      required String confirmPassword,
+      required String phoneNumber,
       required context}) async {
     try {
       await authentication
@@ -33,8 +37,22 @@ class AuthControllers {
           "userID": value.user!.uid,
           "userName": userName,
           "email": value.user!.email,
+          "phoneNumber": phoneNumber,
           "favoriteItems": [],
           "cartItems": [],
+        }).then((value) async {
+          user = {
+            "userID": FirebaseAuth.instance.currentUser!.uid,
+            "userName": userName,
+            "email": email,
+            "phoneNumber": phoneNumber,
+          };
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString("userID", user!["userID"]);
+          await prefs.setString("userName", user!["userName"]);
+          await prefs.setString("email", user!["email"]);
+          await prefs.setString("phoneNumber", user!["phoneNumber"]);
+          // print(prefs.getString("userName"));
         });
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const BottomNavBarView()));
@@ -81,6 +99,8 @@ class AuthControllers {
           backgroundColor: Colors.green,
         ));
       });
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const BottomNavBarView()));
     } on FirebaseAuthException catch (e) {
       // if (e.code == 'user-not-found') {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

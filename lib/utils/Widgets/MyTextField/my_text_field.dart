@@ -21,6 +21,8 @@ class MyTextField extends StatelessWidget {
     this.hintStyle,
     this.borderRadius,
     this.leading,
+    this.height,
+    this.width,
   });
   final TextEditingController controller;
   final String label;
@@ -36,39 +38,45 @@ class MyTextField extends StatelessWidget {
   final TextStyle? hintStyle;
   final BorderRadius? borderRadius;
   final Widget? leading;
+  final double? height;
+  final double? width;
   bool? readOnly = false;
   bool? obscureText = false;
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      maxLength: maxLength,
-      maxLines: maxLines ?? 1,
-      onChanged: onChanged,
-      validator: validator,
-      keyboardType: keyboardType ?? TextInputType.text,
-      obscureText: obscureText!,
-      onTap: onTap,
-      cursorColor: AppColors.darkMainTheme,
-      controller: controller,
-      readOnly: readOnly!,
-      decoration: InputDecoration(
-          hintMaxLines: 1,
-          prefixIcon: prefixIcon,
-          prefixIconColor: prefixIconColor,
-          filled: true,
-          fillColor: fillColor ?? const Color.fromARGB(36, 0, 0, 0),
-          hintText: label,
-          hintStyle: hintStyle ?? TextStyle(color: AppColors.darkMainTheme),
-          border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: borderRadius ?? BorderRadius.circular(20)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: borderRadius ?? BorderRadius.circular(20)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: borderRadius ?? BorderRadius.circular(20))),
+    return SizedBox(
+      width: width ?? double.infinity,
+      height: height ?? 70,
+      child: TextFormField(
+        maxLength: maxLength,
+        maxLines: maxLines ?? 1,
+        onChanged: onChanged,
+        validator: validator,
+        keyboardType: keyboardType ?? TextInputType.text,
+        obscureText: obscureText!,
+        onTap: onTap,
+        cursorColor: AppColors.darkMainTheme,
+        controller: controller,
+        readOnly: readOnly!,
+        decoration: InputDecoration(
+            hintMaxLines: 1,
+            prefixIcon: prefixIcon,
+            prefixIconColor: prefixIconColor,
+            filled: true,
+            fillColor: fillColor ?? const Color.fromARGB(55, 0, 0, 0),
+            hintText: label,
+            hintStyle: hintStyle ?? TextStyle(color: AppColors.darkMainTheme),
+            border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: borderRadius ?? BorderRadius.circular(15)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: borderRadius ?? BorderRadius.circular(15)),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: borderRadius ?? BorderRadius.circular(15))),
+      ),
     );
   }
 }

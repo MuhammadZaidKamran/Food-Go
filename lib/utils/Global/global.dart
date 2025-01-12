@@ -12,7 +12,8 @@ height(double height) {
 }
 
 String? userID;
-int myValue = 0;
+// bool isCheeseAdded = false;
+// bool isGarlicAdded = false;
 
 double getHeight(BuildContext context, double getHeight) {
   return MediaQuery.of(context).size.height * getHeight;
@@ -52,3 +53,5 @@ List<int> quantity = [0, 0, 0, 0];
 final userDetails = FirebaseAuth.instance.currentUser;
 
 List<bool> isAdded = [false, false, false, false];
+
+Map? user;

@@ -7,6 +7,7 @@ import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/MyDrawer/my_drawer.dart';
 import 'package:food_go/utils/Widgets/MyTabbar/my_tab_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeView extends StatelessWidget {
@@ -15,7 +16,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
-        onViewModelReady: (viewModel) {
+        onViewModelReady: (viewModel) async {
           FirebaseFirestore.instance
               .collection("users")
               .snapshots()

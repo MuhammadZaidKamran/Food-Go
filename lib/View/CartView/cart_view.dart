@@ -17,6 +17,9 @@ class CartView extends StatelessWidget {
           for (int i = 0; i < quantity.length; i++) {
             quantity[i] = prefs.getInt("quantity_$i") ?? 0;
           }
+          for (var i = 0; i < isAdded.length; i++) {
+            isAdded[i] = prefs.getBool("isAdded_$i") ?? false;
+          }
         },
         viewModelBuilder: () => CartViewModel(),
         builder: (context, viewModel, child) {
@@ -42,13 +45,16 @@ class CartView extends StatelessWidget {
                             itemPrice: item["itemPrice"],
                             onTapMinus: () async {
                               if (quantity[item["index"]] > 0) {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
                                 quantity[item["index"]]--;
                                 if (quantity[item["index"]] == 0) {
                                   cartItems.removeWhere(
                                       (e) => e["itemID"] == item["itemID"]);
+                                  prefs.setBool(
+                                      "isAdded_${item["index"]}", false);
+                                  prefs.getBool("isAdded_${item["index"]}");
                                 }
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
                                 prefs.setInt("quantity_${item["index"]}",
                                     quantity[item["index"]]);
                                 prefs.getInt("quantity_${item["index"]}");
@@ -84,6 +90,8 @@ class CartView extends StatelessWidget {
                               quantity[item["index"]] = 0;
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
+                              prefs.setBool("isAdded_${item["index"]}", false);
+                              prefs.getBool("isAdded_${item["index"]}");
                               prefs.setInt("quantity_${item["index"]}",
                                   quantity[item["index"]]);
                               prefs.getInt("quantity_${item["index"]}");

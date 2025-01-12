@@ -42,7 +42,7 @@ class FavoriteViewModel extends BaseViewModel {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({
         "email": userDetails!.email,
-        "cartItems": [],
+        "cartItems": cartItems,
         "userID": userDetails!.uid,
         "favoriteItems": favoriteItems,
       });
