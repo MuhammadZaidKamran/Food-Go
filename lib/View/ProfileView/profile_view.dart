@@ -11,6 +11,13 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
+        onViewModelReady: (viewModel) async {
+          // await viewModel.myInitMethod().then((value) {
+          //   viewModel.nameController.text = viewModel.name;
+          //   viewModel.emailController.text = viewModel.email;
+          //   viewModel.phoneController.text = viewModel.phoneNumber;
+          // });
+        },
         viewModelBuilder: () => ProfileViewModel(),
         builder: (context, viewModel, child) {
           return Scaffold(
@@ -32,18 +39,21 @@ class ProfileView extends StatelessWidget {
                     ),
                     height(20),
                     MyTextField(
+                      readOnly: true,
                       controller: viewModel.nameController,
                       label: "Name",
                       hintStyle: TextStyle(color: AppColors.blackColor),
                     ),
                     height(20),
                     MyTextField(
+                      readOnly: true,
                       controller: viewModel.emailController,
                       label: "Email",
                       hintStyle: TextStyle(color: AppColors.blackColor),
                     ),
                     height(20),
                     MyTextField(
+                      readOnly: true,
                       controller: viewModel.phoneController,
                       label: "Contact Number",
                       hintStyle: TextStyle(color: AppColors.blackColor),

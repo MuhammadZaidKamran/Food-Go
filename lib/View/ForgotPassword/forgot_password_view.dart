@@ -56,13 +56,13 @@ class ForgotPasswordView extends StatelessWidget {
                         ),
                         Image.asset(
                           "assets/images/burger-icon.webp",
-                          scale: 3.5,
+                          scale: 4,
                         ),
                         // const SizedBox(
                         //   height: 5,
                         // ),
                         const Text(
-                          "  FORGOT\nPASSWORD",
+                          "LOGO",
                           style: TextStyle(
                               letterSpacing: 1,
                               fontSize: 35,
@@ -75,9 +75,9 @@ class ForgotPasswordView extends StatelessWidget {
                   Center(
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 35),
+                          horizontal: 15, vertical: 20),
                       margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.015),
+                          top: MediaQuery.of(context).size.height * 0),
                       //height: 350,
                       width: MediaQuery.of(context).size.width * 0.92,
                       decoration: BoxDecoration(
@@ -95,6 +95,20 @@ class ForgotPasswordView extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Forgot Password",
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.darkMainTheme),
+                              ),
+                            ),
+                          ),
+                          height(getHeight(context, 0.015)),
                           MyTextField(
                             label: "Email",
                             prefixIcon: const Icon(Icons.mail),
@@ -109,13 +123,10 @@ class ForgotPasswordView extends StatelessWidget {
                               return null;
                             },
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
+                          height(getHeight(context, 0.03)),
                           MyButton(
+                              height: 45,
+                              borderRadius: BorderRadius.circular(20),
                               onTap: () {
                                 if (viewModel.formKey.currentState!
                                     .validate()) {

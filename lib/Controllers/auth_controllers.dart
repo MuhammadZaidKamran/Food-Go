@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,9 @@ import 'package:food_go/View/BottomNavBarView/bottom_nav_bar_view.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stacked/stacked.dart';
 
-class AuthControllers {
+class AuthControllers extends BaseViewModel {
   final authentication = FirebaseAuth.instance;
 
   Future signUp(
@@ -93,11 +95,35 @@ class AuthControllers {
     try {
       await authentication
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
+          .then((value) async {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Login Successfully"),
           backgroundColor: Colors.green,
         ));
+        final String? currentUserEmail =
+            FirebaseAuth.instance.currentUser!.email;
+        FirebaseFirestore.instance
+            .collection("users")
+            .snapshots()
+            .listen((snapshot) async {
+          String userName = "";
+          String phoneNumber = "";
+          snapshot.docs
+              .where(
+                  (e) => e["userID"] == FirebaseAuth.instance.currentUser!.uid)
+              .map((e) => userName = e["userName"].toString())
+              .toSet()
+              .toString();
+          snapshot.docs.where((docs) =>
+              docs["userID"] == FirebaseAuth.instance.currentUser!.uid).map(
+                (e) => phoneNumber = e["phoneNumber"].toString()).toSet().toString();
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString("userName", userName);
+          await prefs.setString("email", currentUserEmail!);
+          await prefs.setString("phoneNumber", phoneNumber);
+          notifyListeners();
+          rebuildUi();
+        });
       });
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const BottomNavBarView()));

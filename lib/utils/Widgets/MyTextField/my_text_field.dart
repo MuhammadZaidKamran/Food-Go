@@ -47,7 +47,7 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? double.infinity,
-      height: height ?? 70,
+      // height: height ?? 70,
       child: TextFormField(
         maxLength: maxLength,
         maxLines: maxLines ?? 1,

@@ -79,7 +79,7 @@ class SignupView extends StatelessWidget {
                               ],
                             ),
                             const Text(
-                              "SIGNUP",
+                              "LOGO",
                               style: TextStyle(
                                   letterSpacing: 1,
                                   fontSize: 30,
@@ -89,40 +89,14 @@ class SignupView extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.7792),
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Stack(children: [
-                            Image.asset(
-                              fit: BoxFit.cover,
-                              "assets/images/image 2.png",
-                              scale: 2,
-                            ),
-                            Container(
-                              padding: EdgeInsets.zero,
-                              margin: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width * 0.2,
-                                  top: MediaQuery.of(context).size.height *
-                                      0.07),
-                              child: Image.asset(
-                                fit: BoxFit.cover,
-                                "assets/images/image 1.png",
-                                scale: 2,
-                              ),
-                            ),
-                          ]),
-                        ),
-                      ),
                       Center(
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 25),
+                              horizontal: 15, vertical: 20),
                           margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.23),
+                              top: MediaQuery.of(context).size.height * 0.3),
                           //height: 350,
-                          width: MediaQuery.of(context).size.width * 0.88,
+                          width: MediaQuery.of(context).size.width * 0.92,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40),
                               gradient: const LinearGradient(
@@ -137,6 +111,20 @@ class SignupView extends StatelessWidget {
                                   ])),
                           child: Column(
                             children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.darkMainTheme),
+                                  ),
+                                ),
+                              ),
+                              height(getHeight(context, 0.015)),
                               MyTextField(
                                 controller: viewModel.userController_1,
                                 label: "Username",
@@ -224,6 +212,7 @@ class SignupView extends StatelessWidget {
                                 height: 20,
                               ),
                               MyButton(
+                                  borderRadius: BorderRadius.circular(20),
                                   height: 45,
                                   onTap: () {
                                     if (viewModel.formKey.currentState!
@@ -264,7 +253,7 @@ class SignupView extends StatelessWidget {
                                 child: MaterialButton(
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(15)),
+                                            BorderRadius.circular(20)),
                                     color: Colors.white,
                                     elevation: 5,
                                     onPressed: () {},
@@ -290,7 +279,7 @@ class SignupView extends StatelessWidget {
                                                   fontSize: 15.5),
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     )),
                               ),

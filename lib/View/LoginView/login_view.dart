@@ -3,6 +3,7 @@ import 'package:food_go/View/ForgotPassword/forgot_password_view.dart';
 import 'package:food_go/View/SignupView/signup_view.dart';
 import 'package:food_go/ViewModel/LoginViewModel/login_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
+import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
 import 'package:food_go/utils/Widgets/MyTextField/my_text_field.dart';
 import 'package:stacked/stacked.dart';
@@ -46,7 +47,7 @@ class LoginView extends StatelessWidget {
                             height: 5,
                           ),
                           const Text(
-                            "LOGIN",
+                            "LOGO",
                             style: TextStyle(
                                 letterSpacing: 1,
                                 fontSize: 30,
@@ -59,7 +60,7 @@ class LoginView extends StatelessWidget {
                     Center(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 25),
+                            horizontal: 15, vertical: 20),
                         margin: EdgeInsets.only(
                             top: MediaQuery.of(context).size.height * 0.3),
                         //height: 350,
@@ -78,6 +79,20 @@ class LoginView extends StatelessWidget {
                                 ])),
                         child: Column(
                           children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.darkMainTheme),
+                                ),
+                              ),
+                            ),
+                            height(getHeight(context, 0.015)),
                             MyTextField(
                               label: "Email",
                               prefixIcon: const Icon(Icons.mail),
@@ -129,6 +144,8 @@ class LoginView extends StatelessWidget {
                               height: 15,
                             ),
                             MyButton(
+                              height: 45,
+                              borderRadius: BorderRadius.circular(20),
                               onTap: () {
                                 if (viewModel.formKey.currentState!
                                     .validate()) {
@@ -179,28 +196,6 @@ class LoginView extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
-                  const Spacer(),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Stack(children: [
-                      Image.asset(
-                        fit: BoxFit.cover,
-                        "assets/images/image 2.png",
-                        scale: 3,
-                      ),
-                      Container(
-                        padding: EdgeInsets.zero,
-                        margin: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width * 0.13,
-                            top: MediaQuery.of(context).size.height * 0.055),
-                        child: Image.asset(
-                          fit: BoxFit.cover,
-                          "assets/images/image 1.png",
-                          scale: 3,
-                        ),
-                      ),
-                    ]),
                   ),
                 ],
               ),
