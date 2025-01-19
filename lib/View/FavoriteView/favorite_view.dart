@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_go/View/BottomNavBarView/bottom_nav_bar_view.dart';
 import 'package:food_go/ViewModel/FavoriteViewModel/favorite_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
@@ -8,7 +9,9 @@ import 'package:stacked/stacked.dart';
 class FavoriteView extends StatelessWidget {
   const FavoriteView({
     super.key,
+    this.goBack = false,
   });
+  final bool? goBack;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,16 @@ class FavoriteView extends StatelessWidget {
         builder: (context, viewModel, child) {
           return Scaffold(
             appBar: AppBar(
+              leading: goBack == true
+                  ? InkWell(
+                      onTap: () => Navigator.pushReplacement(context,MaterialPageRoute(
+                        builder: (context) => const BottomNavBarView())),
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: AppColors.blackColor,
+                      ),
+                    )
+                  : null,
               centerTitle: true,
               automaticallyImplyLeading: false,
               title: const Text("Favorites"),

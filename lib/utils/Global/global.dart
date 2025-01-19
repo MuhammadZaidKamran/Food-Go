@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_go/utils/Colors/colors.dart';
 
 myPadding() {
   return const EdgeInsets.symmetric(vertical: 25, horizontal: 15);
 }
+String? userCurrentAddress;
 
 height(double height) {
   return SizedBox(
@@ -55,3 +57,37 @@ final userDetails = FirebaseAuth.instance.currentUser;
 List<bool> isAdded = [false, false, false, false];
 
 Map? user;
+
+mySuccessSnackBar({
+  required BuildContext context,
+  required String message,
+}) {
+  return ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(
+          color: AppColors.whiteColor,
+        ),
+      ),
+      backgroundColor: AppColors.greenColor,
+    ),
+  );
+}
+
+myErrorSnackBar({
+  required BuildContext context,
+  required String message,
+}) {
+  return ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(
+          color: AppColors.whiteColor,
+        ),
+      ),
+      backgroundColor: Colors.red,
+    ),
+  );
+}

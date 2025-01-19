@@ -16,6 +16,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
         onViewModelReady: (viewModel) async {
+          viewModel.getCurrentAddress();
           FirebaseFirestore.instance
               .collection("users")
               .snapshots()
@@ -34,9 +35,10 @@ class HomeView extends StatelessWidget {
                 .expand((item) => item) // Flatten the list of lists
                 .toList();
             // });
-            viewModel.rebuildUi();
+            // viewModel.rebuildUi();
             viewModel.notifyListeners();
           });
+          viewModel.rebuildUi();
         },
         viewModelBuilder: () => HomeViewModel(),
         builder: (context, viewModel, child) {
@@ -44,7 +46,14 @@ class HomeView extends StatelessWidget {
             key: viewModel.scaffoldKey,
             drawer: const MyDrawer(),
             appBar: AppBar(
-              toolbarHeight: 25,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+              backgroundColor: AppColors.mainTheme,
+              // toolbarHeight: 25,
               automaticallyImplyLeading: false,
               leading: InkWell(
                 onTap: () {
@@ -52,8 +61,31 @@ class HomeView extends StatelessWidget {
                 },
                 child: Icon(
                   Icons.menu_rounded,
-                  color: AppColors.blackColor,
+                  color: AppColors.whiteColor,
                 ),
+              ),
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.location_on,
+                    size: 25,
+                    color: AppColors.whiteColor,
+                  ),
+                  width(getWidth(context, 0.03)),
+                  SizedBox(
+                    width: getWidth(context, 0.6),
+                    child: Text(
+                      userCurrentAddress ?? "Get Access To Location",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.whiteColor,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             body: DefaultTabController(

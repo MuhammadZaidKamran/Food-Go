@@ -4,6 +4,7 @@ import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
 import 'package:food_go/utils/Widgets/MyTextField/my_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 
 class EditProfileView extends StatelessWidget {
@@ -12,6 +13,11 @@ class EditProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
+        onViewModelReady: (viewModel) async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          viewModel.nameController.text = prefs.getString("userName") ?? "";
+          viewModel.phoneController.text = prefs.getString("phoneNumber") ?? "";
+        },
         viewModelBuilder: () => EditProfileViewModel(),
         builder: (context, viewModel, index) {
           return Scaffold(
@@ -39,20 +45,21 @@ class EditProfileView extends StatelessWidget {
                     ),
                     height(20),
                     MyTextField(
-                      controller: viewModel.emailController,
-                      label: "Email",
-                      hintStyle: TextStyle(color: AppColors.blackColor),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    height(20),
-                    MyTextField(
                       controller: viewModel.phoneController,
                       label: "Contact Number",
                       hintStyle: TextStyle(color: AppColors.blackColor),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     height(40),
-                    MyButton(onTap: () {}, label: "Update")
+                    MyButton(
+                        onTap: () async {
+                          await viewModel.updateProfile(
+                            userName: viewModel.nameController.text,
+                            phoneNumber: viewModel.phoneController.text,
+                            context: context,
+                          );
+                        },
+                        label: "Update")
                   ],
                 ),
               ),

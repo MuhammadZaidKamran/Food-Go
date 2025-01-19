@@ -1,7 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_go/View/AboutUsView/about_us_view.dart';
+import 'package:food_go/View/AddressView/address_view.dart';
+import 'package:food_go/View/CartView/cart_view.dart';
 import 'package:food_go/View/EditProfileView/edit_profile_view.dart';
+import 'package:food_go/View/FavoriteView/favorite_view.dart';
 import 'package:food_go/View/LoginView/login_view.dart';
+import 'package:food_go/View/ProfileView/profile_view.dart';
+import 'package:food_go/View/TermsAndConditionsView/terms_and_conditions_view.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/DrawerListTile/drawer_list_tile.dart';
@@ -62,34 +68,36 @@ class _MyDrawerState extends State<MyDrawer> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: getWidth(context, 0.2),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: getWidth(context, 0.18),
+                              child: Text(
                                 name.toString(),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.whiteColor),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const EditProfileView()));
-                                },
-                                child: Icon(
-                                  Icons.edit_outlined,
-                                  color: AppColors.whiteColor,
-                                ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const EditProfileView()));
+                              },
+                              child: Icon(
+                                Icons.edit_outlined,
+                                color: AppColors.whiteColor,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         height(getHeight(context, 0.007)),
                         Text(
@@ -104,17 +112,45 @@ class _MyDrawerState extends State<MyDrawer> {
                   ],
                 ),
                 height(getHeight(context, 0.03)),
-                DrawerListTile(
-                    title: "Home", icon: Icons.home_outlined, onTap: () {}),
                 // height(getHeight(context, 0.01)),
                 DrawerListTile(
                     title: "Cart",
                     icon: Icons.shopping_bag_outlined,
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CartView(
+                                    goBack: true,
+                                  )));
+                    }),
                 // height(getHeight(context, 0.01)),
                 DrawerListTile(
                     title: "Favorites",
                     icon: Icons.favorite_border_outlined,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FavoriteView(
+                                    goBack: true,
+                                  )));
+                    }),
+                DrawerListTile(
+                    title: "Address",
+                    icon: Icons.location_on,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AddressView()));
+                    }),
+                DrawerListTile(
+                    title: "Orders",
+                    icon: Icons.shopping_cart_outlined,
                     onTap: () {}),
                 // height(getHeight(context, 0.01)),
                 DrawerListTile(
@@ -123,12 +159,36 @@ class _MyDrawerState extends State<MyDrawer> {
                 DrawerListTile(
                     title: "Profile",
                     icon: Icons.account_circle_outlined,
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProfileView(
+                                    goBack: true,
+                                  )));
+                    }),
+                DrawerListTile(
+                    title: "Terms & Conditions",
+                    icon: Icons.align_vertical_bottom_sharp,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const TermsAndConditionsView()));
+                    }),
                 // height(getHeight(context, 0.01)),
                 DrawerListTile(
-                    title: "About",
+                    title: "About Us",
                     icon: Icons.info_outline_rounded,
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AboutUsView()));
+                    }),
                 height(getHeight(context, 0.15)),
                 DrawerListTile(
                     title: "Logout",
