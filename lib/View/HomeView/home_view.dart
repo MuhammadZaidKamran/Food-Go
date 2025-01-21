@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_go/View/GoogleMapView/google_map_view.dart';
 import 'package:food_go/View/HomeView/AllItems/all_items.dart';
 import 'package:food_go/ViewModel/HomeViewModel/home_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
@@ -45,48 +46,85 @@ class HomeView extends StatelessWidget {
           return Scaffold(
             key: viewModel.scaffoldKey,
             drawer: const MyDrawer(),
-            appBar: AppBar(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-              ),
-              backgroundColor: AppColors.mainTheme,
-              // toolbarHeight: 25,
-              automaticallyImplyLeading: false,
-              leading: InkWell(
-                onTap: () {
-                  viewModel.scaffoldKey.currentState!.openDrawer();
-                },
-                child: Icon(
-                  Icons.menu_rounded,
-                  color: AppColors.whiteColor,
-                ),
-              ),
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    size: 25,
-                    color: AppColors.whiteColor,
-                  ),
-                  width(getWidth(context, 0.03)),
-                  SizedBox(
-                    width: getWidth(context, 0.6),
-                    child: Text(
-                      userCurrentAddress ?? "Get Access To Location",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.whiteColor,
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(getHeight(context, 0.075)),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(10, 35, 10, 0),
+                decoration: BoxDecoration(
+                    color: AppColors.mainTheme,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    )),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: InkWell(
+                        onTap: () {
+                          viewModel.scaffoldKey.currentState!.openDrawer();
+                        },
+                        child: Icon(
+                          Icons.menu,
+                          color: AppColors.whiteColor,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    height(getHeight(context, 0)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          size: 25,
+                          color: AppColors.whiteColor,
+                        ),
+                        width(getWidth(context, 0.01)),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const GoogleMapView()));
+                          },
+                          child: SizedBox(
+                            width: getWidth(context, 0.85),
+                            child: Text(
+                              userCurrentAddress ?? "Get Access To Location",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.whiteColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
+              // shape: const RoundedRectangleBorder(
+              //   borderRadius: BorderRadius.only(
+              //     bottomLeft: Radius.circular(10),
+              //     bottomRight: Radius.circular(10),
+              //   ),
+              // ),
+              // backgroundColor: AppColors.mainTheme,
+              // // toolbarHeight: 25,
+              // automaticallyImplyLeading: false,
+              // leading: InkWell(
+              //   onTap: () {
+              //     viewModel.scaffoldKey.currentState!.openDrawer();
+              //   },
+              //   child: Icon(
+              //     Icons.menu_rounded,
+              //     color: AppColors.whiteColor,
+              //   ),
+              // ),
+              // title:
             ),
             body: DefaultTabController(
               length: 2,
@@ -119,44 +157,43 @@ class HomeView extends StatelessWidget {
   }
 }
 
-
-                    // SizedBox(
-                    //     height: MediaQuery.of(context).size.height * 0.05,
-                    //     width: MediaQuery.of(context).size.width,
-                    //     child: ListView.separated(
-                    //         shrinkWrap: true,
-                    //         scrollDirection: Axis.horizontal,
-                    //         itemBuilder: (context, index) {
-                    //           return GestureDetector(
-                    //             onTap: () {
-                    //               viewModel.myIndex = index;
-                    //               viewModel.rebuildUi();
-                    //             },
-                    //             child: Container(
-                    //               width: MediaQuery.of(context).size.width * 0.42,
-                    //               decoration: BoxDecoration(
-                    //                 borderRadius: BorderRadius.circular(10),
-                    //                 color: viewModel.myIndex == index
-                    //                     ? AppColors.mainTheme
-                    //                     : AppColors.containerBackgroundColor,
-                    //               ),
-                    //               padding: const EdgeInsets.symmetric(
-                    //                   horizontal: 5, vertical: 3),
-                    //               child: Center(
-                    //                   child: Text(
-                    //                 viewModel.options[index].toString(),
-                    //                 style: TextStyle(
-                    //                     color: viewModel.myIndex == index
-                    //                         ? AppColors.whiteColor
-                    //                         : AppColors.blackColor,
-                    //                     fontSize: 15,
-                    //                     fontWeight: FontWeight.w700),
-                    //               )),
-                    //             ),
-                    //           );
-                    //         },
-                    //         separatorBuilder: (context, index) {
-                    //           return width(
-                    //               MediaQuery.of(context).size.width * 0.05);
-                    //         },
-                    //         itemCount: viewModel.options.length)),
+// SizedBox(
+//     height: MediaQuery.of(context).size.height * 0.05,
+//     width: MediaQuery.of(context).size.width,
+//     child: ListView.separated(
+//         shrinkWrap: true,
+//         scrollDirection: Axis.horizontal,
+//         itemBuilder: (context, index) {
+//           return GestureDetector(
+//             onTap: () {
+//               viewModel.myIndex = index;
+//               viewModel.rebuildUi();
+//             },
+//             child: Container(
+//               width: MediaQuery.of(context).size.width * 0.42,
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(10),
+//                 color: viewModel.myIndex == index
+//                     ? AppColors.mainTheme
+//                     : AppColors.containerBackgroundColor,
+//               ),
+//               padding: const EdgeInsets.symmetric(
+//                   horizontal: 5, vertical: 3),
+//               child: Center(
+//                   child: Text(
+//                 viewModel.options[index].toString(),
+//                 style: TextStyle(
+//                     color: viewModel.myIndex == index
+//                         ? AppColors.whiteColor
+//                         : AppColors.blackColor,
+//                     fontSize: 15,
+//                     fontWeight: FontWeight.w700),
+//               )),
+//             ),
+//           );
+//         },
+//         separatorBuilder: (context, index) {
+//           return width(
+//               MediaQuery.of(context).size.width * 0.05);
+//         },
+//         itemCount: viewModel.options.length)),

@@ -8,6 +8,9 @@
         android:label="food_go"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAbuVUCCOObkn_hV8u_l8_nMVcQ4stA6nM"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
