@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -114,9 +113,12 @@ class AuthControllers extends BaseViewModel {
               .map((e) => userName = e["userName"].toString())
               .toSet()
               .toString();
-          snapshot.docs.where((docs) =>
-              docs["userID"] == FirebaseAuth.instance.currentUser!.uid).map(
-                (e) => phoneNumber = e["phoneNumber"].toString()).toSet().toString();
+          snapshot.docs
+              .where((docs) =>
+                  docs["userID"] == FirebaseAuth.instance.currentUser!.uid)
+              .map((e) => phoneNumber = e["phoneNumber"].toString())
+              .toSet()
+              .toString();
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString("userName", userName);
           await prefs.setString("email", currentUserEmail!);

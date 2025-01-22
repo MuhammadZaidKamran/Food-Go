@@ -47,9 +47,9 @@ class HomeView extends StatelessWidget {
             key: viewModel.scaffoldKey,
             drawer: const MyDrawer(),
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(getHeight(context, 0.075)),
+              preferredSize: Size.fromHeight(getHeight(context, 0.08)),
               child: Container(
-                padding: const EdgeInsets.fromLTRB(10, 35, 10, 0),
+                padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
                 decoration: BoxDecoration(
                     color: AppColors.mainTheme,
                     borderRadius: const BorderRadius.only(
@@ -85,7 +85,8 @@ class HomeView extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const GoogleMapView()));
+                                    builder: (context) =>
+                                        const GoogleMapView()));
                           },
                           child: SizedBox(
                             width: getWidth(context, 0.85),

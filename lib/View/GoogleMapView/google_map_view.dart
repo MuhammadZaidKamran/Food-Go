@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_go/View/GoogleMapView/search_places_view.dart';
 import 'package:food_go/ViewModel/GoogleMapViewModel/google_map_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
@@ -59,7 +60,7 @@ class GoogleMapView extends StatelessWidget {
                       vertical: 20,
                       horizontal: 15,
                     ),
-                    height: getHeight(context, 0.25),
+                    height: getHeight(context, 0.3),
                     width: getWidth(context, 1),
                     decoration: BoxDecoration(
                       color: AppColors.whiteColor,
@@ -80,6 +81,15 @@ class GoogleMapView extends StatelessWidget {
                         ),
                         height(getHeight(context, 0.02)),
                         TextField(
+                          onTapOutside: (event) {
+                            FocusScope.of(context).unfocus();
+                          },
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SearchPlacesView()));
+                          },
                           controller: viewModel.searchController,
                           decoration: InputDecoration(
                             hintText: "Search Location",
@@ -88,8 +98,55 @@ class GoogleMapView extends StatelessWidget {
                               color: AppColors.blackColor,
                             ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide:
+                                    BorderSide(color: AppColors.darkMainTheme)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide:
+                                    BorderSide(color: AppColors.darkMainTheme)),
+                          ),
+                        ),
+                        height(getHeight(context, 0.02)),
+                        Expanded(
+                          child: ListView.separated(
+                            itemCount: viewModel.optionList.length,
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (context, index) =>
+                                width(getWidth(context, 0.04)),
+                            itemBuilder: (context, index) {
+                              final data = viewModel.optionList[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  viewModel.selectedIndex = index;
+                                  viewModel.rebuildUi();
+                                },
+                                child: Material(
+                                  elevation: 2,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 0),
+                                    width: getWidth(context, 0.2),
+                                    height: getHeight(context, 0.06),
+                                    decoration: BoxDecoration(
+                                      color: viewModel.selectedIndex == index
+                                          ? AppColors.darkMainTheme
+                                          : AppColors.whiteColor,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        data.toString(),
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color:
+                                                viewModel.selectedIndex == index
+                                                    ? AppColors.whiteColor
+                                                    : AppColors.darkMainTheme),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         height(getHeight(context, 0.02)),
