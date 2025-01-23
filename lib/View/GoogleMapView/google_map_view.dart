@@ -4,6 +4,7 @@ import 'package:food_go/ViewModel/GoogleMapViewModel/google_map_view_model.dart'
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stacked/stacked.dart';
 
@@ -81,14 +82,50 @@ class GoogleMapView extends StatelessWidget {
                         ),
                         height(getHeight(context, 0.02)),
                         TextField(
+                          readOnly: true,
                           onTapOutside: (event) {
                             FocusScope.of(context).unfocus();
                           },
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            var data = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const SearchPlacesView()));
+                                    builder: (context) =>
+                                        const SearchPlacesView()));
+                            if (data != null) {
+                              viewModel.newCameraPosition = data;
+                              debugPrint(
+                                  viewModel.newCameraPosition.toString());
+                              final controller =
+                                  await viewModel.googleMapController.future;
+                              List<Placemark> placeMarks =
+                                  await placemarkFromCoordinates(
+                                      viewModel.newCameraPosition!.latitude,
+                                      viewModel.newCameraPosition!.longitude);
+                              viewModel.markers.add(
+                                Marker(
+                                  markerId: const MarkerId("3"),
+                                  position: LatLng(
+                                    viewModel.newCameraPosition!.latitude,
+                                    viewModel.newCameraPosition!.longitude,
+                                  ),
+                                  infoWindow: InfoWindow(
+                                    title:
+                                        "${placeMarks.first.street} ${placeMarks.first.locality} ${placeMarks.first.postalCode} ${placeMarks.first.country}",
+                                  ),
+                                ),
+                              );
+                              controller.animateCamera(
+                                  CameraUpdate.newCameraPosition(CameraPosition(
+                                      target: LatLng(
+                                          viewModel.newCameraPosition!.latitude,
+                                          viewModel
+                                              .newCameraPosition!.longitude),
+                                      zoom: 14)));
+                              viewModel.searchController.text =
+                                  "${placeMarks.first.street} ${placeMarks.first.locality} ${placeMarks.first.postalCode} ${placeMarks.first.country}";
+                              viewModel.rebuildUi();
+                            }
                           },
                           controller: viewModel.searchController,
                           decoration: InputDecoration(
@@ -124,7 +161,8 @@ class GoogleMapView extends StatelessWidget {
                                 child: Material(
                                   elevation: 2,
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 0),
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 0),
                                     width: getWidth(context, 0.2),
                                     height: getHeight(context, 0.06),
                                     decoration: BoxDecoration(

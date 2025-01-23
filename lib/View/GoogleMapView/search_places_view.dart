@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -37,9 +38,8 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
   }
 
   getSuggestion(String input) async {
-    String KPLACES_API_KEY = "AIzaSyAbuVUCCOObkn_hV8u_l8_nMVcQ4stA6nM";
-    String baseURL =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String KPLACES_API_KEY = "AlzaSy2srmxjOrT8yyYdkktGU_W199VaEUGWxiK";
+    String baseURL = 'https://maps.gomaps.pro/maps/api/place/autocomplete/json';
     String request =
         '$baseURL?input=$input&key=$KPLACES_API_KEY&sessiontoken $_sessionToken';
 
@@ -48,6 +48,7 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
 
     if (response.statusCode == 200) {
       setState(() {
+        debugPrint(response.body.toString());
         placesList = jsonDecode(response.body.toString())["predictions"];
       });
     } else {
@@ -85,6 +86,39 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
                 ),
               ),
             ),
+            height(getHeight(context, 0.02)),
+            Expanded(
+              child: ListView.separated(
+                separatorBuilder: (context, index) =>
+                    height(getHeight(context, 0.01)),
+                itemCount: placesList.length,
+                itemBuilder: (context, index) {
+                  final data = placesList[index];
+                  return ListTile(
+                    onTap: () async {
+                      List<Location> locations =
+                          await locationFromAddress(data["description"]);
+                      Navigator.pop(context, locations.first);
+                      setState(() {});
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    tileColor: AppColors.whiteColor,
+                    leading: const Icon(Icons.location_on),
+                    title: Text(
+                      data["structured_formatting"]["main_text"],
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.blackColor,
+                      ),
+                    ),
+                    subtitle: Text(data["description"]),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),

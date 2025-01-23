@@ -7,7 +7,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stacked/stacked.dart';
 
 class GoogleMapViewModel extends BaseViewModel {
-  final List optionList = ["Home", "Work","Other"];
+  final List optionList = ["Home", "Work", "Other"];
+  Location? newCameraPosition;
   int selectedIndex = 0;
   final searchController = TextEditingController();
   CameraPosition initialPosition = const CameraPosition(
