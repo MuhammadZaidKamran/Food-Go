@@ -48,12 +48,11 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
 
     if (response.statusCode == 200) {
       setState(() {
-        debugPrint(response.body.toString());
         placesList = jsonDecode(response.body.toString())["predictions"];
       });
     } else {
       debugPrint("Failed to load predictions");
-      throw Exception('Failed to load predictions');
+      // throw Exception('Failed to load predictions');
     }
   }
 

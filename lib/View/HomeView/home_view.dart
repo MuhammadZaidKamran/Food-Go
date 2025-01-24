@@ -47,9 +47,9 @@ class HomeView extends StatelessWidget {
             key: viewModel.scaffoldKey,
             drawer: const MyDrawer(),
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(getHeight(context, 0.08)),
+              preferredSize: Size.fromHeight(getHeight(context, 0.09)),
               child: Container(
-                padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
+                padding: const EdgeInsets.fromLTRB(10, 45, 10, 0),
                 decoration: BoxDecoration(
                     color: AppColors.mainTheme,
                     borderRadius: const BorderRadius.only(
@@ -58,19 +58,29 @@ class HomeView extends StatelessWidget {
                     )),
                 child: Column(
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: InkWell(
-                        onTap: () {
-                          viewModel.scaffoldKey.currentState!.openDrawer();
-                        },
-                        child: Icon(
-                          Icons.menu,
-                          color: AppColors.whiteColor,
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: InkWell(
+                            onTap: () {
+                              viewModel.scaffoldKey.currentState!.openDrawer();
+                            },
+                            child: Icon(
+                              Icons.menu,
+                              color: AppColors.whiteColor,
+                            ),
+                          ),
                         ),
-                      ),
+                        width(getWidth(context, 0.01)),
+                        Text(
+                          "Home",
+                          style: TextStyle(
+                              fontSize: 15, color: AppColors.whiteColor),
+                        ),
+                      ],
                     ),
-                    height(getHeight(context, 0)),
+                    height(getHeight(context, 0.007)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -80,25 +90,16 @@ class HomeView extends StatelessWidget {
                           color: AppColors.whiteColor,
                         ),
                         width(getWidth(context, 0.01)),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const GoogleMapView()));
-                          },
-                          child: SizedBox(
-                            width: getWidth(context, 0.85),
-                            child: Text(
-                              userCurrentAddress ?? "Get Access To Location",
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.whiteColor,
-                              ),
+                        SizedBox(
+                          width: getWidth(context, 0.85),
+                          child: Text(
+                            userCurrentAddress ?? "Get Access To Location",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.whiteColor,
                             ),
                           ),
                         ),

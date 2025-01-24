@@ -93,6 +93,8 @@ class GoogleMapView extends StatelessWidget {
                                     builder: (context) =>
                                         const SearchPlacesView()));
                             if (data != null) {
+                              viewModel.isReceive = true;
+                              debugPrint(viewModel.isReceive.toString());
                               viewModel.newCameraPosition = data;
                               debugPrint(
                                   viewModel.newCameraPosition.toString());
@@ -188,7 +190,39 @@ class GoogleMapView extends StatelessWidget {
                           ),
                         ),
                         height(getHeight(context, 0.02)),
-                        MyButton(onTap: () {}, label: "Confirm Address")
+                        MyButton(
+                            onTap: () async {
+                              if (viewModel.isReceive) {
+                                viewModel.addUserDeliveryAddress(
+                                  latitude:
+                                      viewModel.newCameraPosition!.latitude,
+                                  longitude:
+                                      viewModel.newCameraPosition!.longitude,
+                                  destination: viewModel.selectedIndex == 0
+                                      ? "Home"
+                                      : viewModel.selectedIndex == 1
+                                          ? "Work"
+                                          : "Other",
+                                  context: context,
+                                );
+                              } else {
+                                List<Location> location =
+                                    await locationFromAddress(
+                                        viewModel.searchController.text);
+                                viewModel.addUserDeliveryAddress(
+                                  latitude: location.first.latitude,
+                                  longitude: location.first.longitude,
+                                  destination: viewModel.selectedIndex == 0
+                                      ? "Home"
+                                      : viewModel.selectedIndex == 1
+                                          ? "Work"
+                                          : "Other",
+                                  context: context,
+                                );
+                              }
+                              viewModel.rebuildUi();
+                            },
+                            label: "Confirm Address")
                       ],
                     ),
                   ),
