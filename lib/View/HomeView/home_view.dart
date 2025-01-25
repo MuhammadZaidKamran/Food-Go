@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_go/View/GoogleMapView/google_map_view.dart';
 import 'package:food_go/View/HomeView/AllItems/all_items.dart';
 import 'package:food_go/ViewModel/HomeViewModel/home_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';

@@ -58,12 +58,14 @@ class GoogleMapViewModel extends BaseViewModel {
     required latitude,
     required longitude,
     required String destination,
+    required String address,
     required context,
   }) async {
     String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
     ref.child(FirebaseAuth.instance.currentUser!.uid).child(dateTime).set({
       "id" : dateTime,
       "userID": FirebaseAuth.instance.currentUser!.uid,
+      "address" : address,
       "latitude": latitude,
       "longitude": longitude,
       "destination": destination,

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:food_go/View/GoogleMapView/search_places_view.dart';
 import 'package:food_go/ViewModel/GoogleMapViewModel/google_map_view_model.dart';
@@ -74,7 +76,7 @@ class GoogleMapView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Set Location",
+                          "Confirm Address",
                           style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -82,6 +84,11 @@ class GoogleMapView extends StatelessWidget {
                         ),
                         height(getHeight(context, 0.02)),
                         TextField(
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: AppColors.blackColor,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           readOnly: true,
                           onTapOutside: (event) {
                             FocusScope.of(context).unfocus();
@@ -161,6 +168,7 @@ class GoogleMapView extends StatelessWidget {
                                   viewModel.rebuildUi();
                                 },
                                 child: Material(
+                                  borderRadius: BorderRadius.circular(10),
                                   elevation: 2,
                                   child: Container(
                                     padding:
@@ -168,6 +176,7 @@ class GoogleMapView extends StatelessWidget {
                                     width: getWidth(context, 0.2),
                                     height: getHeight(context, 0.06),
                                     decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
                                       color: viewModel.selectedIndex == index
                                           ? AppColors.darkMainTheme
                                           : AppColors.whiteColor,
@@ -193,7 +202,13 @@ class GoogleMapView extends StatelessWidget {
                         MyButton(
                             onTap: () async {
                               if (viewModel.isReceive) {
+                                List<Placemark> placeMarks =
+                                    await placemarkFromCoordinates(
+                                        viewModel.newCameraPosition!.latitude,
+                                        viewModel.newCameraPosition!.longitude);
                                 viewModel.addUserDeliveryAddress(
+                                  address:
+                                      "${placeMarks.first.street} ${placeMarks.first.locality} ${placeMarks.first.postalCode} ${placeMarks.first.country}",
                                   latitude:
                                       viewModel.newCameraPosition!.latitude,
                                   longitude:
@@ -209,7 +224,13 @@ class GoogleMapView extends StatelessWidget {
                                 List<Location> location =
                                     await locationFromAddress(
                                         viewModel.searchController.text);
+                                List<Placemark> placeMark =
+                                    await placemarkFromCoordinates(
+                                        location.first.latitude,
+                                        location.first.longitude);
                                 viewModel.addUserDeliveryAddress(
+                                  address:
+                                      "${placeMark.first.street} ${placeMark.first.locality} ${placeMark.first.postalCode} ${placeMark.first.country}",
                                   latitude: location.first.latitude,
                                   longitude: location.first.longitude,
                                   destination: viewModel.selectedIndex == 0
