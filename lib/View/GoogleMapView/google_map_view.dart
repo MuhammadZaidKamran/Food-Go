@@ -11,7 +11,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stacked/stacked.dart';
 
 class GoogleMapView extends StatelessWidget {
-  const GoogleMapView({super.key});
+  const GoogleMapView({super.key,required this.isReceive});
+  final bool isReceive;
 
   @override
   Widget build(BuildContext context) {

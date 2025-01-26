@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/View/AddressView/address_view.dart';
+import 'package:food_go/View/ConfirmAddressView/confirm_address_view.dart';
+import 'package:food_go/utils/Global/global.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -70,8 +72,13 @@ class GoogleMapViewModel extends BaseViewModel {
       "longitude": longitude,
       "destination": destination,
     }).then((value) {
+      if (fromAddress == true) {
+        Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const ConfirmAddressView()));
+      }else{
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const AddressView()));
+      }
     }).catchError((error) {
       debugPrint(error.toString());
     });

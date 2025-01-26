@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 
 class FavoriteViewModel extends BaseViewModel {
@@ -37,6 +38,7 @@ class FavoriteViewModel extends BaseViewModel {
     required context,
   }) async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       await FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -45,6 +47,9 @@ class FavoriteViewModel extends BaseViewModel {
         "cartItems": cartItems,
         "userID": userDetails!.uid,
         "favoriteItems": favoriteItems,
+        "userName" : prefs.getString("userName"),
+        "phoneNumber" : prefs.getString("phoneNumber"),
+        "platformFee" : 10,
       });
     } catch (e) {
       debugPrint(e.toString());

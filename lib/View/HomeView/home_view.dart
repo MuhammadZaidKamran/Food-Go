@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_go/View/CartView/cart_view.dart';
 import 'package:food_go/View/HomeView/AllItems/all_items.dart';
 import 'package:food_go/ViewModel/HomeViewModel/home_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
@@ -16,6 +17,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
         onViewModelReady: (viewModel) async {
+          await platFormFees();
           viewModel.getCurrentAddress();
           FirebaseFirestore.instance
               .collection("users")
@@ -77,6 +79,44 @@ class HomeView extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 15, color: AppColors.whiteColor),
                         ),
+                        const Spacer(),
+                        cartItems.isEmpty
+                            ? InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const CartView()));
+                                },
+                                child: Icon(
+                                  Icons.shopping_bag_outlined,
+                                  size: 25,
+                                  color: AppColors.whiteColor,
+                                ),
+                              )
+                            : Badge(
+                                offset: const Offset(-14, -3),
+                                backgroundColor: AppColors.whiteColor,
+                                label: Text(
+                                  cartItems.length.toString(),
+                                  style: TextStyle(
+                                    color: AppColors.mainTheme,
+                                  ),
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => const CartView()));
+                                  },
+                                  child: Icon(
+                                    Icons.shopping_bag_outlined,
+                                    size: 25,
+                                    color: AppColors.whiteColor,
+                                  ),
+                                ),
+                              ),
                       ],
                     ),
                     height(getHeight(context, 0.007)),

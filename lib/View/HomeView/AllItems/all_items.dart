@@ -213,21 +213,21 @@ class _AllItemsState extends State<AllItems> {
                                                         "itemDescription": item[
                                                             "itemDescription"],
                                                       });
-                                                      await viewModel.addToFavorites(
-                                                          index: index,
-                                                          image: item["image"],
-                                                          itemName:
-                                                              item["itemName"],
-                                                          itemPrice:
-                                                              item["itemPrice"],
-                                                          itemRating: item[
-                                                              "itemRating"],
-                                                          itemName_2: item[
-                                                              "itemName_2"],
-                                                          itemDescription: item[
-                                                              "itemDescription"],
-                                                          isFavorite: true,
-                                                          context: context);
+                                                      // await viewModel.addToFavorites(
+                                                      //     index: index,
+                                                      //     image: item["image"],
+                                                      //     itemName:
+                                                      //         item["itemName"],
+                                                      //     itemPrice:
+                                                      //         item["itemPrice"],
+                                                      //     itemRating: item[
+                                                      //         "itemRating"],
+                                                      //     itemName_2: item[
+                                                      //         "itemName_2"],
+                                                      //     itemDescription: item[
+                                                      //         "itemDescription"],
+                                                      //     isFavorite: true,
+                                                      //     context: context);
                                                       await viewModel.updateUser(
                                                           // image: item["image"],
                                                           // itemName: item["itemName"],

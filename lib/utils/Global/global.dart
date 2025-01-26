@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/utils/Colors/colors.dart';
@@ -7,6 +8,7 @@ myPadding() {
 }
 
 String? userCurrentAddress;
+bool fromAddress = false;
 
 height(double height) {
   return SizedBox(
@@ -91,4 +93,15 @@ myErrorSnackBar({
       backgroundColor: Colors.red,
     ),
   );
+}
+
+var platformCharges;
+platFormFees() {
+  FirebaseFirestore.instance
+      .collection("users")
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .snapshots()
+      .listen((snapshot) {
+    platformCharges = snapshot.get("platformFee");
+  });
 }

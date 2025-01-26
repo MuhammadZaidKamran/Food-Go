@@ -49,6 +49,7 @@ dependencies:
   uuid: ^4.5.1
   http: ^1.2.2
   firebase_database: ^11.3.1
+  badges: ^3.1.2
 
 dev_dependencies:
   flutter_test:

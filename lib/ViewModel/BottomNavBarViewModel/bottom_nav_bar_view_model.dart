@@ -9,7 +9,7 @@ class BottomNavBarViewModel extends BaseViewModel {
   int index = 0;
   List<Widget> widgetList = [
     const HomeView(),
-    const CartView(),
+    // const CartView(),
     const FavoriteView(),
     const ProfileView(),
   ];

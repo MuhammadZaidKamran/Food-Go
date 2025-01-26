@@ -115,10 +115,11 @@ class AddressView extends StatelessWidget {
                   ),
                   MyButton(
                       onTap: () {
+                        fromAddress = false;
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const GoogleMapView()));
+                                builder: (context) =>  GoogleMapView(isReceive: fromAddress,)));
                       },
                       label: "Add Delivery Address")
                 ],
