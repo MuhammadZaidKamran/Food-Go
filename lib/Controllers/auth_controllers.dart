@@ -42,6 +42,7 @@ class AuthControllers extends BaseViewModel {
           "favoriteItems": [],
           "cartItems": [],
           "platformFee" : 10,
+          "deliveryCharges" : 49,
         }).then((value) async {
           user = {
             "userID": FirebaseAuth.instance.currentUser!.uid,

@@ -96,6 +96,7 @@ myErrorSnackBar({
 }
 
 var platformCharges;
+var deliveryCharges;
 platFormFees() {
   FirebaseFirestore.instance
       .collection("users")
@@ -103,5 +104,6 @@ platFormFees() {
       .snapshots()
       .listen((snapshot) {
     platformCharges = snapshot.get("platformFee");
+    deliveryCharges = snapshot.get("deliveryCharges");
   });
 }

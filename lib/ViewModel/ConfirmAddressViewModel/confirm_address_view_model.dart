@@ -9,6 +9,6 @@ class ConfirmAddressViewModel extends BaseViewModel {
 
   int myIndex = 0;
   var addressMap;
-  var selectedKey;
-  var selectedSecondKey;
+  var selectedAddress;
+  var selectedSecondAddress;
 }

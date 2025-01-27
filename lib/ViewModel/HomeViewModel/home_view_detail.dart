@@ -28,6 +28,7 @@ class HomeViewDetailModel extends BaseViewModel {
         "userName" : prefs.getString("userName"),
         "phoneNumber" : prefs.getString("phoneNumber"),
         "platformFee" : 10,
+        "deliveryCharges" : 49,
       });
     } catch (e) {
       debugPrint(e.toString());

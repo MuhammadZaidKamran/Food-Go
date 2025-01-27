@@ -43,21 +43,22 @@ class ConfirmAddressView extends StatelessWidget {
                         if (snapshot.exists) {
                           if (index == 0) {
                             final firstItemId =
-                                snapshot.child("id").value.toString();
-                            viewModel.selectedKey = firstItemId; // viewModel.rebuildUi();
+                                snapshot.child("address").value.toString();
+                            viewModel.selectedAddress =
+                                firstItemId; // viewModel.rebuildUi();
                           }
                           // print(viewModel.selectedKey.toString());
                           // viewModel.selectedKey = snapshot.key.toString();
                           return GestureDetector(
                             onTap: () {
-                              viewModel.selectedKey = null;
+                              viewModel.selectedAddress = null;
                               viewModel.myIndex = index;
                               viewModel.rebuildUi();
-                              viewModel.selectedKey =
-                                  snapshot.child("id").value.toString();
-                              viewModel.selectedSecondKey =
-                                  viewModel.selectedKey;
-                              print(viewModel.selectedSecondKey.toString());
+                              viewModel.selectedAddress =
+                                  snapshot.child("address").value.toString();
+                              viewModel.selectedSecondAddress =
+                                  viewModel.selectedAddress;
+                              print(viewModel.selectedSecondAddress.toString());
                             },
                             child: Container(
                               margin: const EdgeInsets.only(top: 15),
@@ -157,19 +158,23 @@ class ConfirmAddressView extends StatelessWidget {
                         // final data = viewModel.ref.child(viewModel.selectedKey);
                         // print(selectedId.toString());
                         if (viewModel.myIndex == 0) {
-                          print(viewModel.selectedKey.toString());
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CartView(data: viewModel.selectedKey)));
-                        } else {
-                          print(viewModel.selectedSecondKey.toString());
+                          print(viewModel.selectedAddress.toString());
                           Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CartView(data: viewModel.selectedSecondKey)));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CartView(
+                                        data: viewModel.selectedAddress,
+                                        confirmAddress: true,
+                                      )));
+                        } else {
+                          print(viewModel.selectedSecondAddress.toString());
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CartView(
+                                        data: viewModel.selectedSecondAddress,
+                                        confirmAddress: true,
+                                      )));
                         }
                       },
                       label: "Go to Checkout"),
