@@ -125,6 +125,7 @@ class CartView extends StatelessWidget {
                                           {};
                                       if (snapshot.hasData) {
                                         return CartContainerWidget(
+                                          isConfirmed: confirmAddress!,
                                           image: item["image"],
                                           itemName: item["itemName"],
                                           itemQuantity:
@@ -226,12 +227,12 @@ class CartView extends StatelessWidget {
                               ),
                             );
                           } else {
-                            return SizedBox();
+                            return const SizedBox();
                           }
                         }),
                     cartItems.isNotEmpty
                         ? height(getHeight(context, 0.04))
-                        : SizedBox(),
+                        : const SizedBox(),
                     cartItems.isNotEmpty
                         ? Column(
                             children: [
@@ -330,16 +331,27 @@ class CartView extends StatelessWidget {
                                   : const SizedBox(),
                               height(getHeight(context, 0.04)),
                               MyButton(
-                                onTap: () {
+                                onTap: () async {
                                   if (confirmAddress == true) {
                                     final totalAmount = int.parse(viewModel
                                             .totalAmount()
                                             .toString()) +
                                         int.parse(platformCharges.toString()) +
                                         int.parse(deliveryCharges.toString());
-                                    StripeService.instance.makePayment(
-                                        amount:
-                                            int.parse(totalAmount.toString()));
+                                    await StripeService.instance.makePayment(
+                                        amount: int.parse(
+                                          totalAmount.toString(),
+                                        ),
+                                        address: data.toString(),
+                                        platformFee: platformCharges.toString(),
+                                        deliveryCharges: deliveryCharges.toString(),
+                                        totalAmount: int.parse(
+                                          totalAmount.toString(),
+                                        ),
+                                        note: viewModel.addNoteController.text,
+                                        context: context);
+
+                                    
                                   } else {
                                     Navigator.pushReplacement(
                                         context,
@@ -354,7 +366,7 @@ class CartView extends StatelessWidget {
                               ),
                             ],
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 ),
               ),

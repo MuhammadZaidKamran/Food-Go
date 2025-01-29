@@ -1,13 +1,25 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:food_go/View/OrderSuccessfulView/order_successful_view.dart';
+import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Global/stripe_keys.dart';
 import 'package:http/http.dart' as http;
 
 class StripeService {
   static final StripeService instance = StripeService();
 
-  Future<void> makePayment({required amount}) async {
+  Future makePayment({
+    required amount,
+    required context,
+    required address,
+    required platformFee,
+    required deliveryCharges,
+    required totalAmount,
+    required note,
+  }) async {
     try {
       String? paymentIntentClientSecret =
           await createPaymentIntent(amount, "usd");
@@ -17,7 +29,8 @@ class StripeService {
         paymentIntentClientSecret: paymentIntentClientSecret,
         merchantDisplayName: "FoodGo",
       ));
-      await showPaymentSheet();
+      await showPaymentSheet(
+          context, address, platformFee, deliveryCharges, totalAmount, note);
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -46,11 +59,34 @@ class StripeService {
     } catch (e) {
       debugPrint(e.toString());
     }
+    return null;
   }
 
-  Future<void> showPaymentSheet() async {
+  Future showPaymentSheet(
+      context, address, platformFee, deliveryCharges, totalAmount, note) async {
     try {
-      await Stripe.instance.presentPaymentSheet();
+      String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
+      await Stripe.instance.presentPaymentSheet().then((value) async {
+        await FirebaseFirestore.instance
+            .collection("orders")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection(FirebaseAuth.instance.currentUser!.uid)
+            .doc(dateTime)
+            .set({
+          "orderId": dateTime,
+          "userID": FirebaseAuth.instance.currentUser!.uid,
+          "orderItems": cartItems,
+          "status": 0,
+          "address": address,
+          "platFormFee": platformFee,
+          "deliveryCharges": deliveryCharges,
+          "totalAmount": totalAmount,
+          "note": note,
+        }).then((value) async {
+          await Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const OrderSuccessfulView()));
+        });
+      });
       await Stripe.instance.confirmPaymentSheetPayment();
     } catch (e) {
       debugPrint(e.toString());
