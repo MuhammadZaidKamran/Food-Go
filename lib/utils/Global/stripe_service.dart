@@ -84,7 +84,16 @@ class StripeService {
           "note": note,
         }).then((value) async {
           await Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const OrderSuccessfulView()));
+              MaterialPageRoute(builder: (context) =>  OrderSuccessfulView(
+                orderId: dateTime,
+                userId: FirebaseAuth.instance.currentUser!.uid,
+                orderConfirmedList: cartItems,
+                address: address,
+                platformFee: platformFee,
+                deliveryCharges: deliveryCharges,
+                totalAmount: totalAmount,
+                note: note,
+              )));
         });
       });
       await Stripe.instance.confirmPaymentSheetPayment();
