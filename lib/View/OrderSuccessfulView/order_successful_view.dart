@@ -170,7 +170,7 @@ class OrderSuccessfulView extends StatelessWidget {
                               : Text(note,
                                   style: TextStyle(
                                       fontSize: 16,
-                                      color: AppColors.blackColor)),
+                                      color: AppColors.blackColor),),
                         ],
                       ),
                     ),
