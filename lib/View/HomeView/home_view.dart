@@ -184,7 +184,8 @@ class HomeView extends StatelessWidget {
                     const MyTabBar(tabOne: "All", tabTwo: "Combos"),
                     height(MediaQuery.of(context).size.height * 0.02),
                     Expanded(
-                      child: TabBarView(children: [
+                      child: TabBarView(
+                        children: [
                         const AllItems(),
                         Container(),
                       ]),
