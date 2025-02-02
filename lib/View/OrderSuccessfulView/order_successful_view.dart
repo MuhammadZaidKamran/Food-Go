@@ -16,7 +16,9 @@ class OrderSuccessfulView extends StatelessWidget {
       required this.platformFee,
       required this.deliveryCharges,
       required this.totalAmount,
-      required this.note});
+      required this.note,
+      required this.date,
+      required this.status});
   final String orderId;
   final String userId;
   final List orderConfirmedList;
@@ -26,6 +28,8 @@ class OrderSuccessfulView extends StatelessWidget {
   final String deliveryCharges;
   final int totalAmount;
   final String note;
+  final String date;
+  final status;
 
   @override
   Widget build(BuildContext context) {
@@ -42,23 +46,88 @@ class OrderSuccessfulView extends StatelessWidget {
               child: Column(
                 children: [
                   height(getHeight(context, 0.025)),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Order Successfully!",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.blackColor,
+                      ),
+                    ),
+                  ),
+                  height(getHeight(context, 0.03)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Order Successfully!",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.blackColor,
-                        ),
-                      ),
+                      Text("Date: $date",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          )),
                       Text("#$orderId",
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           )),
                     ],
+                  ),
+                  height(getHeight(context, 0.02)),
+                  Material(
+                    elevation: 2,
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.whiteColor,
+                        // border: Border.all(color: AppColors.darkMainTheme),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Current Order Status:",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: status == 0
+                                  ? const Color.fromARGB(255, 228, 171, 0)
+                                  : status == 1
+                                      ? Colors.red
+                                      : status == 2
+                                          ? Colors.green
+                                          : Colors.amber,
+                            ),
+                            child: Center(
+                                child: Text(
+                              status == 0
+                                  ? "Pending"
+                                  : status == 1
+                                      ? "Cancelled"
+                                      : status == 2
+                                          ? "Completed"
+                                          : "Pending",
+                              style: TextStyle(
+                                  color: AppColors.whiteColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            )),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   height(getHeight(context, 0.03)),
                   Material(
@@ -110,7 +179,7 @@ class OrderSuccessfulView extends StatelessWidget {
                           }),
                     ),
                   ),
-                  height(getHeight(context, 0.05)),
+                  height(getHeight(context, 0.03)),
                   Material(
                     elevation: 3,
                     borderRadius: BorderRadius.circular(10),
@@ -167,10 +236,12 @@ class OrderSuccessfulView extends StatelessWidget {
                               : height(getHeight(context, 0.015)),
                           note == ""
                               ? const SizedBox()
-                              : Text(note,
+                              : Text(
+                                  note,
                                   style: TextStyle(
                                       fontSize: 16,
-                                      color: AppColors.blackColor),),
+                                      color: AppColors.blackColor),
+                                ),
                         ],
                       ),
                     ),

@@ -7,6 +7,7 @@ import 'package:food_go/View/OrderSuccessfulView/order_successful_view.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Global/stripe_keys.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class StripeService {
   static final StripeService instance = StripeService();
@@ -65,6 +66,7 @@ class StripeService {
   Future showPaymentSheet(
       context, address, platformFee, deliveryCharges, totalAmount, note) async {
     try {
+      final currentDate = DateFormat("dd/MM/yyyy").format(DateTime.now());
       String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
       await Stripe.instance.presentPaymentSheet().then((value) async {
         await FirebaseFirestore.instance
@@ -75,6 +77,7 @@ class StripeService {
             .set({
           "orderId": dateTime,
           "userID": FirebaseAuth.instance.currentUser!.uid,
+          "date": currentDate,
           "orderItems": cartItems,
           "status": 0,
           "address": address,
@@ -83,17 +86,21 @@ class StripeService {
           "totalAmount": totalAmount,
           "note": note,
         }).then((value) async {
-          await Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) =>  OrderSuccessfulView(
-                orderId: dateTime,
-                userId: FirebaseAuth.instance.currentUser!.uid,
-                orderConfirmedList: cartItems,
-                address: address,
-                platformFee: platformFee,
-                deliveryCharges: deliveryCharges,
-                totalAmount: totalAmount,
-                note: note,
-              )));
+          await Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => OrderSuccessfulView(
+                        status: 0,
+                        date: currentDate,
+                        orderId: dateTime,
+                        userId: FirebaseAuth.instance.currentUser!.uid,
+                        orderConfirmedList: cartItems,
+                        address: address,
+                        platformFee: platformFee,
+                        deliveryCharges: deliveryCharges,
+                        totalAmount: totalAmount,
+                        note: note,
+                      )));
         });
       });
       await Stripe.instance.confirmPaymentSheetPayment();

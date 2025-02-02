@@ -61,10 +61,12 @@ class _MyDrawerState extends State<MyDrawer> {
                 Row(
                   children: [
                     ClipOval(
-                        child: Image.asset(
-                      "assets/images/google-icon.png",
-                      scale: 9,
-                    )),
+                      child: Icon(
+                        Icons.account_circle,
+                        color: AppColors.whiteColor,
+                        size: 70,
+                      ),
+                    ),
                     width(getWidth(context, 0.02)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +114,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     )
                   ],
                 ),
-                height(getHeight(context, 0.03)),
+                height(getHeight(context, 0.02)),
                 // height(getHeight(context, 0.01)),
                 DrawerListTile(
                     title: "Cart",
@@ -204,8 +206,8 @@ class _MyDrawerState extends State<MyDrawer> {
                     icon: Icons.logout_rounded,
                     onTap: () {
                       FirebaseAuth.instance.signOut().then((value) async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
+                        // SharedPreferences prefs =
+                        //     await SharedPreferences.getInstance();
                         // await prefs.clear();
                         Navigator.pushReplacement(
                             // ignore: use_build_context_synchronously

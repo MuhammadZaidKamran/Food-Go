@@ -52,7 +52,7 @@ class OrdersView extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "Order ID: #${orderDetails["orderId"]}",
+                            "Order No: #${orderDetails["orderId"]}",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -87,6 +87,8 @@ class OrdersView extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => OrderSuccessfulView(
+                                      status: orderDetails["status"],
+                                      date: orderDetails["date"],
                                       orderId: orderDetails["orderId"],
                                       userId: orderDetails["userID"],
                                       orderConfirmedList:
