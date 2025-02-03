@@ -1,28 +1,34 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_go/View/OrdersView/order_view.dart';
 import 'package:food_go/ViewModel/OrderSuccessfulViewModel/order_successful_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
+import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
 import 'package:food_go/utils/Widgets/OrderSuccessfulWidget/order_successful_widget.dart';
 import 'package:stacked/stacked.dart';
 
 class OrderSuccessfulView extends StatelessWidget {
-  const OrderSuccessfulView(
-      {super.key,
-      required this.orderId,
-      required this.userId,
-      required this.orderConfirmedList,
-      // required this.status,
-      required this.address,
-      required this.platformFee,
-      required this.deliveryCharges,
-      required this.totalAmount,
-      required this.note,
-      required this.date,
-      required this.status});
+  OrderSuccessfulView({
+    super.key,
+    required this.orderId,
+    required this.userId,
+    required this.orderConfirmedList,
+    required this.address,
+    required this.platformFee,
+    required this.deliveryCharges,
+    required this.totalAmount,
+    required this.note,
+    required this.date,
+    required this.status,
+    this.fromPending = false,
+  });
   final String orderId;
   final String userId;
   final List orderConfirmedList;
-  // final int status;
   final String address;
   final String platformFee;
   final String deliveryCharges;
@@ -30,6 +36,7 @@ class OrderSuccessfulView extends StatelessWidget {
   final String note;
   final String date;
   final status;
+  bool fromPending = false;
 
   @override
   Widget build(BuildContext context) {
@@ -246,6 +253,40 @@ class OrderSuccessfulView extends StatelessWidget {
                       ),
                     ),
                   ),
+                  height(getHeight(context, 0.025)),
+                  fromPending == true && status == 0
+                      ? MyButton(
+                          isLoading: viewModel.isLoading,
+                          onTap: () async {
+                            viewModel.isLoading = true;
+                            viewModel.rebuildUi();
+                            await FirebaseFirestore.instance
+                                .collection("orders")
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .collection(
+                                    FirebaseAuth.instance.currentUser!.uid)
+                                .doc(orderId)
+                                .update({
+                              "status": 1,
+                            }).then((value) {
+                              viewModel.isLoading = false;
+                              viewModel.rebuildUi();
+                              mySuccessSnackBar(
+                                  context: context,
+                                  message: "Order Cancelled Successfully");
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const OrderView()));
+                            }).catchError((error) {
+                              viewModel.isLoading = false;
+                              viewModel.rebuildUi();
+                              myErrorSnackBar(
+                                  context: context, message: error.toString());
+                            });
+                          },
+                          label: "Cancel Order")
+                      : const SizedBox(),
                 ],
               ),
             ),

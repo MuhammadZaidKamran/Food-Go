@@ -6,7 +6,7 @@ import 'package:food_go/View/CartView/cart_view.dart';
 import 'package:food_go/View/EditProfileView/edit_profile_view.dart';
 import 'package:food_go/View/FavoriteView/favorite_view.dart';
 import 'package:food_go/View/LoginView/login_view.dart';
-import 'package:food_go/View/OrdersView/orders_view.dart';
+import 'package:food_go/View/OrdersView/order_view.dart';
 import 'package:food_go/View/ProfileView/profile_view.dart';
 import 'package:food_go/View/TermsAndConditionsView/terms_and_conditions_view.dart';
 import 'package:food_go/utils/Colors/colors.dart';
@@ -160,7 +160,8 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const OrdersView()));
+                              builder: (context) =>
+                                  const OrderView()));
                     }),
                 // height(getHeight(context, 0.01)),
                 DrawerListTile(
