@@ -17,185 +17,143 @@ class LoginView extends StatelessWidget {
         viewModelBuilder: () => LoginViewModel(),
         builder: (context, viewModel, child) {
           return Scaffold(
+            backgroundColor: AppColors.whiteColor,
             body: Form(
               key: viewModel.formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Stack(children: [
-                    Container(
-                      padding: const EdgeInsets.only(top: 20),
-                      height: MediaQuery.of(context).size.height * 0.36,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(70),
-                              bottomRight: Radius.circular(70)),
-                          gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                AppColors.mainTheme,
-                                const Color.fromARGB(255, 218, 127, 127)
-                              ])),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            "assets/images/burger-icon.webp",
-                            scale: 5,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const Text(
-                            "LOGO",
-                            style: TextStyle(
-                                letterSpacing: 1,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          )
-                        ],
+                  Container(
+                    padding: const EdgeInsets.only(top: 20),
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30)),
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              AppColors.mainTheme,
+                              const Color.fromARGB(255, 218, 127, 127)
+                            ])),
+                    child: Center(
+                      child: Text(
+                        "Logo",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 20),
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.3),
-                        //height: 350,
-                        width: MediaQuery.of(context).size.width * 0.92,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            gradient: const LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Color.fromARGB(205, 158, 158, 158),
-                                  Color.fromARGB(231, 255, 255, 255)
-                                  // const Color.fromARGB(255, 0, 0, 0),
-                                  // const Color.fromARGB(255, 255, 255, 255),
-                                  // const Color.fromARGB(255, 0, 0, 0)
-                                ])),
-                        child: Column(
+                  ),
+                  Padding(
+                    padding: myPadding(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Login",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        height(getHeight(context, 0.035)),
+                        MyTextField(
+                          label: "Email",
+                          prefixIcon: const Icon(Icons.mail),
+                          prefixIconColor: AppColors.darkMainTheme,
+                          controller: viewModel.emailController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please Enter email";
+                            }
+                            return null;
+                          },
+                        ),
+                        height(getHeight(context, 0.02)),
+                        MyTextField(
+                            label: "Password",
+                            obscureText: true,
+                            prefixIcon: const Icon(Icons.key),
+                            prefixIconColor: AppColors.darkMainTheme,
+                            controller: viewModel.passwordController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please Enter Password";
+                              }
+                              return null;
+                            }),
+                        height(getHeight(context, 0.02)),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ForgotPasswordView()));
+                            },
+                            child: Text(
+                              "Forgot Password?",
+                              style: TextStyle(color: AppColors.darkMainTheme),
+                            ),
+                          ),
+                        ),
+                        height(getHeight(context, 0.025)),
+                        MyButton(
+                          height: 45,
+                          borderRadius: BorderRadius.circular(10),
+                          onTap: () {
+                            if (viewModel.formKey.currentState!.validate()) {
+                              viewModel.isLoading = true;
+                              viewModel.rebuildUi();
+                              viewModel.authController
+                                  .login(
+                                      email: viewModel.emailController.text,
+                                      password:
+                                          viewModel.passwordController.text,
+                                      context: context)
+                                  .then((value) {
+                                viewModel.isLoading = false;
+                                viewModel.rebuildUi();
+                              });
+                            }
+                          },
+                          label: "Login",
+                          isLoading: viewModel.isLoading,
+                        ),
+                        height(getHeight(context, 0.025)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "Login",
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.darkMainTheme),
-                                ),
-                              ),
-                            ),
-                            height(getHeight(context, 0.015)),
-                            MyTextField(
-                              label: "Email",
-                              prefixIcon: const Icon(Icons.mail),
-                              prefixIconColor: AppColors.darkMainTheme,
-                              controller: viewModel.emailController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Please Enter email";
-                                }
-                                return null;
-                              },
-                            ),
+                            const Text("Don't have an Account?"),
                             const SizedBox(
-                              height: 10,
+                              width: 5,
                             ),
-                            MyTextField(
-                                label: "Password",
-                                obscureText: true,
-                                prefixIcon: const Icon(Icons.key),
-                                prefixIconColor: AppColors.darkMainTheme,
-                                controller: viewModel.passwordController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Please Enter Password";
-                                  }
-                                  return null;
-                                }),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ForgotPasswordView()));
-                                },
-                                child: Text(
-                                  "Forgot Password?",
-                                  style:
-                                      TextStyle(color: AppColors.darkMainTheme),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            MyButton(
-                              height: 45,
-                              borderRadius: BorderRadius.circular(20),
+                            InkWell(
                               onTap: () {
-                                if (viewModel.formKey.currentState!
-                                    .validate()) {
-                                  viewModel.isLoading = true;
-                                  viewModel.rebuildUi();
-                                  viewModel.authController
-                                      .login(
-                                          email: viewModel.emailController.text,
-                                          password:
-                                              viewModel.passwordController.text,
-                                          context: context)
-                                      .then((value) {
-                                    viewModel.isLoading = false;
-                                    viewModel.rebuildUi();
-                                  });
-                                }
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignupView()));
                               },
-                              label: "Login",
-                              isLoading: viewModel.isLoading,
-                            )
+                              child: Text(
+                                "SignUp",
+                                style: TextStyle(
+                                    color: AppColors.darkMainTheme,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ],
                         ),
-                      ),
+                      ],
                     ),
-                  ]),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Don't have an Account?"),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignupView()));
-                        },
-                        child: Text(
-                          "SignUp",
-                          style: TextStyle(
-                              color: AppColors.darkMainTheme,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),
@@ -204,3 +162,183 @@ class LoginView extends StatelessWidget {
         });
   }
 }
+// Column(
+//                 children: [
+//                   Stack(children: [
+//                     Container(
+//                       padding: const EdgeInsets.only(top: 20),
+//                       height: MediaQuery.of(context).size.height * 0.36,
+//                       width: MediaQuery.of(context).size.width,
+//                       decoration: BoxDecoration(
+//                           borderRadius: const BorderRadius.only(
+//                               bottomLeft: Radius.circular(70),
+//                               bottomRight: Radius.circular(70)),
+//                           gradient: LinearGradient(
+//                               begin: Alignment.centerLeft,
+//                               end: Alignment.centerRight,
+//                               colors: [
+//                                 AppColors.mainTheme,
+//                                 const Color.fromARGB(255, 218, 127, 127)
+//                               ])),
+//                       child: Column(
+//                         children: [
+//                           Image.asset(
+//                             "assets/images/burger-icon.webp",
+//                             scale: 5,
+//                           ),
+//                           const SizedBox(
+//                             height: 5,
+//                           ),
+//                           const Text(
+//                             "LOGO",
+//                             style: TextStyle(
+//                                 letterSpacing: 1,
+//                                 fontSize: 30,
+//                                 fontWeight: FontWeight.bold,
+//                                 color: Colors.white),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                     Center(
+//                       child: Container(
+//                         padding: const EdgeInsets.symmetric(
+//                             horizontal: 15, vertical: 20),
+//                         margin: EdgeInsets.only(
+//                             top: MediaQuery.of(context).size.height * 0.3),
+//                         //height: 350,
+//                         width: MediaQuery.of(context).size.width * 0.92,
+//                         decoration: BoxDecoration(
+//                             borderRadius: BorderRadius.circular(40),
+//                             gradient: const LinearGradient(
+//                                 begin: Alignment.bottomCenter,
+//                                 end: Alignment.topCenter,
+//                                 colors: [
+//                                   Color.fromARGB(205, 158, 158, 158),
+//                                   Color.fromARGB(231, 255, 255, 255)
+//                                   // const Color.fromARGB(255, 0, 0, 0),
+//                                   // const Color.fromARGB(255, 255, 255, 255),
+//                                   // const Color.fromARGB(255, 0, 0, 0)
+//                                 ])),
+//                         child: Column(
+//                           children: [
+//                             Padding(
+//                               padding: const EdgeInsets.only(left: 10),
+//                               child: Align(
+//                                 alignment: Alignment.topLeft,
+//                                 child: Text(
+//                                   "Login",
+//                                   style: TextStyle(
+//                                       fontSize: 25,
+//                                       fontWeight: FontWeight.bold,
+//                                       color: AppColors.darkMainTheme),
+//                                 ),
+//                               ),
+//                             ),
+//                             height(getHeight(context, 0.015)),
+//                             MyTextField(
+//                               label: "Email",
+//                               prefixIcon: const Icon(Icons.mail),
+//                               prefixIconColor: AppColors.darkMainTheme,
+//                               controller: viewModel.emailController,
+//                               validator: (value) {
+//                                 if (value!.isEmpty) {
+//                                   return "Please Enter email";
+//                                 }
+//                                 return null;
+//                               },
+//                             ),
+//                             const SizedBox(
+//                               height: 10,
+//                             ),
+//                             MyTextField(
+//                                 label: "Password",
+//                                 obscureText: true,
+//                                 prefixIcon: const Icon(Icons.key),
+//                                 prefixIconColor: AppColors.darkMainTheme,
+//                                 controller: viewModel.passwordController,
+//                                 validator: (value) {
+//                                   if (value!.isEmpty) {
+//                                     return "Please Enter Password";
+//                                   }
+//                                   return null;
+//                                 }),
+//                             const SizedBox(
+//                               height: 10,
+//                             ),
+//                             Align(
+//                               alignment: Alignment.centerRight,
+//                               child: InkWell(
+//                                 onTap: () {
+//                                   Navigator.push(
+//                                       context,
+//                                       MaterialPageRoute(
+//                                           builder: (context) =>
+//                                               const ForgotPasswordView()));
+//                                 },
+//                                 child: Text(
+//                                   "Forgot Password?",
+//                                   style:
+//                                       TextStyle(color: AppColors.darkMainTheme),
+//                                 ),
+//                               ),
+//                             ),
+//                             const SizedBox(
+//                               height: 15,
+//                             ),
+//                             MyButton(
+//                               height: 45,
+//                               borderRadius: BorderRadius.circular(20),
+//                               onTap: () {
+//                                 if (viewModel.formKey.currentState!
+//                                     .validate()) {
+//                                   viewModel.isLoading = true;
+//                                   viewModel.rebuildUi();
+//                                   viewModel.authController
+//                                       .login(
+//                                           email: viewModel.emailController.text,
+//                                           password:
+//                                               viewModel.passwordController.text,
+//                                           context: context)
+//                                       .then((value) {
+//                                     viewModel.isLoading = false;
+//                                     viewModel.rebuildUi();
+//                                   });
+//                                 }
+//                               },
+//                               label: "Login",
+//                               isLoading: viewModel.isLoading,
+//                             )
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ]),
+//                   const SizedBox(
+//                     height: 12,
+//                   ),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     children: [
+//                       const Text("Don't have an Account?"),
+//                       const SizedBox(
+//                         width: 5,
+//                       ),
+//                       InkWell(
+//                         onTap: () {
+//                           Navigator.push(
+//                               context,
+//                               MaterialPageRoute(
+//                                   builder: (context) => const SignupView()));
+//                         },
+//                         child: Text(
+//                           "SignUp",
+//                           style: TextStyle(
+//                               color: AppColors.darkMainTheme,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),

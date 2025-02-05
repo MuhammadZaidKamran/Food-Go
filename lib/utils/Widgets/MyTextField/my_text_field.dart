@@ -64,18 +64,24 @@ class MyTextField extends StatelessWidget {
             prefixIcon: prefixIcon,
             prefixIconColor: prefixIconColor,
             filled: true,
-            fillColor: fillColor ?? const Color.fromARGB(55, 0, 0, 0),
+            fillColor: fillColor ?? AppColors.whiteColor,
             hintText: label,
             hintStyle: hintStyle ?? TextStyle(color: AppColors.darkMainTheme),
             border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: borderRadius ?? BorderRadius.circular(15)),
+                borderSide: BorderSide(
+                  color: AppColors.darkMainTheme,
+                ),
+                borderRadius: borderRadius ?? BorderRadius.circular(10)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: borderRadius ?? BorderRadius.circular(15)),
+                borderSide: BorderSide(
+                  color: AppColors.darkMainTheme,
+                ),
+                borderRadius: borderRadius ?? BorderRadius.circular(10)),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: borderRadius ?? BorderRadius.circular(15))),
+                borderSide: BorderSide(
+                  color: AppColors.darkMainTheme,
+                ),
+                borderRadius: borderRadius ?? BorderRadius.circular(10))),
       ),
     );
   }

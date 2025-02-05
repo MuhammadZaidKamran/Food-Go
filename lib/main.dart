@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:food_go/View/LoginView/login_view.dart';
 import 'package:food_go/View/SplashView/splash_view.dart';
 import 'package:food_go/firebase_options.dart';
 import 'package:food_go/utils/Global/stripe_keys.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      home: LoginView(),
+      // SplashView(),
     );
   }
 }
