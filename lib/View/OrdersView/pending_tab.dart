@@ -19,8 +19,8 @@ class PendingTab extends StatelessWidget {
       onViewModelReady: (viewModel) async {
         // final controller = await viewModel.googleMapController.future;
         viewModel.orderDetails.snapshots().listen((snapshot) async {
-          viewModel.displayOrderList = snapshot.docs.where((
-            e) => e["status"] == 0).toList();
+          viewModel.displayOrderList =
+              snapshot.docs.where((e) => e["status"] == 0).toList();
           viewModel.markers.clear(); // Clear old markers
 
           for (var order in snapshot.docs) {
@@ -57,7 +57,6 @@ class PendingTab extends StatelessWidget {
           }
 
           viewModel.rebuildUi();
-          
         });
       },
       viewModelBuilder: () => PendingTabViewModel(),
@@ -72,8 +71,7 @@ class PendingTab extends StatelessWidget {
             separatorBuilder: (context, index) =>
                 height(getHeight(context, 0.03)),
             itemBuilder: (context, index) {
-              DocumentSnapshot orderDetails =
-                  viewModel.displayOrderList[index];
+              DocumentSnapshot orderDetails = viewModel.displayOrderList[index];
               return Material(
                 elevation: 4,
                 borderRadius: BorderRadius.circular(10),
@@ -141,12 +139,11 @@ class PendingTab extends StatelessWidget {
                                       viewModel.orderCameraPositions
                                           .containsKey(orderDetails.id)
                                   ? viewModel.orderCameraPositions[
-                                      orderDetails
-                                          .id]! // Use saved position
+                                      orderDetails.id]! // Use saved position
                                   : const CameraPosition(
                                       target: LatLng(0, 0),
                                       zoom: 14), // Default
-          
+
                           onMapCreated: (controller) async {
                             if (viewModel.orderCameraPositions != null &&
                                 viewModel.orderCameraPositions
@@ -154,8 +151,8 @@ class PendingTab extends StatelessWidget {
                               await Future.delayed(const Duration(
                                   milliseconds:
                                       500)); // Delay for smooth loading
-                              controller.animateCamera(
-                                  CameraUpdate.newCameraPosition(
+                              controller
+                                  .animateCamera(CameraUpdate.newCameraPosition(
                                 viewModel
                                     .orderCameraPositions[orderDetails.id]!,
                               ));
@@ -197,8 +194,8 @@ class PendingTab extends StatelessWidget {
                       MyButton(
                         borderRadius: BorderRadius.circular(10),
                         height: 40,
-                        onTap: () {
-                          Navigator.push(
+                        onTap: () async {
+                          final data = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => OrderSuccessfulView(
@@ -217,6 +214,11 @@ class PendingTab extends StatelessWidget {
                                   fromPending: true,
                                 ),
                               ));
+                          if (data != null) {
+                            var status = orderDetails["status"];
+                            status = data;
+                            viewModel.rebuildUi();
+                          }
                         },
                         label: "View Order Details",
                       ),
