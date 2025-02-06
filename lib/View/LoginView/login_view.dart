@@ -38,7 +38,7 @@ class LoginView extends StatelessWidget {
                               AppColors.mainTheme,
                               const Color.fromARGB(255, 218, 127, 127)
                             ])),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Logo",
                         style: TextStyle(
@@ -54,7 +54,7 @@ class LoginView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Login",
                           style: TextStyle(
                             fontSize: 25,

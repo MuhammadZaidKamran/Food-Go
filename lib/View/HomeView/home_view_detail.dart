@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_go/ViewModel/HomeViewModel/home_view_detail.dart';
 import 'package:food_go/utils/Colors/colors.dart';
+import 'package:food_go/utils/Global/flutter_notification_service.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -469,6 +470,11 @@ class HomeViewDetail extends StatelessWidget {
                                                           await SharedPreferences
                                                               .getInstance();
                                                       quantity[index]++;
+                                                      FlutterNotificationService
+                                                            .showNotification(
+                                                          "Food Go",
+                                                          "Add to Cart Successfully",
+                                                        );
                                                       prefs.setInt(
                                                           "quantity_$index",
                                                           quantity[index]);
@@ -482,8 +488,14 @@ class HomeViewDetail extends StatelessWidget {
                                                         "index": index,
                                                         "itemID": data.id,
                                                         "isAdded": true,
-                                                        "isCheeseAdded": viewModel.isCheeseAdded ? "Cheese Slice" : "None",
-                                                        "isGarlicAdded": viewModel.isGarlicAdded ? "Garlic Bread" : "None",
+                                                        "isCheeseAdded": viewModel
+                                                                .isCheeseAdded
+                                                            ? "Cheese Slice"
+                                                            : "None",
+                                                        "isGarlicAdded": viewModel
+                                                                .isGarlicAdded
+                                                            ? "Garlic Bread"
+                                                            : "None",
                                                         "image": image,
                                                         "itemName": data
                                                             .get("itemName"),
@@ -508,6 +520,7 @@ class HomeViewDetail extends StatelessWidget {
                                                             isAdded[index]);
                                                         prefs.getBool(
                                                             "isAdded_$index");
+                                                        
                                                       });
                                                       // await FirebaseFirestore.instance.
                                                       // await viewModel.updateAddItems(
