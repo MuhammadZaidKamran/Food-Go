@@ -10,7 +10,8 @@ class MyButton extends StatelessWidget {
       this.width,
       required this.onTap,
       required this.label,
-      this.isLoading = false, this.borderRadius});
+      this.isLoading = false,
+      this.borderRadius});
   final double? height;
   final double? width;
   final String label;
@@ -26,7 +27,7 @@ class MyButton extends StatelessWidget {
         height: height ?? 50,
         width: width ?? getWidth(context, 1),
         decoration: BoxDecoration(
-            borderRadius: borderRadius ?? BorderRadius.circular(15),
+            borderRadius: borderRadius ?? BorderRadius.circular(10),
             color: AppColors.darkMainTheme),
         child: Center(
           child: isLoading

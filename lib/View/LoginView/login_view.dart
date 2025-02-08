@@ -107,7 +107,7 @@ class LoginView extends StatelessWidget {
                         height(getHeight(context, 0.025)),
                         MyButton(
                           height: 45,
-                          borderRadius: BorderRadius.circular(10),
+                          // borderRadius: BorderRadius.circular(10),
                           onTap: () {
                             if (viewModel.formKey.currentState!.validate()) {
                               viewModel.isLoading = true;
