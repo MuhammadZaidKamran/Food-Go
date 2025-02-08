@@ -52,12 +52,23 @@ class EditProfileView extends StatelessWidget {
                     ),
                     height(40),
                     MyButton(
+                        isLoading: viewModel.isLoading,
                         onTap: () async {
-                          await viewModel.updateProfile(
+                          viewModel.isLoading = true;
+                          viewModel.rebuildUi();
+                          await viewModel
+                              .updateProfile(
                             userName: viewModel.nameController.text,
                             phoneNumber: viewModel.phoneController.text,
                             context: context,
-                          );
+                          )
+                              .then((value) {
+                            viewModel.isLoading = false;
+                            viewModel.rebuildUi();
+                          }).catchError((error) {
+                            viewModel.isLoading = false;
+                            viewModel.rebuildUi();
+                          });
                         },
                         label: "Update")
                   ],

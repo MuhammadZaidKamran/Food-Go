@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/utils/Colors/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 myPadding() {
   return const EdgeInsets.symmetric(vertical: 25, horizontal: 15);
@@ -106,4 +107,27 @@ platFormFees() {
     platformCharges = snapshot.get("platformFee");
     deliveryCharges = snapshot.get("deliveryCharges");
   });
+}
+
+Future updateUser({
+  required BuildContext context,
+}) async {
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({
+      "email": userDetails!.email,
+      "cartItems": [],
+      "userID": userDetails!.uid,
+      "favoriteItems": favoriteItems,
+      "userName": prefs.getString("userName"),
+      "phoneNumber": prefs.getString("phoneNumber"),
+      "platformFee": 10,
+      "deliveryCharges": 49,
+    });
+  } catch (e) {
+    debugPrint(e.toString());
+  }
 }

@@ -8,6 +8,7 @@ import 'package:stacked/stacked.dart';
 class EditProfileViewModel extends BaseViewModel {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
+  bool isLoading = false;
 
   Future updateProfile({
     required String userName,

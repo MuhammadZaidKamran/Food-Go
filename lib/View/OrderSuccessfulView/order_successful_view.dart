@@ -7,6 +7,7 @@ import 'package:food_go/ViewModel/OrderSuccessfulViewModel/order_successful_view
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Widgets/MyButton/my_button.dart';
+import 'package:food_go/utils/Widgets/MyDialog/my_dialog.dart';
 import 'package:food_go/utils/Widgets/OrderSuccessfulWidget/order_successful_widget.dart';
 import 'package:stacked/stacked.dart';
 
@@ -258,30 +259,49 @@ class OrderSuccessfulView extends StatelessWidget {
                         ? MyButton(
                             isLoading: viewModel.isLoading,
                             onTap: () async {
-                              viewModel.isLoading = true;
-                              viewModel.rebuildUi();
-                              await FirebaseFirestore.instance
-                                  .collection("orders")
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                                  .collection(
-                                      FirebaseAuth.instance.currentUser!.uid)
-                                  .doc(orderId)
-                                  .update({
-                                "status": 1,
-                              }).then((value) {
-                                viewModel.isLoading = false;
-                                viewModel.rebuildUi();
-                                mySuccessSnackBar(
-                                    context: context,
-                                    message: "Order Cancelled Successfully");
-                                Navigator.pop(context,status);
-                              }).catchError((error) {
-                                viewModel.isLoading = false;
-                                viewModel.rebuildUi();
-                                myErrorSnackBar(
-                                    context: context,
-                                    message: error.toString());
-                              });
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return MyDialog(
+                                      isLoading: viewModel.isLoading,
+                                      image: "assets/images/warning.webp",
+                                      title:
+                                          "Are you sure you want to cancel this order?",
+                                      onTapNo: () {
+                                        Navigator.pop(context);
+                                      },
+                                      onTapYes: () async {
+                                        // Navigator.pop(context);
+                                        viewModel.isLoading = true;
+                                        viewModel.rebuildUi();
+                                        await FirebaseFirestore.instance
+                                            .collection("orders")
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser!.uid)
+                                            .collection(FirebaseAuth
+                                                .instance.currentUser!.uid)
+                                            .doc(orderId)
+                                            .update({
+                                          "status": 1,
+                                        }).then((value) {
+                                          viewModel.isLoading = false;
+                                          viewModel.rebuildUi();
+                                          Navigator.pop(context);
+                                          mySuccessSnackBar(
+                                              context: context,
+                                              message:
+                                                  "Order Cancelled Successfully");
+                                          Navigator.pop(context, status);
+                                        }).catchError((error) {
+                                          viewModel.isLoading = false;
+                                          viewModel.rebuildUi();
+                                          myErrorSnackBar(
+                                              context: context,
+                                              message: error.toString());
+                                        });
+                                      },
+                                    );
+                                  });
                             },
                             label: "Cancel Order")
                         : const SizedBox(),
