@@ -51,9 +51,23 @@ class _AllItemsState extends State<AllItems> {
                         borderRadius: BorderRadius.circular(12),
                         child: MyTextField(
                             onChanged: (value) => viewModel.searchValue(value),
-                            prefixIcon:
-                                Icon(Icons.search, color: AppColors.blackColor),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                5,
+                                4,
+                                6,
+                                4,
+                              ),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: AppColors.mainTheme,
+                                  ),
+                                  child: Icon(Icons.search,
+                                      color: AppColors.whiteColor)),
+                            ),
                             borderRadius: BorderRadius.circular(12),
+                            borderColor: Colors.transparent,
                             fillColor: AppColors.whiteColor,
                             hintStyle: TextStyle(color: AppColors.blackColor),
                             controller: viewModel.searchController,
@@ -228,16 +242,15 @@ class _AllItemsState extends State<AllItems> {
                                                       //         "itemDescription"],
                                                       //     isFavorite: true,
                                                       //     context: context);
-                                                      await viewModel.updateUser(
-                                                          // image: item["image"],
-                                                          // itemName: item["itemName"],
-                                                          // itemPrice: item["itemPrice"],
-                                                          // itemRating: item["itemRating"],
-                                                          // itemName_2: item["itemName_2"],
-                                                          // itemDescription:
-                                                          //     item["itemDescription"],
-                                                          // isFavorite: true,
-                                                          context: context);
+                                                      await viewModel
+                                                          .updateUser(
+                                                              context: context)
+                                                          .then((value) {
+                                                        mySuccessSnackBar(
+                                                            context: context,
+                                                            message:
+                                                                "Add to Favorites");
+                                                      });
                                                       // favoriteImage.add(images[index]);
                                                     } else if (isFavoriteList[
                                                             index] ==
@@ -273,12 +286,18 @@ class _AllItemsState extends State<AllItems> {
                                                           (e) =>
                                                               e["itemID"] ==
                                                               item.id);
-                                                      await viewModel
-                                                          .removeFavorites(
-                                                              context: context);
+                                                      // await viewModel
+                                                      //     .removeFavorites(
+                                                      //         context: context);
                                                       await viewModel
                                                           .updateUser(
-                                                              context: context);
+                                                              context: context)
+                                                          .then((value) {
+                                                        myErrorSnackBar(
+                                                            context: context,
+                                                            message:
+                                                                "Removed Successfully");
+                                                      });
                                                       // favoriteImage.remove(images[index]);
                                                     }
                                                     // if (await item["isFavorite"] ==

@@ -36,9 +36,9 @@ class HomeViewDetail extends StatelessWidget {
           for (var i = 0; i < isFavorite.length; i++) {
             isFavorite[i] = prefs.getBool("isFavorite_$i") ?? false;
           }
-          for (var i = 0; i < isAdded.length; i++) {
-            isAdded[i] = prefs.getBool("isAdded_$i") ?? false;
-          }
+          // for (var i = 0; i < isAdded.length; i++) {
+          //   isAdded[i] = prefs.getBool("isAdded_$i") ?? false;
+          // }
         },
         builder: (context, viewModel, child) {
           return Scaffold(
@@ -332,7 +332,14 @@ class HomeViewDetail extends StatelessWidget {
                                                 "itemDescription":
                                                     data.get("itemDescription"),
                                               });
-                                              await viewModel.updateUser();
+                                              await viewModel
+                                                  .updateUser()
+                                                  .then((value) {
+                                                mySuccessSnackBar(
+                                                    context: context,
+                                                    message:
+                                                        "Add to Favorites");
+                                              });
                                               //   await viewModel.updateFavorites(
                                               //       image: data.get("image"),
                                               //       itemName:
@@ -402,7 +409,14 @@ class HomeViewDetail extends StatelessWidget {
                                                   "isFavorite_$index")!;
                                               favoriteItems.removeWhere((e) =>
                                                   e["itemID"] == data.id);
-                                              await viewModel.updateUser();
+                                              await viewModel
+                                                  .updateUser()
+                                                  .then((value) {
+                                                myErrorSnackBar(
+                                                    context: context,
+                                                    message:
+                                                        "Removed Successfully");
+                                              });
                                             }
                                             viewModel.rebuildUi();
                                           },
@@ -421,152 +435,161 @@ class HomeViewDetail extends StatelessWidget {
                                         const Spacer(),
                                         AnimatedContainer(
                                           duration: const Duration(seconds: 2),
-                                          child: isAdded[index]
-                                              ? Container(
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.greenColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                  height: 50,
-                                                  width: getWidth(context, 0.8),
-                                                  child: Center(
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.check,
-                                                          color: AppColors
-                                                              .whiteColor,
-                                                          size: 30,
-                                                        ),
-                                                        Text(
-                                                          "Added",
-                                                          style: TextStyle(
-                                                            color: AppColors
-                                                                .whiteColor,
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              : MyButton(
-                                                  label: "Add to cart",
-                                                  onTap: () async {
-                                                    // int itemQuantity =
-                                                    //     data.get("itemQuantity");
-                                                    if (quantity[index] == 0) {
-                                                      // itemQuantity++;
-                                                      SharedPreferences prefs =
-                                                          await SharedPreferences
-                                                              .getInstance();
-                                                      quantity[index]++;
-                                                      FlutterNotificationService
-                                                            .showNotification(
-                                                          "Food Go",
-                                                          "Add to Cart Successfully",
-                                                        );
-                                                      prefs.setInt(
-                                                          "quantity_$index",
-                                                          quantity[index]);
-                                                      prefs.getInt(
-                                                          "quantity_$index");
-                                                      viewModel.itemId =
-                                                          data.id;
-                                                      cartItems.add({
-                                                        "userID":
-                                                            userDetails!.uid,
-                                                        "index": index,
-                                                        "itemID": data.id,
-                                                        "isAdded": true,
-                                                        "isCheeseAdded": viewModel
-                                                                .isCheeseAdded
-                                                            ? "Cheese Slice"
-                                                            : "None",
-                                                        "isGarlicAdded": viewModel
-                                                                .isGarlicAdded
-                                                            ? "Garlic Bread"
-                                                            : "None",
-                                                        "image": image,
-                                                        "itemName": data
-                                                            .get("itemName"),
-                                                        "itemPrice": data
-                                                            .get("itemPrice"),
-                                                        "itemRating": data
-                                                            .get("itemRating"),
-                                                        "itemName_2": data
-                                                            .get("itemName_2"),
-                                                        "itemDescription":
-                                                            data.get(
-                                                                "itemDescription"),
-                                                        "itemQuantity":
-                                                            quantity[index],
-                                                      });
-                                                      await viewModel
-                                                          .updateUser()
-                                                          .then((value) {
-                                                        isAdded[index] = true;
-                                                        prefs.setBool(
-                                                            "isAdded_$index",
-                                                            isAdded[index]);
-                                                        prefs.getBool(
-                                                            "isAdded_$index");
-                                                        
-                                                      });
-                                                      // await FirebaseFirestore.instance.
-                                                      // await viewModel.updateAddItems(
-                                                      //     data.get("image"),
-                                                      //     data.get("itemName"),
-                                                      //     data.get("itemPrice"),
-                                                      //     data.get("itemRating"),
-                                                      //     data.get("itemName_2"),
-                                                      //     data.get("itemDescription"),
-                                                      //     itemQuantity,
-                                                      //     context);
-                                                      // await viewModel.addToCart(
-                                                      //     data.get("image"),
-                                                      //     data.get(
-                                                      //         "itemName".toString()),
-                                                      //     data.get(
-                                                      //         "itemPrice".toString()),
-                                                      //     data.get(
-                                                      //         "itemRating".toString()),
-                                                      //     data.get(
-                                                      //         "itemName_2".toString()),
-                                                      //     data.get("itemDescription"
-                                                      //         .toString()),
-                                                      //     itemQuantity,
-                                                      //     context);
-                                                      // cartImage = image;
-                                                      // data.get("itemQuantity") == "1";
-                                                      viewModel.rebuildUi();
-                                                    } else {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              const SnackBar(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .red,
-                                                                  content: Row(
-                                                                    children: [
-                                                                      Text(
-                                                                          "Already added"),
-                                                                    ],
-                                                                  )));
-                                                    }
-                                                  },
-                                                  width: getWidth(context, 0.8),
-                                                ),
+                                          child:
+                                              //  isAdded[index]
+                                              //     ? Container(
+                                              //         decoration: BoxDecoration(
+                                              //           color: AppColors.greenColor,
+                                              //           borderRadius:
+                                              //               BorderRadius.circular(
+                                              //                   15),
+                                              //         ),
+                                              //         height: 50,
+                                              //         width: getWidth(context, 0.8),
+                                              //         child: Center(
+                                              //           child: Row(
+                                              //             mainAxisSize:
+                                              //                 MainAxisSize.min,
+                                              //             mainAxisAlignment:
+                                              //                 MainAxisAlignment
+                                              //                     .center,
+                                              //             children: [
+                                              //               Icon(
+                                              //                 Icons.check,
+                                              //                 color: AppColors
+                                              //                     .whiteColor,
+                                              //                 size: 30,
+                                              //               ),
+                                              //               Text(
+                                              //                 "Added",
+                                              //                 style: TextStyle(
+                                              //                   color: AppColors
+                                              //                       .whiteColor,
+                                              //                   fontSize: 17,
+                                              //                   fontWeight:
+                                              //                       FontWeight.bold,
+                                              //                 ),
+                                              //               ),
+                                              //             ],
+                                              //           ),
+                                              //         ),
+                                              //       )
+                                              //     :
+                                              MyButton(
+                                            label: "Add to cart",
+                                            onTap: () async {
+                                              // int itemQuantity =
+                                              //     data.get("itemQuantity");
+                                              if (quantity[index] == 0) {
+                                                // itemQuantity++;
+                                                SharedPreferences prefs =
+                                                    await SharedPreferences
+                                                        .getInstance();
+                                                quantity[index]++;
+                                                FlutterNotificationService
+                                                    .showNotification(
+                                                  "Food Go",
+                                                  "Add to Cart Successfully",
+                                                );
+                                                prefs.setInt("quantity_$index",
+                                                    quantity[index]);
+                                                prefs.getInt("quantity_$index");
+                                                viewModel.itemId = data.id;
+                                                cartItems.add({
+                                                  "userID": userDetails!.uid,
+                                                  "index": index,
+                                                  "itemID": data.id,
+                                                  "isAdded": true,
+                                                  "isCheeseAdded":
+                                                      viewModel.isCheeseAdded
+                                                          ? "Cheese Slice"
+                                                          : "None",
+                                                  "isGarlicAdded":
+                                                      viewModel.isGarlicAdded
+                                                          ? "Garlic Bread"
+                                                          : "None",
+                                                  "image": image,
+                                                  "itemName":
+                                                      data.get("itemName"),
+                                                  "itemPrice":
+                                                      data.get("itemPrice"),
+                                                  "itemRating":
+                                                      data.get("itemRating"),
+                                                  "itemName_2":
+                                                      data.get("itemName_2"),
+                                                  "itemDescription": data
+                                                      .get("itemDescription"),
+                                                  "itemQuantity":
+                                                      quantity[index],
+                                                });
+                                                await viewModel.updateUser();
+                                                //     .then((value) {
+                                                //   mySuccessSnackBar(
+                                                //       context: context,
+                                                //       message:
+                                                //           "Add to cart successfully!");
+                                                //   // isAdded[index] = true;
+                                                //   // prefs.setBool(
+                                                //   //     "isAdded_$index",
+                                                //   //     isAdded[index]);
+                                                //   // prefs.getBool(
+                                                //   //     "isAdded_$index");
+                                                // });
+                                                // await FirebaseFirestore.instance.
+                                                // await viewModel.updateAddItems(
+                                                //     data.get("image"),
+                                                //     data.get("itemName"),
+                                                //     data.get("itemPrice"),
+                                                //     data.get("itemRating"),
+                                                //     data.get("itemName_2"),
+                                                //     data.get("itemDescription"),
+                                                //     itemQuantity,
+                                                //     context);
+                                                // await viewModel.addToCart(
+                                                //     data.get("image"),
+                                                //     data.get(
+                                                //         "itemName".toString()),
+                                                //     data.get(
+                                                //         "itemPrice".toString()),
+                                                //     data.get(
+                                                //         "itemRating".toString()),
+                                                //     data.get(
+                                                //         "itemName_2".toString()),
+                                                //     data.get("itemDescription"
+                                                //         .toString()),
+                                                //     itemQuantity,
+                                                //     context);
+                                                // cartImage = image;
+                                                // data.get("itemQuantity") == "1";
+                                                viewModel.rebuildUi();
+                                              } else {
+                                                quantity[index]++;
+                                                SharedPreferences prefs =
+                                                    await SharedPreferences
+                                                        .getInstance();
+                                                prefs.setInt("quantity_$index",
+                                                    quantity[index]);
+                                                prefs.getInt("quantity_$index");
+                                                cartItems
+                                                    .where((e) =>
+                                                        e["itemID"] == data.id)
+                                                    .forEach((element) {
+                                                  element["itemQuantity"] =
+                                                      quantity[index];
+                                                });
+                                                await viewModel
+                                                    .updateUser()
+                                                    .then((value) {
+                                                  mySuccessSnackBar(
+                                                      context: context,
+                                                      message:
+                                                          "Add to cart successfully!");
+                                                });
+                                                viewModel.rebuildUi();
+                                              }
+                                            },
+                                            width: getWidth(context, 0.8),
+                                          ),
                                         )
                                       ],
                                     ),

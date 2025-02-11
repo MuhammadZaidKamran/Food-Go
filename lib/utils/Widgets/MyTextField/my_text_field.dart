@@ -23,6 +23,7 @@ class MyTextField extends StatelessWidget {
     this.leading,
     this.height,
     this.width,
+    this.borderColor,
   });
   final TextEditingController controller;
   final String label;
@@ -37,6 +38,7 @@ class MyTextField extends StatelessWidget {
   final Color? fillColor;
   final TextStyle? hintStyle;
   final BorderRadius? borderRadius;
+  final Color? borderColor;
   final Widget? leading;
   final double? height;
   final double? width;
@@ -49,6 +51,9 @@ class MyTextField extends StatelessWidget {
       width: width ?? double.infinity,
       // height: height ?? 70,
       child: TextFormField(
+        onTapOutside: (event) {
+          FocusScope.of(context).unfocus();
+        },
         maxLength: maxLength,
         maxLines: maxLines ?? 1,
         onChanged: onChanged,
@@ -69,17 +74,17 @@ class MyTextField extends StatelessWidget {
             hintStyle: hintStyle ?? TextStyle(color: AppColors.darkMainTheme),
             border: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: AppColors.darkMainTheme,
+                  color: borderColor ?? AppColors.darkMainTheme,
                 ),
                 borderRadius: borderRadius ?? BorderRadius.circular(10)),
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: AppColors.darkMainTheme,
+                  color: borderColor ?? AppColors.darkMainTheme,
                 ),
                 borderRadius: borderRadius ?? BorderRadius.circular(10)),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: AppColors.darkMainTheme,
+                  color: borderColor ?? AppColors.darkMainTheme,
                 ),
                 borderRadius: borderRadius ?? BorderRadius.circular(10))),
       ),

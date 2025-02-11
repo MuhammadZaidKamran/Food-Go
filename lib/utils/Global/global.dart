@@ -58,7 +58,7 @@ List<int> quantity = [0, 0, 0, 0];
 
 final userDetails = FirebaseAuth.instance.currentUser;
 
-List<bool> isAdded = [false, false, false, false];
+// List<bool> isAdded = [false, false, false, false];
 
 Map? user;
 
@@ -76,6 +76,8 @@ mySuccessSnackBar({
       ),
       backgroundColor: AppColors.greenColor,
     ),
+    snackBarAnimationStyle:
+        AnimationStyle(duration: const Duration(seconds: 1)),
   );
 }
 
@@ -93,6 +95,8 @@ myErrorSnackBar({
       ),
       backgroundColor: Colors.red,
     ),
+    snackBarAnimationStyle:
+        AnimationStyle(duration: const Duration(seconds: 1)),
   );
 }
 
@@ -109,17 +113,22 @@ platFormFees() {
   });
 }
 
-Future updateUser({
+Future updateUserCart({
   required BuildContext context,
 }) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    cartItems.clear();
+    for (var e in quantity) {
+      e == 0;
+      prefs.remove("quantity_$e");
+    }
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({
       "email": userDetails!.email,
-      "cartItems": [],
+      "cartItems": cartItems,
       "userID": userDetails!.uid,
       "favoriteItems": favoriteItems,
       "userName": prefs.getString("userName"),

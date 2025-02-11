@@ -101,7 +101,7 @@ class StripeService {
                         totalAmount: totalAmount,
                         note: note,
                       )));
-                      await updateUser(context: context);
+          await updateUserCart(context: context);
         });
       });
       await Stripe.instance.confirmPaymentSheetPayment();

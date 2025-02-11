@@ -51,9 +51,9 @@ class CartView extends StatelessWidget {
           for (int i = 0; i < quantity.length; i++) {
             quantity[i] = prefs.getInt("quantity_$i") ?? 0;
           }
-          for (var i = 0; i < isAdded.length; i++) {
-            isAdded[i] = prefs.getBool("isAdded_$i") ?? false;
-          }
+          // for (var i = 0; i < isAdded.length; i++) {
+          //   isAdded[i] = prefs.getBool("isAdded_$i") ?? false;
+          // }
         },
         viewModelBuilder: () => CartViewModel(),
         builder: (context, viewModel, child) {
