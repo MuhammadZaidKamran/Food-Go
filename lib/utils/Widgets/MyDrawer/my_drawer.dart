@@ -75,7 +75,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              width: getWidth(context, 0.18),
+                              width: getWidth(context, 0.16),
                               child: Text(
                                 name.toString(),
                                 overflow: TextOverflow.ellipsis,
@@ -103,12 +103,18 @@ class _MyDrawerState extends State<MyDrawer> {
                           ],
                         ),
                         height(getHeight(context, 0.007)),
-                        Text(
-                          email.toString(),
-                          style: TextStyle(
+                        SizedBox(
+                          width: getWidth(context, 0.4),
+                          child: Text(
+                            email.toString(),
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.whiteColor),
+                              color: AppColors.whiteColor,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     )
@@ -160,8 +166,7 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const OrderView()));
+                              builder: (context) => const OrderView()));
                     }),
                 // height(getHeight(context, 0.01)),
                 DrawerListTile(

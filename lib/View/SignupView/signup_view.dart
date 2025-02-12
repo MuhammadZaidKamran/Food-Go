@@ -38,14 +38,10 @@ class SignupView extends StatelessWidget {
                                 AppColors.mainTheme,
                                 const Color.fromARGB(255, 218, 127, 127)
                               ])),
-                      child: const Center(
-                        child: Text(
-                          "LOGO",
-                          style: TextStyle(
-                              letterSpacing: 1,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                      child: Center(
+                        child: Image.asset(
+                          "assets/images/Foodgo.png",
+                          scale: 3,
                         ),
                       ),
                     ),

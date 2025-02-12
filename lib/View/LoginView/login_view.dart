@@ -38,14 +38,10 @@ class LoginView extends StatelessWidget {
                               AppColors.mainTheme,
                               const Color.fromARGB(255, 218, 127, 127)
                             ])),
-                    child: const Center(
-                      child: Text(
-                        "Logo",
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                    child: Center(
+                      child: Image.asset(
+                        "assets/images/Foodgo.png",
+                        scale: 3,
                       ),
                     ),
                   ),

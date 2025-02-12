@@ -18,15 +18,20 @@ class SplashView extends StatelessWidget {
     return ViewModelBuilder.reactive(
         onViewModelReady: (viewModel) {
           Future.delayed(const Duration(seconds: 2), () async {
-            if (viewModel.user == null) {
+            if (FirebaseAuth.instance.currentUser == null) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const LoginView()));
-            } else if (viewModel.user != null) {
-              userID = FirebaseAuth.instance.currentUser!.uid;
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const BottomNavBarView()));
+            } else {
+              if (FirebaseAuth.instance.currentUser!.emailVerified == true) {
+                userID = FirebaseAuth.instance.currentUser!.uid;
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BottomNavBarView()));
+              } else {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const LoginView()));
+              }
             }
           });
         },

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/View/BottomNavBarView/bottom_nav_bar_view.dart';
+import 'package:food_go/View/VerificationView/verification_view.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,16 +22,16 @@ class AuthControllers extends BaseViewModel {
       await authentication
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) async {
-        ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle:
-                AnimationStyle(duration: const Duration(seconds: 1)),
-            const SnackBar(
-              content: Text(
-                "Account Created Successfully",
-                style: TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.green,
-            ));
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //     snackBarAnimationStyle:
+        //         AnimationStyle(duration: const Duration(seconds: 1)),
+        //     const SnackBar(
+        //       content: Text(
+        //         "Account Created Successfully",
+        //         style: TextStyle(color: Colors.white),
+        //       ),
+        //       backgroundColor: Colors.green,
+        //     ));
         await FirebaseFirestore.instance
             .collection("users")
             .doc(value.user!.uid)
@@ -41,8 +42,8 @@ class AuthControllers extends BaseViewModel {
           "phoneNumber": phoneNumber,
           "favoriteItems": [],
           "cartItems": [],
-          "platformFee" : 10,
-          "deliveryCharges" : 49,
+          "platformFee": 10,
+          "deliveryCharges": 49,
         }).then((value) async {
           user = {
             "userID": FirebaseAuth.instance.currentUser!.uid,
@@ -57,8 +58,9 @@ class AuthControllers extends BaseViewModel {
           await prefs.setString("phoneNumber", user!["phoneNumber"]);
           // print(prefs.getString("userName"));
         });
+        await FirebaseAuth.instance.currentUser!.sendEmailVerification();
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const BottomNavBarView()));
+            MaterialPageRoute(builder: (context) => const VerificationView()));
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -163,6 +165,7 @@ class AuthControllers extends BaseViewModel {
           ),
           backgroundColor: Colors.green,
         ));
+        Navigator.pop(context);
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

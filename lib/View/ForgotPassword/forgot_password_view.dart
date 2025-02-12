@@ -60,15 +60,11 @@ class ForgotPasswordView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const Center(
-                          child: Text(
-                            "LOGO",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                letterSpacing: 1,
-                                fontSize: 35,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                        height(getHeight(context, 0.015)),
+                        Center(
+                          child: Image.asset(
+                            "assets/images/Foodgo.png",
+                            scale: 3,
                           ),
                         )
                       ],

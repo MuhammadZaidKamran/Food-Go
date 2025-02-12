@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:food_go/View/OrderSuccessfulView/order_successful_view.dart';
+import 'package:food_go/utils/Global/flutter_notification_service.dart';
 import 'package:food_go/utils/Global/global.dart';
 import 'package:food_go/utils/Global/stripe_keys.dart';
 import 'package:http/http.dart' as http;
@@ -101,6 +102,10 @@ class StripeService {
                         totalAmount: totalAmount,
                         note: note,
                       )));
+          await FlutterNotificationService.showNotification(
+            "Food Go",
+            "Your Order is Placed Successfully!",
+          );
           await updateUserCart(context: context);
         });
       });

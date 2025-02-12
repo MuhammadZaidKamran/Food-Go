@@ -7,9 +7,9 @@
     <uses-permission android:name="android.permission. SCHEDULE_EXACT_ALARM" />
 
     <application
-        android:label="food_go"
+        android:label="Food Go"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyDQ2c_pOSOFYSjxGMwkFVCVWKjYOM9siow"/>
