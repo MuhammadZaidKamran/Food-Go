@@ -17,6 +17,7 @@ class CartView extends StatelessWidget {
   const CartView(
       {super.key, this.goBack = false, this.data, this.confirmAddress = false});
   final bool? goBack;
+  // ignore: prefer_typing_uninitialized_variables
   final data;
   final bool? confirmAddress;
 

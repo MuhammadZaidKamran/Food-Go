@@ -54,7 +54,9 @@ String cartImage = "";
 List favoriteImage = [];
 
 var isFavoriteList = [false, false, false, false];
+var isFavoriteCombos = [false, false, false, false, false,];
 List<int> quantity = [0, 0, 0, 0];
+List<int> comboQuantity = [0, 0, 0, 0, 0,];
 
 final userDetails = FirebaseAuth.instance.currentUser;
 
@@ -100,6 +102,7 @@ myErrorSnackBar({
   );
 }
 
+// ignore: prefer_typing_uninitialized_variables
 var platformCharges;
 var deliveryCharges;
 platFormFees() {

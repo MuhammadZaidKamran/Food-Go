@@ -18,7 +18,7 @@ class SearchPlacesView extends StatefulWidget {
 
 class _SearchPlacesViewState extends State<SearchPlacesView> {
   final searchController = TextEditingController();
-  String _sessionToken = "12334";
+  final String _sessionToken = "12334";
   Uuid uuid = const Uuid();
   List<dynamic> placesList = [];
 
@@ -31,11 +31,6 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
   }
 
   onChange() {
-    if (_sessionToken == null) {
-      setState(() {
-        _sessionToken = uuid.v4();
-      });
-    }
     getSuggestion(searchController.text);
   }
 

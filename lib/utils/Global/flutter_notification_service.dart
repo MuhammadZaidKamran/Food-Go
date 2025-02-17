@@ -28,7 +28,7 @@ class FlutterNotificationService {
       android: androidDetails,
     );
 
-    await _notification.zonedSchedule(
+    _notification.zonedSchedule(
       0,
       title,
       body,

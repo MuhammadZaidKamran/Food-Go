@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_go/utils/Global/global.dart';
-//import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 
-class FoodItemModel extends BaseViewModel {
+class FoodComboModel extends BaseViewModel {
+  TextEditingController imageController = TextEditingController();
   TextEditingController itemNameController = TextEditingController();
   TextEditingController itemName_2Controller = TextEditingController();
   TextEditingController itemPriceController = TextEditingController();
@@ -22,15 +21,15 @@ class FoodItemModel extends BaseViewModel {
 
   addItems() async {
     await FirebaseFirestore.instance
-        .collection("all items")
+        .collection("foodCombos")
         .add({
+          "image": imageController.text,
           'itemName': itemNameController.text,
           'itemName_2': itemName_2Controller.text,
           'itemPrice': itemPriceController.text,
           'itemQuantity': 0,
           'itemRating': itemRatingController.text,
           'itemDescription': itemDescriptionController.text,
-          'isFavorite': isFavoriteList,
         })
         // ignore: avoid_print
         .then((value) => print("$value Added"))

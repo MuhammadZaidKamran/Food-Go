@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_go/View/CartView/cart_view.dart';
 import 'package:food_go/View/HomeView/AllItems/all_items.dart';
+import 'package:food_go/View/HomeView/ComboItems/combo_items.dart';
 import 'package:food_go/ViewModel/HomeViewModel/home_view_model.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
@@ -183,11 +184,11 @@ class HomeView extends StatelessWidget {
                     height(MediaQuery.of(context).size.height * 0.03),
                     const MyTabBar(tabOne: "All", tabTwo: "Combos"),
                     height(MediaQuery.of(context).size.height * 0.02),
-                    Expanded(
+                    const Expanded(
                       child: TabBarView(
                         children: [
-                        const AllItems(),
-                        Container(),
+                        AllItems(),
+                        ComboItems(),
                       ]),
                     ),
                   ],

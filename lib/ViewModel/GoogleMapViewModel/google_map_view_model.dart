@@ -51,7 +51,7 @@ class GoogleMapViewModel extends BaseViewModel {
       List<Placemark> placeMarks =
           await placemarkFromCoordinates(value.latitude, value.longitude);
       searchController.text =
-          "${placeMarks.first.street} ${placeMarks.first.locality} ${placeMarks.first.postalCode} ${placeMarks.first.country}";
+          "${placeMarks.first.street}, ${placeMarks.first.subLocality}, ${placeMarks.first.locality}, ${placeMarks.first.postalCode}, ${placeMarks.first.country}, ${placeMarks.first.thoroughfare}, ${placeMarks.first.subThoroughfare}";
       rebuildUi();
     });
   }
@@ -65,19 +65,21 @@ class GoogleMapViewModel extends BaseViewModel {
   }) async {
     String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
     ref.child(FirebaseAuth.instance.currentUser!.uid).child(dateTime).set({
-      "id" : dateTime,
+      "id": dateTime,
       "userID": FirebaseAuth.instance.currentUser!.uid,
-      "address" : address,
+      "address": address,
       "latitude": latitude,
       "longitude": longitude,
       "destination": destination,
     }).then((value) {
       if (fromAddress == true) {
         Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const ConfirmAddressView()));
-      }else{
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const AddressView()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ConfirmAddressView()));
+      } else {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const AddressView()));
       }
     }).catchError((error) {
       debugPrint(error.toString());

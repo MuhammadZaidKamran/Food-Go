@@ -20,7 +20,7 @@ class HomeViewModel extends BaseViewModel {
       List<Placemark> placeMarks =
           await placemarkFromCoordinates(value.latitude, value.longitude);
       userCurrentAddress =
-          "${placeMarks.first.street} ${placeMarks.first.locality} ${placeMarks.first.postalCode} ${placeMarks.first.country}";
+          "${placeMarks.first.street}, ${placeMarks.first.subLocality}, ${placeMarks.first.locality}, ${placeMarks.first.postalCode}, ${placeMarks.first.country}, ${placeMarks.first.thoroughfare}, ${placeMarks.first.subThoroughfare}";
       rebuildUi();
     });
   }

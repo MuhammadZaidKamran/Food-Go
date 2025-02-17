@@ -17,7 +17,7 @@ class BottomNavBarView extends StatelessWidget {
               child: viewModel.widgetList[viewModel.index],
             ),
             bottomNavigationBar: CurvedNavigationBar(
-                height: 65,
+                height: 55,
                 color: AppColors.mainTheme,
                 backgroundColor: AppColors.whiteColor,
                 index: viewModel.index,

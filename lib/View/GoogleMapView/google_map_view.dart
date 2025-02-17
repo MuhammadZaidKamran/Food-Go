@@ -121,7 +121,7 @@ class GoogleMapView extends StatelessWidget {
                                   ),
                                   infoWindow: InfoWindow(
                                     title:
-                                        "${placeMarks.first.street} ${placeMarks.first.locality} ${placeMarks.first.postalCode} ${placeMarks.first.country}",
+                                        "${placeMarks.first.street}, ${placeMarks.first.subLocality}, ${placeMarks.first.locality}, ${placeMarks.first.postalCode}, ${placeMarks.first.country}, ${placeMarks.first.thoroughfare}, ${placeMarks.first.subThoroughfare}",
                                   ),
                                 ),
                               );
@@ -133,7 +133,7 @@ class GoogleMapView extends StatelessWidget {
                                               .newCameraPosition!.longitude),
                                       zoom: 14)));
                               viewModel.searchController.text =
-                                  "${placeMarks.first.street} ${placeMarks.first.locality} ${placeMarks.first.postalCode} ${placeMarks.first.country}";
+                                  "${placeMarks.first.street}, ${placeMarks.first.subLocality}, ${placeMarks.first.locality}, ${placeMarks.first.postalCode}, ${placeMarks.first.country}, ${placeMarks.first.thoroughfare}, ${placeMarks.first.subThoroughfare}";
                               viewModel.rebuildUi();
                             }
                           },
@@ -209,7 +209,7 @@ class GoogleMapView extends StatelessWidget {
                                         viewModel.newCameraPosition!.longitude);
                                 viewModel.addUserDeliveryAddress(
                                   address:
-                                      "${placeMarks.first.street} ${placeMarks.first.locality} ${placeMarks.first.postalCode} ${placeMarks.first.country}",
+                                      "${placeMarks.first.street}, ${placeMarks.first.subLocality}, ${placeMarks.first.locality}, ${placeMarks.first.postalCode}, ${placeMarks.first.country}, ${placeMarks.first.thoroughfare}, ${placeMarks.first.subThoroughfare}",
                                   latitude:
                                       viewModel.newCameraPosition!.latitude,
                                   longitude:
@@ -231,7 +231,7 @@ class GoogleMapView extends StatelessWidget {
                                         location.first.longitude);
                                 viewModel.addUserDeliveryAddress(
                                   address:
-                                      "${placeMark.first.street} ${placeMark.first.locality} ${placeMark.first.postalCode} ${placeMark.first.country}",
+                                      "${placeMark.first.street}, ${placeMark.first.subLocality}, ${placeMark.first.locality}, ${placeMark.first.postalCode}, ${placeMark.first.country}, ${placeMark.first.thoroughfare}, ${placeMark.first.subThoroughfare}",
                                   latitude: location.first.latitude,
                                   longitude: location.first.longitude,
                                   destination: viewModel.selectedIndex == 0
