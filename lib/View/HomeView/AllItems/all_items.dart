@@ -119,7 +119,7 @@ class _AllItemsState extends State<AllItems> {
                                         if (data != null) {
                                           isFavoriteList = data[0];
                                           quantity = data[1];
-                                          index = data[3];
+                                          index = data[4];
                                         }
                                         viewModel.rebuildUi();
                                       },

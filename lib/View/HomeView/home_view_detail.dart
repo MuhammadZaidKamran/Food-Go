@@ -17,11 +17,15 @@ class HomeViewDetail extends StatelessWidget {
       required this.image,
       required this.isFavorite,
       required this.quantity,
+      this.fromCombo,
+      // required this.comboQuantity,
       required this.index});
   final String id;
   final String image;
   List<bool> isFavorite;
   List<int> quantity;
+  bool? fromCombo = false;
+  // List<int> comboQuantity;
   int index;
 
   @override
@@ -31,10 +35,14 @@ class HomeViewDetail extends StatelessWidget {
         onViewModelReady: (viewModel) async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           for (var i = 0; i < quantity.length; i++) {
-            quantity[i] = prefs.getInt("quantity_$i") ?? 0;
+            quantity[i] = fromCombo == true
+                ? prefs.getInt("quantity2_$i") ?? 0
+                : prefs.getInt("quantity_$i") ?? 0;
           }
           for (var i = 0; i < isFavorite.length; i++) {
-            isFavorite[i] = prefs.getBool("isFavorite_$i") ?? false;
+            isFavorite[i] = fromCombo == true
+                ? prefs.getBool("isFavorite2_$i") ?? false
+                : prefs.getBool("isFavorite_$i") ?? false;
           }
           // for (var i = 0; i < isAdded.length; i++) {
           //   isAdded[i] = prefs.getBool("isAdded_$i") ?? false;
@@ -52,6 +60,7 @@ class HomeViewDetail extends StatelessWidget {
                       Navigator.pop(context, [
                         isFavorite,
                         quantity,
+                        comboQuantity,
                         id,
                         index,
                       ]);
@@ -65,7 +74,9 @@ class HomeViewDetail extends StatelessWidget {
                   height(MediaQuery.of(context).size.height * 0.02),
                   Expanded(
                       child: FutureBuilder(
-                          future: viewModel.allItems.doc(id).get(),
+                          future: fromCombo == true
+                              ? viewModel.foodCombos.doc(id).get()
+                              : viewModel.allItems.doc(id).get(),
                           builder: (context, snapshot) {
                             final data = snapshot.data;
                             if (snapshot.hasData) {
@@ -491,9 +502,18 @@ class HomeViewDetail extends StatelessWidget {
                                                   "Food Go",
                                                   "Add to Cart Successfully",
                                                 );
-                                                prefs.setInt("quantity_$index",
-                                                    quantity[index]);
-                                                prefs.getInt("quantity_$index");
+                                                fromCombo == true
+                                                    ? prefs.setInt(
+                                                        "quantity2_$index",
+                                                        quantity[index])
+                                                    : prefs.setInt(
+                                                        "quantity_$index",
+                                                        quantity[index]);
+                                                fromCombo == true
+                                                    ? prefs.getInt(
+                                                        "quantity2_$index")
+                                                    : prefs.getInt(
+                                                        "quantity_$index");
                                                 viewModel.itemId = data.id;
                                                 cartItems.add({
                                                   "userID": userDetails!.uid,
@@ -567,9 +587,18 @@ class HomeViewDetail extends StatelessWidget {
                                                 SharedPreferences prefs =
                                                     await SharedPreferences
                                                         .getInstance();
-                                                prefs.setInt("quantity_$index",
-                                                    quantity[index]);
-                                                prefs.getInt("quantity_$index");
+                                                fromCombo == true
+                                                    ? prefs.setInt(
+                                                        "quantity2_$index",
+                                                        quantity[index])
+                                                    : prefs.setInt(
+                                                        "quantity_$index",
+                                                        quantity[index]);
+                                                fromCombo == true
+                                                    ? prefs.getInt(
+                                                        "quantity2_$index")
+                                                    : prefs.getInt(
+                                                        "quantity_$index");
                                                 cartItems
                                                     .where((e) =>
                                                         e["itemID"] == data.id)

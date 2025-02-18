@@ -10,6 +10,8 @@ import 'package:stacked/stacked.dart';
 class HomeViewDetailModel extends BaseViewModel {
   CollectionReference allItems =
       FirebaseFirestore.instance.collection('all items');
+      CollectionReference foodCombos =
+      FirebaseFirestore.instance.collection('foodCombos');
   String itemId = '';
   bool isCheeseAdded = false;
   bool isGarlicAdded = false;

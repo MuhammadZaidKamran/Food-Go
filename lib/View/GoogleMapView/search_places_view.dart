@@ -35,7 +35,7 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
   }
 
   getSuggestion(String input) async {
-    String KPLACES_API_KEY = "AlzaSy2srmxjOrT8yyYdkktGU_W199VaEUGWxiK";
+    String KPLACES_API_KEY = "AlzaSyyxpJmT80QGUD65SqKA78TFxUcArH2iE2U";
     String baseURL = 'https://maps.gomaps.pro/maps/api/place/autocomplete/json';
     String request =
         '$baseURL?input=$input&key=$KPLACES_API_KEY&sessiontoken $_sessionToken';

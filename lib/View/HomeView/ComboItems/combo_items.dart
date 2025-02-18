@@ -108,11 +108,12 @@ class ComboItems extends StatelessWidget {
                                                     id: item.id,
                                                     image: item["image"],
                                                     quantity: comboQuantity,
+                                                    fromCombo: true,
                                                   )));
                                       if (data != null) {
                                         isFavoriteCombos = data[0];
                                         comboQuantity = data[1];
-                                        index = data[3];
+                                        index = data[4];
                                       }
                                       viewModel.rebuildUi();
                                     },
