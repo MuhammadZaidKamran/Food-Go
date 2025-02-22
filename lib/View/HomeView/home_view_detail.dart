@@ -268,12 +268,9 @@ class HomeViewDetail extends StatelessWidget {
                                                     AppColors.mainTheme,
                                                 value: viewModel.isCheeseAdded,
                                                 onChanged: (value) {
-                                                  bool isCheeseAddedValue =
-                                                      data.get("isCheeseAdded");
+                                                  data.get("isCheeseAdded");
                                                   viewModel.isCheeseAdded =
                                                       value!;
-                                                  isCheeseAddedValue =
-                                                      viewModel.isCheeseAdded;
                                                   viewModel.rebuildUi();
                                                 },
                                               )
@@ -294,14 +291,11 @@ class HomeViewDetail extends StatelessWidget {
                                                     AppColors.mainTheme,
                                                 value: viewModel.isGarlicAdded,
                                                 onChanged: (value) {
-                                                  bool isGarlicAddedValue =
-                                                      data.get(
+                                                  data.get(
                                                     "isGarlicAdded",
                                                   );
                                                   viewModel.isGarlicAdded =
                                                       value!;
-                                                  isGarlicAddedValue =
-                                                      viewModel.isGarlicAdded;
                                                   viewModel.rebuildUi();
                                                 },
                                               ),
@@ -318,39 +312,77 @@ class HomeViewDetail extends StatelessWidget {
                                           onTap: () async {
                                             // isFavorite = !isFavorite;
                                             viewModel.itemId = data.id;
+                                            SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            final foodCombo = prefs
+                                                .getBool("isFavorite2_$index");
+                                            final foodList = prefs
+                                                .getBool("isFavorite_$index");
                                             if (isFavorite[index] == false) {
                                               isFavorite[index] = true;
-                                              SharedPreferences prefs =
-                                                  await SharedPreferences
-                                                      .getInstance();
-                                              prefs.setBool(
-                                                  "isFavorite_$index", true);
-                                              isFavorite[index] = prefs.getBool(
-                                                  "isFavorite_$index")!;
-                                              favoriteItems.add({
-                                                "userID": userDetails!.uid,
-                                                "index": index,
-                                                "itemID": data.id,
-                                                "image": image,
-                                                "itemName":
-                                                    data.get("itemName"),
-                                                "itemPrice":
-                                                    data.get("itemPrice"),
-                                                "itemRating":
-                                                    data.get("itemRating"),
-                                                "itemName_2":
-                                                    data.get("itemName_2"),
-                                                "itemDescription":
-                                                    data.get("itemDescription"),
-                                              });
-                                              await viewModel
-                                                  .updateUser()
-                                                  .then((value) {
-                                                mySuccessSnackBar(
-                                                    context: context,
-                                                    message:
-                                                        "Add to Favorites");
-                                              });
+                                              if (foodCombo == false) {
+                                                prefs.setBool(
+                                                    "isFavorite2_$index", true);
+                                                isFavorite[index] =
+                                                    prefs.getBool(
+                                                        "isFavorite2_$index")!;
+                                                favoriteItems.add({
+                                                  "userID": userDetails!.uid,
+                                                  "index": index,
+                                                  "itemID": data.id,
+                                                  "image": image,
+                                                  "itemName":
+                                                      data.get("itemName"),
+                                                  "itemPrice":
+                                                      data.get("itemPrice"),
+                                                  "itemRating":
+                                                      data.get("itemRating"),
+                                                  "itemName_2":
+                                                      data.get("itemName_2"),
+                                                  "itemDescription": data
+                                                      .get("itemDescription"),
+                                                });
+                                                await viewModel
+                                                    .updateUser()
+                                                    .then((value) {
+                                                  mySuccessSnackBar(
+                                                      context: context,
+                                                      message:
+                                                          "Add to Favorites");
+                                                });
+                                              } else if (foodList == false) {
+                                                prefs.setBool(
+                                                    "isFavorite_$index", true);
+                                                isFavorite[index] =
+                                                    prefs.getBool(
+                                                        "isFavorite_$index")!;
+                                                favoriteItems.add({
+                                                  "userID": userDetails!.uid,
+                                                  "index": index,
+                                                  "itemID": data.id,
+                                                  "image": image,
+                                                  "itemName":
+                                                      data.get("itemName"),
+                                                  "itemPrice":
+                                                      data.get("itemPrice"),
+                                                  "itemRating":
+                                                      data.get("itemRating"),
+                                                  "itemName_2":
+                                                      data.get("itemName_2"),
+                                                  "itemDescription": data
+                                                      .get("itemDescription"),
+                                                });
+                                                await viewModel
+                                                    .updateUser()
+                                                    .then((value) {
+                                                  mySuccessSnackBar(
+                                                      context: context,
+                                                      message:
+                                                          "Add to Favorites");
+                                                });
+                                              }
+
                                               //   await viewModel.updateFavorites(
                                               //       image: data.get("image"),
                                               //       itemName:
@@ -414,20 +446,40 @@ class HomeViewDetail extends StatelessWidget {
                                               SharedPreferences prefs =
                                                   await SharedPreferences
                                                       .getInstance();
-                                              prefs.setBool(
-                                                  "isFavorite_$index", false);
-                                              isFavorite[index] = prefs.getBool(
-                                                  "isFavorite_$index")!;
-                                              favoriteItems.removeWhere((e) =>
-                                                  e["itemID"] == data.id);
-                                              await viewModel
-                                                  .updateUser()
-                                                  .then((value) {
-                                                myErrorSnackBar(
-                                                    context: context,
-                                                    message:
-                                                        "Removed Successfully");
-                                              });
+                                              if (foodCombo == true) {
+                                                prefs.setBool(
+                                                    "isFavorite2_$index",
+                                                    false);
+                                                isFavorite[index] =
+                                                    prefs.getBool(
+                                                        "isFavorite2_$index")!;
+                                                favoriteItems.removeWhere((e) =>
+                                                    e["itemID"] == data.id);
+                                                await viewModel
+                                                    .updateUser()
+                                                    .then((value) {
+                                                  myErrorSnackBar(
+                                                      context: context,
+                                                      message:
+                                                          "Removed Successfully");
+                                                });
+                                              } else if (foodList == true) {
+                                                prefs.setBool(
+                                                    "isFavorite_$index", false);
+                                                isFavorite[index] =
+                                                    prefs.getBool(
+                                                        "isFavorite_$index")!;
+                                                favoriteItems.removeWhere((e) =>
+                                                    e["itemID"] == data.id);
+                                                await viewModel
+                                                    .updateUser()
+                                                    .then((value) {
+                                                  myErrorSnackBar(
+                                                      context: context,
+                                                      message:
+                                                          "Removed Successfully");
+                                                });
+                                              }
                                             }
                                             viewModel.rebuildUi();
                                           },

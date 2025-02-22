@@ -18,8 +18,11 @@ class FavoriteView extends StatelessWidget {
     return ViewModelBuilder.reactive(
         onViewModelReady: (viewModel) async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          for (int i = 0; i < isFavoriteList.length; i++) {
+          for (int i = 0;
+              i < isFavoriteList.length && i < isFavoriteCombos.length;
+              i++) {
             isFavoriteList[i] = prefs.getBool("isFavorite_$i") ?? false;
+            isFavoriteCombos[i] = prefs.getBool("isFavorite2_$i") ?? false;
           }
           //viewModel.updateUser(context: context);
         },
@@ -29,8 +32,10 @@ class FavoriteView extends StatelessWidget {
             appBar: AppBar(
               leading: goBack == true
                   ? InkWell(
-                      onTap: () => Navigator.pushReplacement(context,MaterialPageRoute(
-                        builder: (context) => const BottomNavBarView())),
+                      onTap: () => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNavBarView())),
                       child: Icon(
                         Icons.arrow_back,
                         color: AppColors.blackColor,
@@ -87,22 +92,42 @@ class FavoriteView extends StatelessWidget {
                                         SharedPreferences prefs =
                                             await SharedPreferences
                                                 .getInstance();
-
+                                                final isFavoriteCombo = prefs.getBool("isFavorite2_${item["index"]}");
                                         // viewModel.itemId = item["itemID"];
-                                        prefs.setBool(
-                                            "isFavorite_${item["index"]}",
-                                            false);
-                                        isFavoriteList[item["index"]] =
-                                            prefs.getBool(
-                                                "isFavorite_${item["index"]}")!;
-                                        favoriteItems.removeWhere((e) =>
-                                            e["itemID"] == item["itemID"]);
-                                        await viewModel.removeFavorite(
-                                            // ignore: use_build_context_synchronously
-                                            context: context);
-                                        await viewModel.updateUser(
-                                            // ignore: use_build_context_synchronously
-                                            context: context);
+                                        if (isFavoriteCombo ==
+                                            true) {
+                                          prefs.setBool(
+                                              "isFavorite2_${item["index"]}",
+                                              false);
+                                          isFavoriteCombos[
+                                              item[
+                                                  "index"]] = prefs.getBool(
+                                              "isFavorite2_${item["index"]}")!;
+                                          favoriteItems.removeWhere((e) =>
+                                              e["itemID"] == item["itemID"]);
+                                          await viewModel.removeFavorite(
+                                              // ignore: use_build_context_synchronously
+                                              context: context);
+                                          await viewModel.updateUser(
+                                              // ignore: use_build_context_synchronously
+                                              context: context);
+                                        } else {
+                                          prefs.setBool(
+                                              "isFavorite_${item["index"]}",
+                                              false);
+                                          isFavoriteList[
+                                              item[
+                                                  "index"]] = prefs.getBool(
+                                              "isFavorite_${item["index"]}")!;
+                                          favoriteItems.removeWhere((e) =>
+                                              e["itemID"] == item["itemID"]);
+                                          await viewModel.removeFavorite(
+                                              // ignore: use_build_context_synchronously
+                                              context: context);
+                                          await viewModel.updateUser(
+                                              // ignore: use_build_context_synchronously
+                                              context: context);
+                                        }
                                         // await viewModel.updateFavorites(
                                         //     image: item["image"],
                                         //     itemName: item["itemName"],

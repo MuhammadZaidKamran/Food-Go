@@ -104,6 +104,7 @@ myErrorSnackBar({
 
 // ignore: prefer_typing_uninitialized_variables
 var platformCharges;
+// ignore: prefer_typing_uninitialized_variables
 var deliveryCharges;
 platFormFees() {
   FirebaseFirestore.instance
