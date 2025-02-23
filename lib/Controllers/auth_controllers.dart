@@ -5,6 +5,7 @@ import 'package:food_go/View/BottomNavBarView/bottom_nav_bar_view.dart';
 import 'package:food_go/View/VerificationView/verification_view.dart';
 import 'package:food_go/utils/Colors/colors.dart';
 import 'package:food_go/utils/Global/global.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 
@@ -153,6 +154,51 @@ class AuthControllers extends BaseViewModel {
         backgroundColor: Colors.red,
       ));
     }
+  }
+
+  //Google Sign-In
+  signInWithGoogle(context) async {
+// begin interactive sign in process
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+// user cancels google sign in pop up screen
+    if (gUser == null) return;
+// obtain auth details from request
+    final GoogleSignInAuthentication gAuth = await gUser.authentication;
+// create a new credential for user
+    final credential = GoogleAuthProvider.credential(
+      accessToken: gAuth.accessToken,
+      idToken: gAuth.idToken,
+    );
+// finally, sign in!
+    return await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .then((value) async {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(value.user!.uid)
+          .set({
+        "userID": value.user!.uid,
+        "userName": value.user!.displayName,
+        "email": value.user!.email,
+        "favoriteItems": [],
+        "cartItems": [],
+        "platformFee": 10,
+        "deliveryCharges": 49,
+      });
+      // user = {
+      //   "userID": FirebaseAuth.instance.currentUser!.uid,
+      //   "userName": value.user!.displayName,
+      //   "email": email,
+      //   "phoneNumber": phoneNumber,
+      // };
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString("userID", FirebaseAuth.instance.currentUser!.uid);
+      await prefs.setString("userName", value.user!.displayName.toString());
+      await prefs.setString("email", value.user!.email.toString());
+      // print(prefs.getString("userName"));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const BottomNavBarView()));
+    });
   }
 
   Future forgotPassword({required String email, required context}) async {

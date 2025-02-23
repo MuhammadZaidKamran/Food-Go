@@ -173,7 +173,9 @@ class SignupView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10)),
                                 color: Colors.white,
                                 elevation: 5,
-                                onPressed: () {},
+                                onPressed: () {
+                                  viewModel.authController.signInWithGoogle(context);
+                                },
                                 child: Row(
                                   children: [
                                     Image.asset(
