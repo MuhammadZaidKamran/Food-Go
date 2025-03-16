@@ -17,11 +17,10 @@ class PendingTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
       onViewModelReady: (viewModel) async {
-        // final controller = await viewModel.googleMapController.future;
         viewModel.orderDetails.snapshots().listen((snapshot) async {
           viewModel.displayOrderList =
               snapshot.docs.where((e) => e["status"] == 0).toList();
-          viewModel.markers.clear(); // Clear old markers
+          viewModel.markers.clear();
 
           for (var order in snapshot.docs) {
             if (order["userID"] == FirebaseAuth.instance.currentUser!.uid) {
@@ -33,25 +32,21 @@ class PendingTab extends StatelessWidget {
                 if (locations.isNotEmpty) {
                   LatLng position = LatLng(
                       locations.first.latitude, locations.first.longitude);
-
-                  // Create a unique marker for each order
                   viewModel.markers.add(Marker(
-                    markerId: MarkerId(order.id), // Unique MarkerId
+                    markerId: MarkerId(order.id),
                     position: position,
                     infoWindow: InfoWindow(
                       title: "Order #${order["orderId"]}",
                       snippet: order["address"],
                     ),
                   ));
-
-                  // Store the camera position for later use
                   viewModel.orderCameraPositions[order.id] = CameraPosition(
                     target: position,
                     zoom: 14,
                   );
                 }
               } catch (e) {
-                print("Error fetching location for $address: $e");
+                debugPrint("Error fetching location for $address: $e");
               }
             }
           }
@@ -62,10 +57,6 @@ class PendingTab extends StatelessWidget {
       viewModelBuilder: () => PendingTabViewModel(),
       builder: (context, viewModel, child) {
         return Scaffold(
-          // appBar: AppBar(
-          //   title: const Text("Orders"),
-          //   centerTitle: true,
-          // ),
           body: ListView.separated(
             itemCount: viewModel.displayOrderList.length,
             separatorBuilder: (context, index) =>
@@ -139,18 +130,17 @@ class PendingTab extends StatelessWidget {
                                       viewModel.orderCameraPositions
                                           .containsKey(orderDetails.id)
                                   ? viewModel.orderCameraPositions[
-                                      orderDetails.id]! // Use saved position
+                                      orderDetails.id]!
                                   : const CameraPosition(
                                       target: LatLng(0, 0),
-                                      zoom: 14), // Default
+                                      zoom: 14),
 
                           onMapCreated: (controller) async {
-                            if (viewModel.orderCameraPositions != null &&
-                                viewModel.orderCameraPositions
-                                    .containsKey(orderDetails.id)) {
+                            if (viewModel.orderCameraPositions
+                                .containsKey(orderDetails.id)) {
                               await Future.delayed(const Duration(
                                   milliseconds:
-                                      500)); // Delay for smooth loading
+                                      500));
                               controller
                                   .animateCamera(CameraUpdate.newCameraPosition(
                                 viewModel

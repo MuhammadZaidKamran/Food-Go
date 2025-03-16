@@ -6,8 +6,6 @@ import 'package:food_go/View/BottomNavBarView/bottom_nav_bar_view.dart';
 import 'package:food_go/View/LoginView/login_view.dart';
 import 'package:food_go/ViewModel/SplashViewModel/splash_view_model.dart';
 import 'package:food_go/utils/Global/global.dart';
-//import 'package:google_fonts/google_fonts.dart';
-//import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked/stacked.dart';
 
 class SplashView extends StatelessWidget {

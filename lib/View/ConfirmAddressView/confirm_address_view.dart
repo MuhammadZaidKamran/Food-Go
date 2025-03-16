@@ -32,23 +32,13 @@ class ConfirmAddressView extends StatelessWidget {
                     child: FirebaseAnimatedList(
                       query: viewModel.ref,
                       itemBuilder: (context, snapshot, animation, index) {
-                        // if (index == 0) {
-                        //   final firstItemId =
-                        //       snapshot.child("id").value.toString();
-                        //   viewModel.selectedKey = firstItemId;
-                        // }
-
-                        // viewModel.selectedKey = snapshot.key!.indexOf();
-
                         if (snapshot.exists) {
                           if (index == 0) {
                             final firstItemId =
                                 snapshot.child("address").value.toString();
                             viewModel.selectedAddress =
-                                firstItemId; // viewModel.rebuildUi();
+                                firstItemId;
                           }
-                          // print(viewModel.selectedKey.toString());
-                          // viewModel.selectedKey = snapshot.key.toString();
                           return GestureDetector(
                             onTap: () {
                               viewModel.selectedAddress = null;
@@ -58,7 +48,7 @@ class ConfirmAddressView extends StatelessWidget {
                                   snapshot.child("address").value.toString();
                               viewModel.selectedSecondAddress =
                                   viewModel.selectedAddress;
-                              print(viewModel.selectedSecondAddress.toString());
+                              debugPrint(viewModel.selectedSecondAddress.toString());
                             },
                             child: Container(
                               margin: const EdgeInsets.only(top: 15),
@@ -151,14 +141,8 @@ class ConfirmAddressView extends StatelessWidget {
                   ),
                   MyButton(
                       onTap: () {
-                        // final selectedId = viewModel.selectedKey;
-                        // if (viewModel.myIndex == 0) {
-                        //   viewModel
-                        // }
-                        // final data = viewModel.ref.child(viewModel.selectedKey);
-                        // print(selectedId.toString());
                         if (viewModel.myIndex == 0) {
-                          print(viewModel.selectedAddress.toString());
+                          debugPrint(viewModel.selectedAddress.toString());
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -167,7 +151,7 @@ class ConfirmAddressView extends StatelessWidget {
                                         confirmAddress: true,
                                       )));
                         } else {
-                          print(viewModel.selectedSecondAddress.toString());
+                          debugPrint(viewModel.selectedSecondAddress.toString());
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

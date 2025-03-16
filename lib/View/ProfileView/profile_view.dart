@@ -20,11 +20,6 @@ class ProfileView extends StatelessWidget {
           viewModel.emailController.text =
               FirebaseAuth.instance.currentUser?.email ?? "";
           viewModel.phoneController.text = prefs.getString("phoneNumber") ?? "";
-          // await viewModel.myInitMethod().then((value) {
-          //   viewModel.nameController.text = viewModel.name;
-          //   viewModel.emailController.text = viewModel.email;
-          //   viewModel.phoneController.text = viewModel.phoneNumber;
-          // });
         },
         viewModelBuilder: () => ProfileViewModel(),
         builder: (context, viewModel, child) {

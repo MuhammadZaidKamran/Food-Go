@@ -12,7 +12,6 @@ class CancelledTabViewModel extends BaseViewModel {
       .collection(FirebaseAuth.instance.currentUser!.uid);
 
   List<dynamic> displayOrderList = [];
-  // var address;
 
   CameraPosition initialPosition = const CameraPosition(
       target: LatLng(37.42796133580664, -122.085749655962), zoom: 14);
@@ -25,6 +24,5 @@ class CancelledTabViewModel extends BaseViewModel {
         position: LatLng(37.42796133580664, -122.085749655962),
         infoWindow: InfoWindow(title: "Current Location")),
   ];
-  // var newAddress;
   Map<String, CameraPosition> orderCameraPositions = {};
 }

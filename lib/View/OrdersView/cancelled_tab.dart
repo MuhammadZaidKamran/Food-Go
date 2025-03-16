@@ -34,9 +34,9 @@ class CancelledTab extends StatelessWidget {
                   LatLng position = LatLng(
                       locations.first.latitude, locations.first.longitude);
 
-                  // Create a unique marker for each order
+                  
                   viewModel.markers.add(Marker(
-                    markerId: MarkerId(order.id), // Unique MarkerId
+                    markerId: MarkerId(order.id),
                     position: position,
                     infoWindow: InfoWindow(
                       title: "Order #${order["orderId"]}",
@@ -44,14 +44,14 @@ class CancelledTab extends StatelessWidget {
                     ),
                   ));
 
-                  // Store the camera position for later use
+                  
                   viewModel.orderCameraPositions[order.id] = CameraPosition(
                     target: position,
                     zoom: 14,
                   );
                 }
               } catch (e) {
-                print("Error fetching location for $address: $e");
+                debugPrint("Error fetching location for $address: $e");
               }
             }
           }
@@ -137,23 +137,20 @@ class CancelledTab extends StatelessWidget {
                         height: 100,
                         child: GoogleMap(
                           initialCameraPosition:
-                              viewModel.orderCameraPositions != null &&
-                                      viewModel.orderCameraPositions
+                              viewModel.orderCameraPositions
                                           .containsKey(orderDetails.id)
                                   ? viewModel.orderCameraPositions[
                                       orderDetails
-                                          .id]! // Use saved position
+                                          .id]!
                                   : const CameraPosition(
                                       target: LatLng(0, 0),
-                                      zoom: 14), // Default
-          
+                                      zoom: 14),
                           onMapCreated: (controller) async {
-                            if (viewModel.orderCameraPositions != null &&
-                                viewModel.orderCameraPositions
+                            if (viewModel.orderCameraPositions
                                     .containsKey(orderDetails.id)) {
                               await Future.delayed(const Duration(
                                   milliseconds:
-                                      500)); // Delay for smooth loading
+                                      500));
                               controller.animateCamera(
                                   CameraUpdate.newCameraPosition(
                                 viewModel

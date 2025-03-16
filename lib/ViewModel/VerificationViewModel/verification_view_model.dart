@@ -1,5 +1,3 @@
 import 'package:stacked/stacked.dart';
 
-class VerificationViewModel extends BaseViewModel {
-  
-}
+class VerificationViewModel extends BaseViewModel {}

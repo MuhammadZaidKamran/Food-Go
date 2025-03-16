@@ -26,14 +26,12 @@ class _AllItemsState extends State<AllItems> {
           for (int i = 0; i < isFavoriteList.length; i++) {
             isFavoriteList[i] = prefs.getBool("isFavorite_$i") ?? false;
           }
-          // viewModel.displayItems =
           FirebaseFirestore.instance
               .collection("all items")
               .snapshots()
               .listen((snapshot) {
             viewModel.displayItems = snapshot.docs.toList();
           });
-          // .then((snapshot) => snapshot.docs);
           viewModel.rebuildUi();
         },
         viewModelBuilder: () => AllItemsViewModel(),
@@ -177,39 +175,19 @@ class _AllItemsState extends State<AllItems> {
                                                 InkWell(
                                                   onTap: () async {
                                                     viewModel.itemId = item.id;
-                                                    // favoriteImage = "";
-                                                    // bools[index] = !bools[index];
-                                                    // viewModel.isFavorite =
-                                                    // !viewModel.isFavorite;
                                                     if (isFavoriteList[index] ==
                                                         false) {
                                                       isFavoriteList[index] =
                                                           true;
-                                                      // bools[index] = true;
                                                       SharedPreferences prefs =
                                                           await SharedPreferences
                                                               .getInstance();
-
-                                                      // prefs.setBool("isFavorite", true);
-                                                      // viewModel.isFavorite =
                                                       prefs.setBool(
                                                           "isFavorite_$index",
                                                           true);
                                                       isFavoriteList[index] =
                                                           prefs.getBool(
                                                               "isFavorite_$index")!;
-                                                      // await viewModel.updateFavorites(
-                                                      //     image: item["image"],
-                                                      //     itemName: item["itemName"],
-                                                      //     itemPrice: item["itemPrice"],
-                                                      //     itemRating: item["itemRating"],
-                                                      //     itemName_2: item["itemName_2"],
-                                                      //     itemDescription:
-                                                      //         item["itemDescription"],
-                                                      //     itemQuantity:
-                                                      //         item["itemQuantity"],
-                                                      //     isFavorite: true,
-                                                      //     context: context);
                                                       favoriteItems.add({
                                                         "userID":
                                                             userDetails!.uid,
@@ -227,21 +205,6 @@ class _AllItemsState extends State<AllItems> {
                                                         "itemDescription": item[
                                                             "itemDescription"],
                                                       });
-                                                      // await viewModel.addToFavorites(
-                                                      //     index: index,
-                                                      //     image: item["image"],
-                                                      //     itemName:
-                                                      //         item["itemName"],
-                                                      //     itemPrice:
-                                                      //         item["itemPrice"],
-                                                      //     itemRating: item[
-                                                      //         "itemRating"],
-                                                      //     itemName_2: item[
-                                                      //         "itemName_2"],
-                                                      //     itemDescription: item[
-                                                      //         "itemDescription"],
-                                                      //     isFavorite: true,
-                                                      //     context: context);
                                                       await viewModel
                                                           .updateUser(
                                                               context: context)
@@ -251,44 +214,24 @@ class _AllItemsState extends State<AllItems> {
                                                             message:
                                                                 "Add to Favorites");
                                                       });
-                                                      // favoriteImage.add(images[index]);
                                                     } else if (isFavoriteList[
                                                             index] ==
                                                         true) {
                                                       isFavoriteList[index] =
                                                           false;
-                                                      // bools[index] = false;
                                                       SharedPreferences prefs =
                                                           await SharedPreferences
                                                               .getInstance();
-
-                                                      // prefs.setBool("isFavorite", false);
-                                                      // bools[index] =
-                                                      //     prefs.getBool("isFavorite")!;
                                                       prefs.setBool(
                                                           "isFavorite_$index",
                                                           false);
                                                       isFavoriteList[index] =
                                                           prefs.getBool(
                                                               "isFavorite_$index")!;
-                                                      //     image: item["image"],
-                                                      //     itemName: item["itemName"],
-                                                      //     itemPrice: item["itemPrice"],
-                                                      //     itemRating: item["itemRating"],
-                                                      //     itemName_2: item["itemName_2"],
-                                                      //     itemDescription:
-                                                      //         item["itemDescription"],
-                                                      //     itemQuantity:
-                                                      //         item["itemQuantity"],
-                                                      //     isFavorite: false,
-                                                      //     context: context);
                                                       favoriteItems.removeWhere(
                                                           (e) =>
                                                               e["itemID"] ==
                                                               item.id);
-                                                      // await viewModel
-                                                      //     .removeFavorites(
-                                                      //         context: context);
                                                       await viewModel
                                                           .updateUser(
                                                               context: context)
@@ -298,27 +241,7 @@ class _AllItemsState extends State<AllItems> {
                                                             message:
                                                                 "Removed Successfully");
                                                       });
-                                                      // favoriteImage.remove(images[index]);
                                                     }
-                                                    // if (await item["isFavorite"] ==
-                                                    //     true) {
-                                                    //   await viewModel.addToFavorites(
-                                                    //       itemName: item["itemName"],
-                                                    //       itemPrice: item["itemPrice"],
-                                                    //       itemRating: item["itemRating"],
-                                                    //       itemName_2: item["itemName_2"],
-                                                    //       itemDescription:
-                                                    //           item["itemDescription"],
-                                                    //       itemQuantity:
-                                                    //           item["itemQuantity"],
-                                                    //       isFavorite: true,
-                                                    //       context: context);
-                                                    //   favoriteImage.add(images[index]);
-                                                    // } else {
-                                                    //   await viewModel.removeFavorites(
-                                                    //       context: context);
-                                                    //   favoriteImage.remove(images[index]);
-                                                    // }
                                                     viewModel.rebuildUi();
                                                   },
                                                   child: isFavoriteList[index]

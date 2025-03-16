@@ -23,16 +23,6 @@ class AuthControllers extends BaseViewModel {
       await authentication
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) async {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //     snackBarAnimationStyle:
-        //         AnimationStyle(duration: const Duration(seconds: 1)),
-        //     const SnackBar(
-        //       content: Text(
-        //         "Account Created Successfully",
-        //         style: TextStyle(color: Colors.white),
-        //       ),
-        //       backgroundColor: Colors.green,
-        //     ));
         await FirebaseFirestore.instance
             .collection("users")
             .doc(value.user!.uid)
@@ -57,7 +47,6 @@ class AuthControllers extends BaseViewModel {
           await prefs.setString("userName", user!["userName"]);
           await prefs.setString("email", user!["email"]);
           await prefs.setString("phoneNumber", user!["phoneNumber"]);
-          // print(prefs.getString("userName"));
         });
         await FirebaseAuth.instance.currentUser!.sendEmailVerification();
         Navigator.pushReplacement(context,
@@ -135,7 +124,6 @@ class AuthControllers extends BaseViewModel {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const BottomNavBarView()));
     } on FirebaseAuthException catch (e) {
-      // if (e.code == 'user-not-found') {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           e.code,
@@ -143,10 +131,9 @@ class AuthControllers extends BaseViewModel {
         ),
         backgroundColor: Colors.red,
       ));
-      // debugPrint("No user found for that email.");
-      // }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
         content: Text(
           e.toString(),
           style: const TextStyle(color: Colors.white),
@@ -156,20 +143,20 @@ class AuthControllers extends BaseViewModel {
     }
   }
 
-  //Google Sign-In
+
   signInWithGoogle(context) async {
-// begin interactive sign in process
+
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-// user cancels google sign in pop up screen
+
     if (gUser == null) return;
-// obtain auth details from request
+
     final GoogleSignInAuthentication gAuth = await gUser.authentication;
-// create a new credential for user
+
     final credential = GoogleAuthProvider.credential(
       accessToken: gAuth.accessToken,
       idToken: gAuth.idToken,
     );
-// finally, sign in!
+
     return await FirebaseAuth.instance
         .signInWithCredential(credential)
         .then((value) async {
@@ -185,17 +172,10 @@ class AuthControllers extends BaseViewModel {
         "platformFee": 10,
         "deliveryCharges": 49,
       });
-      // user = {
-      //   "userID": FirebaseAuth.instance.currentUser!.uid,
-      //   "userName": value.user!.displayName,
-      //   "email": email,
-      //   "phoneNumber": phoneNumber,
-      // };
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString("userID", FirebaseAuth.instance.currentUser!.uid);
       await prefs.setString("userName", value.user!.displayName.toString());
       await prefs.setString("email", value.user!.email.toString());
-      // print(prefs.getString("userName"));
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const BottomNavBarView()));
     });

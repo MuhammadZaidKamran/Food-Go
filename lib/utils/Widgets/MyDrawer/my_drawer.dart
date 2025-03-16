@@ -121,7 +121,6 @@ class _MyDrawerState extends State<MyDrawer> {
                   ],
                 ),
                 height(getHeight(context, 0.02)),
-                // height(getHeight(context, 0.01)),
                 DrawerListTile(
                     title: "Cart",
                     icon: Icons.shopping_bag_outlined,
@@ -134,7 +133,6 @@ class _MyDrawerState extends State<MyDrawer> {
                                     goBack: true,
                                   )));
                     }),
-                // height(getHeight(context, 0.01)),
                 DrawerListTile(
                     title: "Favorites",
                     icon: Icons.favorite_border_outlined,
@@ -168,10 +166,8 @@ class _MyDrawerState extends State<MyDrawer> {
                           MaterialPageRoute(
                               builder: (context) => const OrderView()));
                     }),
-                // height(getHeight(context, 0.01)),
                 DrawerListTile(
                     title: "Settings", icon: Icons.settings, onTap: () {}),
-                // height(getHeight(context, 0.01)),
                 DrawerListTile(
                     title: "Profile",
                     icon: Icons.account_circle_outlined,
@@ -195,7 +191,6 @@ class _MyDrawerState extends State<MyDrawer> {
                               builder: (context) =>
                                   const TermsAndConditionsView()));
                     }),
-                // height(getHeight(context, 0.01)),
                 DrawerListTile(
                     title: "About Us",
                     icon: Icons.info_outline_rounded,
@@ -212,9 +207,6 @@ class _MyDrawerState extends State<MyDrawer> {
                     icon: Icons.logout_rounded,
                     onTap: () {
                       FirebaseAuth.instance.signOut().then((value) async {
-                        // SharedPreferences prefs =
-                        //     await SharedPreferences.getInstance();
-                        // await prefs.clear();
                         Navigator.pushReplacement(
                             // ignore: use_build_context_synchronously
                             context,

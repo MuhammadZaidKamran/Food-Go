@@ -11,6 +11,7 @@ import 'package:food_go/utils/Widgets/MyDialog/my_dialog.dart';
 import 'package:food_go/utils/Widgets/OrderSuccessfulWidget/order_successful_widget.dart';
 import 'package:stacked/stacked.dart';
 
+// ignore: must_be_immutable
 class OrderSuccessfulView extends StatelessWidget {
   OrderSuccessfulView({
     super.key,
@@ -35,6 +36,7 @@ class OrderSuccessfulView extends StatelessWidget {
   final int totalAmount;
   final String note;
   final String date;
+  // ignore: prefer_typing_uninitialized_variables
   final status;
   bool fromPending = false;
 

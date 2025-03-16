@@ -24,7 +24,6 @@ class FavoriteView extends StatelessWidget {
             isFavoriteList[i] = prefs.getBool("isFavorite_$i") ?? false;
             isFavoriteCombos[i] = prefs.getBool("isFavorite2_$i") ?? false;
           }
-          //viewModel.updateUser(context: context);
         },
         viewModelBuilder: () => FavoriteViewModel(),
         builder: (context, viewModel, child) {
@@ -93,7 +92,6 @@ class FavoriteView extends StatelessWidget {
                                             await SharedPreferences
                                                 .getInstance();
                                                 final isFavoriteCombo = prefs.getBool("isFavorite2_${item["index"]}");
-                                        // viewModel.itemId = item["itemID"];
                                         if (isFavoriteCombo ==
                                             true) {
                                           prefs.setBool(
@@ -128,17 +126,6 @@ class FavoriteView extends StatelessWidget {
                                               // ignore: use_build_context_synchronously
                                               context: context);
                                         }
-                                        // await viewModel.updateFavorites(
-                                        //     image: item["image"],
-                                        //     itemName: item["itemName"],
-                                        //     itemPrice: item["itemPrice"],
-                                        //     itemRating: item["itemRating"],
-                                        //     itemName_2: item["itemName_2"],
-                                        //     itemDescription:
-                                        //         item["itemDescription"],
-                                        //     isFavorite: false,
-                                        //     // ignore: use_build_context_synchronously
-                                        //     context: context);
                                         viewModel.rebuildUi();
                                       },
                                       child: Icon(

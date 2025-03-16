@@ -35,7 +35,6 @@ class _CartContainerWidgetState extends State<CartContainerWidget> {
         horizontal: 10.0,
       ),
       child: Container(
-        // padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: AppColors.whiteColor,
           borderRadius: BorderRadius.circular(12),

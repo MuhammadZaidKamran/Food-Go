@@ -31,11 +31,6 @@ class BottomNavBarView extends StatelessWidget {
                     size: 30,
                     color: AppColors.whiteColor,
                   ),
-                  // Icon(
-                  //   Icons.shopping_bag_outlined,
-                  //   size: 30,
-                  //   color: AppColors.whiteColor,
-                  // ),
                   Icon(
                     Icons.favorite_border_rounded,
                     size: 30,

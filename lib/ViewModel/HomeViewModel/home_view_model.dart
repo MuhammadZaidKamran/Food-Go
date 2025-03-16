@@ -24,6 +24,4 @@ class HomeViewModel extends BaseViewModel {
       rebuildUi();
     });
   }
-
-  //bool isFavorite = false;
 }

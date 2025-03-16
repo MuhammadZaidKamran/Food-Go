@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
@@ -8,7 +10,7 @@ class FlutterNotificationService {
   static init() async {
     await _notification.initialize(
       const InitializationSettings(
-        android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+        android: AndroidInitializationSettings("@mipmap/launcher_icon"),
       ),
     );
     tz.initializeTimeZones();
@@ -27,16 +29,19 @@ class FlutterNotificationService {
     var notificationDetails = NotificationDetails(
       android: androidDetails,
     );
-
-    _notification.zonedSchedule(
-      0,
-      title,
-      body,
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
-      notificationDetails,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-    );
+    if (await Permission.scheduleExactAlarm.isGranted) {
+      _notification.zonedSchedule(
+        title.hashCode,
+        title,
+        body,
+        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
+        notificationDetails,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      );
+    } else {
+      debugPrint("Exact alarm permission not granted!");
+    }
   }
 }

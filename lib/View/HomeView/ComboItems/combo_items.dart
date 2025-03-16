@@ -21,14 +21,12 @@ class ComboItems extends StatelessWidget {
         for (int i = 0; i < isFavoriteCombos.length; i++) {
           isFavoriteCombos[i] = prefs.getBool("isFavorite2_$i") ?? false;
         }
-        // viewModel.displayItems =
         FirebaseFirestore.instance
             .collection("foodCombos")
             .snapshots()
             .listen((snapshot) {
           viewModel.displayItems = snapshot.docs.toList();
         });
-        // .then((snapshot) => snapshot.docs);
         viewModel.rebuildUi();
       },
       viewModelBuilder: () => ComboItemsModel(),
@@ -171,39 +169,19 @@ class ComboItems extends StatelessWidget {
                                               InkWell(
                                                 onTap: () async {
                                                   viewModel.itemId = item.id;
-                                                  // favoriteImage = "";
-                                                  // bools[index] = !bools[index];
-                                                  // viewModel.isFavorite =
-                                                  // !viewModel.isFavorite;
                                                   if (isFavoriteCombos[index] ==
                                                       false) {
                                                     isFavoriteCombos[index] =
                                                         true;
-                                                    // bools[index] = true;
                                                     SharedPreferences prefs =
                                                         await SharedPreferences
                                                             .getInstance();
-
-                                                    // prefs.setBool("isFavorite", true);
-                                                    // viewModel.isFavorite =
                                                     prefs.setBool(
                                                         "isFavorite2_$index",
                                                         true);
                                                     isFavoriteCombos[index] =
                                                         prefs.getBool(
                                                             "isFavorite2_$index")!;
-                                                    // await viewModel.updateFavorites(
-                                                    //     image: item["image"],
-                                                    //     itemName: item["itemName"],
-                                                    //     itemPrice: item["itemPrice"],
-                                                    //     itemRating: item["itemRating"],
-                                                    //     itemName_2: item["itemName_2"],
-                                                    //     itemDescription:
-                                                    //         item["itemDescription"],
-                                                    //     itemQuantity:
-                                                    //         item["itemQuantity"],
-                                                    //     isFavorite: true,
-                                                    //     context: context);
                                                     favoriteItems.add({
                                                       "userID":
                                                           userDetails!.uid,
@@ -221,21 +199,6 @@ class ComboItems extends StatelessWidget {
                                                       "itemDescription": item[
                                                           "itemDescription"],
                                                     });
-                                                    // await viewModel.addToFavorites(
-                                                    //     index: index,
-                                                    //     image: item["image"],
-                                                    //     itemName:
-                                                    //         item["itemName"],
-                                                    //     itemPrice:
-                                                    //         item["itemPrice"],
-                                                    //     itemRating: item[
-                                                    //         "itemRating"],
-                                                    //     itemName_2: item[
-                                                    //         "itemName_2"],
-                                                    //     itemDescription: item[
-                                                    //         "itemDescription"],
-                                                    //     isFavorite: true,
-                                                    //     context: context);
                                                     await viewModel
                                                         .updateUser(
                                                             context: context)
@@ -245,44 +208,24 @@ class ComboItems extends StatelessWidget {
                                                           message:
                                                               "Add to Favorites");
                                                     });
-                                                    // favoriteImage.add(images[index]);
                                                   } else if (isFavoriteCombos[
                                                           index] ==
                                                       true) {
                                                     isFavoriteCombos[index] =
                                                         false;
-                                                    // bools[index] = false;
                                                     SharedPreferences prefs =
                                                         await SharedPreferences
                                                             .getInstance();
-
-                                                    // prefs.setBool("isFavorite", false);
-                                                    // bools[index] =
-                                                    //     prefs.getBool("isFavorite")!;
                                                     prefs.setBool(
                                                         "isFavorite2_$index",
                                                         false);
                                                     isFavoriteCombos[index] =
                                                         prefs.getBool(
                                                             "isFavorite2_$index")!;
-                                                    //     image: item["image"],
-                                                    //     itemName: item["itemName"],
-                                                    //     itemPrice: item["itemPrice"],
-                                                    //     itemRating: item["itemRating"],
-                                                    //     itemName_2: item["itemName_2"],
-                                                    //     itemDescription:
-                                                    //         item["itemDescription"],
-                                                    //     itemQuantity:
-                                                    //         item["itemQuantity"],
-                                                    //     isFavorite: false,
-                                                    //     context: context);
                                                     favoriteItems.removeWhere(
                                                         (e) =>
                                                             e["itemID"] ==
                                                             item.id);
-                                                    // await viewModel
-                                                    //     .removeFavorites(
-                                                    //         context: context);
                                                     await viewModel
                                                         .updateUser(
                                                             context: context)
@@ -292,27 +235,7 @@ class ComboItems extends StatelessWidget {
                                                           message:
                                                               "Removed Successfully");
                                                     });
-                                                    // favoriteImage.remove(images[index]);
                                                   }
-                                                  // if (await item["isFavorite"] ==
-                                                  //     true) {
-                                                  //   await viewModel.addToFavorites(
-                                                  //       itemName: item["itemName"],
-                                                  //       itemPrice: item["itemPrice"],
-                                                  //       itemRating: item["itemRating"],
-                                                  //       itemName_2: item["itemName_2"],
-                                                  //       itemDescription:
-                                                  //           item["itemDescription"],
-                                                  //       itemQuantity:
-                                                  //           item["itemQuantity"],
-                                                  //       isFavorite: true,
-                                                  //       context: context);
-                                                  //   favoriteImage.add(images[index]);
-                                                  // } else {
-                                                  //   await viewModel.removeFavorites(
-                                                  //       context: context);
-                                                  //   favoriteImage.remove(images[index]);
-                                                  // }
                                                   viewModel.rebuildUi();
                                                 },
                                                 child: isFavoriteCombos[index]

@@ -52,9 +52,6 @@ class CartView extends StatelessWidget {
           for (int i = 0; i < quantity.length; i++) {
             quantity[i] = prefs.getInt("quantity_$i") ?? 0;
           }
-          // for (var i = 0; i < isAdded.length; i++) {
-          //   isAdded[i] = prefs.getBool("isAdded_$i") ?? false;
-          // }
         },
         viewModelBuilder: () => CartViewModel(),
         builder: (context, viewModel, child) {
@@ -104,7 +101,6 @@ class CartView extends StatelessWidget {
                               child: Container(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 15),
-                                // height: getHeight(context, 0.4),
                                 decoration: BoxDecoration(
                                     color: AppColors.whiteColor,
                                     borderRadius: BorderRadius.circular(10),
@@ -285,7 +281,6 @@ class CartView extends StatelessWidget {
                               confirmAddress == true
                                   ? Container(
                                       width: getWidth(context, 1),
-                                      // height: getHeight(context, 0.2),
                                       decoration: BoxDecoration(
                                           color: AppColors.whiteColor,
                                           borderRadius:

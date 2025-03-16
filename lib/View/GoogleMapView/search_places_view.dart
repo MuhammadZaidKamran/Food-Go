@@ -35,10 +35,10 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
   }
 
   getSuggestion(String input) async {
-    String KPLACES_API_KEY = "AlzaSyyxpJmT80QGUD65SqKA78TFxUcArH2iE2U";
+    String kPlacesApiKey = "AlzaSywH8tIjtRvNyrOm4OGRFDXCesKc2mMTr2x";
     String baseURL = 'https://maps.gomaps.pro/maps/api/place/autocomplete/json';
     String request =
-        '$baseURL?input=$input&key=$KPLACES_API_KEY&sessiontoken $_sessionToken';
+        '$baseURL?input=$input&key=$kPlacesApiKey&sessiontoken $_sessionToken';
 
     var uri = Uri.parse(request);
     var response = await http.get(uri);
@@ -49,7 +49,6 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
       });
     } else {
       debugPrint("Failed to load predictions");
-      // throw Exception('Failed to load predictions');
     }
   }
 

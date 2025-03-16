@@ -56,32 +56,4 @@ class FavoriteViewModel extends BaseViewModel {
       debugPrint(e.toString());
     }
   }
-
-  // Future updateFavorites({
-  //   required String image,
-  //   required String itemName,
-  //   required String itemPrice,
-  //   required String itemRating,
-  //   required String itemName_2,
-  //   required String itemDescription,
-  //   required bool isFavorite,
-  //   required BuildContext context,
-  // }) async {
-  //   try {
-  //     await FirebaseFirestore.instance
-  //         .collection("all items")
-  //         .doc(itemId)
-  //         .update({
-  //       "image": image,
-  //       "itemName": itemName,
-  //       "itemPrice": itemPrice,
-  //       "itemRating": itemRating,
-  //       "itemName_2": itemName_2,
-  //       "itemDescription": itemDescription,
-  //       "isFavorite": isFavorite
-  //     });
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //   }
-  // }
 }

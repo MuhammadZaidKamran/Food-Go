@@ -382,64 +382,6 @@ class HomeViewDetail extends StatelessWidget {
                                                           "Add to Favorites");
                                                 });
                                               }
-
-                                              //   await viewModel.updateFavorites(
-                                              //       image: data.get("image"),
-                                              //       itemName:
-                                              //           data.get("itemName"),
-                                              //       itemPrice:
-                                              //           data.get("itemPrice"),
-                                              //       itemRating:
-                                              //           data.get("itemRating"),
-                                              //       itemName_2:
-                                              //           data.get("itemName_2"),
-                                              //       itemDescription: data
-                                              //           .get("itemDescription"),
-                                              //       itemQuantity:
-                                              //           data.get("itemQuantity"),
-                                              //       isFavorite: true,
-                                              //       context: context);
-
-                                              //   await viewModel.addToFavorites(
-                                              //       image: data.get("image"),
-                                              //       itemName: data.get(
-                                              //           "itemName".toString()),
-                                              //       itemPrice: data.get(
-                                              //           "itemPrice".toString()),
-                                              //       itemRating: data.get(
-                                              //           "itemRating".toString()),
-                                              //       itemName_2: data.get(
-                                              //           "itemName_2".toString()),
-                                              //       itemDescription: data.get(
-                                              //           "itemDescription"
-                                              //               .toString()),
-                                              //       itemQuantity:
-                                              //           data.get("itemQuantity"),
-                                              //       isFavorite: true,
-                                              //       context: context);
-                                              //   favoriteImage.add(image);
-                                              // } else if (data.get("isFavorite") ==
-                                              //     true) {
-                                              //   await viewModel.updateFavorites(
-                                              //       image: data.get("image"),
-                                              //       itemName:
-                                              //           data.get("itemName"),
-                                              //       itemPrice:
-                                              //           data.get("itemPrice"),
-                                              //       itemRating:
-                                              //           data.get("itemRating"),
-                                              //       itemName_2:
-                                              //           data.get("itemName_2"),
-                                              //       itemDescription: data
-                                              //           .get("itemDescription"),
-                                              //       itemQuantity:
-                                              //           data.get("itemQuantity"),
-                                              //       isFavorite: false,
-                                              //       context: context);
-
-                                              //   await viewModel.removeFavorites(
-                                              //       context: context);
-                                              //   favoriteImage.remove(image);
                                             } else if (isFavorite[index] ==
                                                 true) {
                                               isFavorite[index] = false;
@@ -499,61 +441,22 @@ class HomeViewDetail extends StatelessWidget {
                                         AnimatedContainer(
                                           duration: const Duration(seconds: 2),
                                           child:
-                                              //  isAdded[index]
-                                              //     ? Container(
-                                              //         decoration: BoxDecoration(
-                                              //           color: AppColors.greenColor,
-                                              //           borderRadius:
-                                              //               BorderRadius.circular(
-                                              //                   15),
-                                              //         ),
-                                              //         height: 50,
-                                              //         width: getWidth(context, 0.8),
-                                              //         child: Center(
-                                              //           child: Row(
-                                              //             mainAxisSize:
-                                              //                 MainAxisSize.min,
-                                              //             mainAxisAlignment:
-                                              //                 MainAxisAlignment
-                                              //                     .center,
-                                              //             children: [
-                                              //               Icon(
-                                              //                 Icons.check,
-                                              //                 color: AppColors
-                                              //                     .whiteColor,
-                                              //                 size: 30,
-                                              //               ),
-                                              //               Text(
-                                              //                 "Added",
-                                              //                 style: TextStyle(
-                                              //                   color: AppColors
-                                              //                       .whiteColor,
-                                              //                   fontSize: 17,
-                                              //                   fontWeight:
-                                              //                       FontWeight.bold,
-                                              //                 ),
-                                              //               ),
-                                              //             ],
-                                              //           ),
-                                              //         ),
-                                              //       )
-                                              //     :
                                               MyButton(
                                             label: "Add to cart",
                                             onTap: () async {
                                               // int itemQuantity =
                                               //     data.get("itemQuantity");
                                               if (quantity[index] == 0) {
-                                                // itemQuantity++;
-                                                SharedPreferences prefs =
-                                                    await SharedPreferences
-                                                        .getInstance();
-                                                quantity[index]++;
-                                                FlutterNotificationService
+                                                await FlutterNotificationService
                                                     .showNotification(
                                                   "Food Go",
                                                   "Add to Cart Successfully",
                                                 );
+                                                SharedPreferences prefs =
+                                                    await SharedPreferences
+                                                        .getInstance();
+                                                quantity[index]++;
+                                                
                                                 fromCombo == true
                                                     ? prefs.setInt(
                                                         "quantity2_$index",
@@ -595,44 +498,6 @@ class HomeViewDetail extends StatelessWidget {
                                                       quantity[index],
                                                 });
                                                 await viewModel.updateUser();
-                                                //     .then((value) {
-                                                //   mySuccessSnackBar(
-                                                //       context: context,
-                                                //       message:
-                                                //           "Add to cart successfully!");
-                                                //   // isAdded[index] = true;
-                                                //   // prefs.setBool(
-                                                //   //     "isAdded_$index",
-                                                //   //     isAdded[index]);
-                                                //   // prefs.getBool(
-                                                //   //     "isAdded_$index");
-                                                // });
-                                                // await FirebaseFirestore.instance.
-                                                // await viewModel.updateAddItems(
-                                                //     data.get("image"),
-                                                //     data.get("itemName"),
-                                                //     data.get("itemPrice"),
-                                                //     data.get("itemRating"),
-                                                //     data.get("itemName_2"),
-                                                //     data.get("itemDescription"),
-                                                //     itemQuantity,
-                                                //     context);
-                                                // await viewModel.addToCart(
-                                                //     data.get("image"),
-                                                //     data.get(
-                                                //         "itemName".toString()),
-                                                //     data.get(
-                                                //         "itemPrice".toString()),
-                                                //     data.get(
-                                                //         "itemRating".toString()),
-                                                //     data.get(
-                                                //         "itemName_2".toString()),
-                                                //     data.get("itemDescription"
-                                                //         .toString()),
-                                                //     itemQuantity,
-                                                //     context);
-                                                // cartImage = image;
-                                                // data.get("itemQuantity") == "1";
                                                 viewModel.rebuildUi();
                                               } else {
                                                 quantity[index]++;
