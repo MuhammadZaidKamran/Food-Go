@@ -126,8 +126,7 @@ class PendingTab extends StatelessWidget {
                         height: 100,
                         child: GoogleMap(
                           initialCameraPosition:
-                              viewModel.orderCameraPositions != null &&
-                                      viewModel.orderCameraPositions
+                              viewModel.orderCameraPositions
                                           .containsKey(orderDetails.id)
                                   ? viewModel.orderCameraPositions[
                                       orderDetails.id]!
@@ -205,8 +204,6 @@ class PendingTab extends StatelessWidget {
                                 ),
                               ));
                           if (data != null) {
-                            var status = orderDetails["status"];
-                            status = data;
                             viewModel.rebuildUi();
                           }
                         },

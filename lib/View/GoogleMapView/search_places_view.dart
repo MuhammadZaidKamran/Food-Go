@@ -35,7 +35,7 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
   }
 
   getSuggestion(String input) async {
-    String kPlacesApiKey = "AlzaSywH8tIjtRvNyrOm4OGRFDXCesKc2mMTr2x";
+    String kPlacesApiKey = "AlzaSyjpz1vIrAa4eCayf2Jn6KuYZ5mdCU01fno";
     String baseURL = 'https://maps.gomaps.pro/maps/api/place/autocomplete/json';
     String request =
         '$baseURL?input=$input&key=$kPlacesApiKey&sessiontoken $_sessionToken';
@@ -44,9 +44,11 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
     var response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      setState(() {
-        placesList = jsonDecode(response.body.toString())["predictions"];
-      });
+      if (mounted) {
+        setState(() {
+          placesList = jsonDecode(response.body.toString())["predictions"];
+        });
+      }
     } else {
       debugPrint("Failed to load predictions");
     }

@@ -187,7 +187,7 @@ class CartView extends StatelessWidget {
                                           onTapDelete: () async {
                                             cartItems.removeWhere((e) =>
                                                 e["itemID"] == item["itemID"]);
-                                            quantity[item["index"]] = 0;
+                                             quantity[item["index"]] = 0;
                                             SharedPreferences prefs =
                                                 await SharedPreferences
                                                     .getInstance();
@@ -340,14 +340,13 @@ class CartView extends StatelessWidget {
                                         ),
                                         address: data.toString(),
                                         platformFee: platformCharges.toString(),
-                                        deliveryCharges: deliveryCharges.toString(),
+                                        deliveryCharges:
+                                            deliveryCharges.toString(),
                                         totalAmount: int.parse(
                                           totalAmount.toString(),
                                         ),
                                         note: viewModel.addNoteController.text,
                                         context: context);
-
-                                    
                                   } else {
                                     Navigator.pushReplacement(
                                         context,
